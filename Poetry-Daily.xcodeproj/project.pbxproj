@@ -1,0 +1,383 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B670F6571534CCB20045906A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6561534CCB20045906A /* UIKit.framework */; };
+		B670F6591534CCB20045906A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6581534CCB20045906A /* Foundation.framework */; };
+		B670F65B1534CCB20045906A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F65A1534CCB20045906A /* CoreGraphics.framework */; };
+		B670F6611534CCB20045906A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B670F65F1534CCB20045906A /* InfoPlist.strings */; };
+		B670F6631534CCB20045906A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B670F6621534CCB20045906A /* main.m */; };
+		B670F6671534CCB30045906A /* PDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B670F6661534CCB30045906A /* PDAppDelegate.m */; };
+		B670F66A1534CCB30045906A /* PDFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B670F6691534CCB30045906A /* PDFirstViewController.m */; };
+		B670F66C1534CCB30045906A /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = B670F66B1534CCB30045906A /* first.png */; };
+		B670F66E1534CCB30045906A /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B670F66D1534CCB30045906A /* first@2x.png */; };
+		B670F6711534CCB30045906A /* PDSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B670F6701534CCB30045906A /* PDSecondViewController.m */; };
+		B670F6731534CCB30045906A /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = B670F6721534CCB30045906A /* second.png */; };
+		B670F6751534CCB30045906A /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B670F6741534CCB30045906A /* second@2x.png */; };
+		B670F6781534CCB30045906A /* PDFirstViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B670F6761534CCB30045906A /* PDFirstViewController_iPhone.xib */; };
+		B670F67B1534CCB30045906A /* PDFirstViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B670F6791534CCB30045906A /* PDFirstViewController_iPad.xib */; };
+		B670F67E1534CCB30045906A /* PDSecondViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B670F67C1534CCB30045906A /* PDSecondViewController_iPhone.xib */; };
+		B670F6811534CCB30045906A /* PDSecondViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B670F67F1534CCB30045906A /* PDSecondViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B670F6521534CCB20045906A /* Poetry-Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poetry-Daily.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B670F6561534CCB20045906A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B670F6581534CCB20045906A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B670F65A1534CCB20045906A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B670F65E1534CCB20045906A /* Poetry-Daily-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Poetry-Daily-Info.plist"; sourceTree = "<group>"; };
+		B670F6601534CCB20045906A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B670F6621534CCB20045906A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B670F6641534CCB20045906A /* Poetry-Daily-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Poetry-Daily-Prefix.pch"; sourceTree = "<group>"; };
+		B670F6651534CCB20045906A /* PDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDAppDelegate.h; sourceTree = "<group>"; };
+		B670F6661534CCB30045906A /* PDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDAppDelegate.m; sourceTree = "<group>"; };
+		B670F6681534CCB30045906A /* PDFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFirstViewController.h; sourceTree = "<group>"; };
+		B670F6691534CCB30045906A /* PDFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFirstViewController.m; sourceTree = "<group>"; };
+		B670F66B1534CCB30045906A /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		B670F66D1534CCB30045906A /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		B670F66F1534CCB30045906A /* PDSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDSecondViewController.h; sourceTree = "<group>"; };
+		B670F6701534CCB30045906A /* PDSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDSecondViewController.m; sourceTree = "<group>"; };
+		B670F6721534CCB30045906A /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		B670F6741534CCB30045906A /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		B670F6771534CCB30045906A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PDFirstViewController_iPhone.xib; sourceTree = "<group>"; };
+		B670F67A1534CCB30045906A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PDFirstViewController_iPad.xib; sourceTree = "<group>"; };
+		B670F67D1534CCB30045906A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PDSecondViewController_iPhone.xib; sourceTree = "<group>"; };
+		B670F6801534CCB30045906A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PDSecondViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B670F64F1534CCB20045906A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B670F6571534CCB20045906A /* UIKit.framework in Frameworks */,
+				B670F6591534CCB20045906A /* Foundation.framework in Frameworks */,
+				B670F65B1534CCB20045906A /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B670F6471534CCB20045906A = {
+			isa = PBXGroup;
+			children = (
+				B670F65C1534CCB20045906A /* Poetry-Daily */,
+				B670F6551534CCB20045906A /* Frameworks */,
+				B670F6531534CCB20045906A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B670F6531534CCB20045906A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B670F6521534CCB20045906A /* Poetry-Daily.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B670F6551534CCB20045906A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B670F6561534CCB20045906A /* UIKit.framework */,
+				B670F6581534CCB20045906A /* Foundation.framework */,
+				B670F65A1534CCB20045906A /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B670F65C1534CCB20045906A /* Poetry-Daily */ = {
+			isa = PBXGroup;
+			children = (
+				B670F6651534CCB20045906A /* PDAppDelegate.h */,
+				B670F6661534CCB30045906A /* PDAppDelegate.m */,
+				B670F68B1534CD560045906A /* View Controllers */,
+				B670F65D1534CCB20045906A /* Supporting Files */,
+			);
+			path = "Poetry-Daily";
+			sourceTree = "<group>";
+		};
+		B670F65D1534CCB20045906A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B670F68A1534CD0D0045906A /* Images */,
+				B670F6871534CCDB0045906A /* XIB */,
+				B670F65E1534CCB20045906A /* Poetry-Daily-Info.plist */,
+				B670F65F1534CCB20045906A /* InfoPlist.strings */,
+				B670F6621534CCB20045906A /* main.m */,
+				B670F6641534CCB20045906A /* Poetry-Daily-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B670F6871534CCDB0045906A /* XIB */ = {
+			isa = PBXGroup;
+			children = (
+				B670F6891534CCEB0045906A /* iPad */,
+				B670F6881534CCE20045906A /* iPhone */,
+			);
+			name = XIB;
+			sourceTree = "<group>";
+		};
+		B670F6881534CCE20045906A /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				B670F6761534CCB30045906A /* PDFirstViewController_iPhone.xib */,
+				B670F67C1534CCB30045906A /* PDSecondViewController_iPhone.xib */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		B670F6891534CCEB0045906A /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				B670F6791534CCB30045906A /* PDFirstViewController_iPad.xib */,
+				B670F67F1534CCB30045906A /* PDSecondViewController_iPad.xib */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
+		B670F68A1534CD0D0045906A /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				B670F66B1534CCB30045906A /* first.png */,
+				B670F66D1534CCB30045906A /* first@2x.png */,
+				B670F6721534CCB30045906A /* second.png */,
+				B670F6741534CCB30045906A /* second@2x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		B670F68B1534CD560045906A /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B670F6681534CCB30045906A /* PDFirstViewController.h */,
+				B670F6691534CCB30045906A /* PDFirstViewController.m */,
+				B670F66F1534CCB30045906A /* PDSecondViewController.h */,
+				B670F6701534CCB30045906A /* PDSecondViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B670F6511534CCB20045906A /* Poetry-Daily */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B670F6841534CCB30045906A /* Build configuration list for PBXNativeTarget "Poetry-Daily" */;
+			buildPhases = (
+				B670F64E1534CCB20045906A /* Sources */,
+				B670F64F1534CCB20045906A /* Frameworks */,
+				B670F6501534CCB20045906A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Poetry-Daily";
+			productName = "Poetry-Daily";
+			productReference = B670F6521534CCB20045906A /* Poetry-Daily.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B670F6491534CCB20045906A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = PD;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "ELC Technologies";
+			};
+			buildConfigurationList = B670F64C1534CCB20045906A /* Build configuration list for PBXProject "Poetry-Daily" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B670F6471534CCB20045906A;
+			productRefGroup = B670F6531534CCB20045906A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B670F6511534CCB20045906A /* Poetry-Daily */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B670F6501534CCB20045906A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B670F6611534CCB20045906A /* InfoPlist.strings in Resources */,
+				B670F66C1534CCB30045906A /* first.png in Resources */,
+				B670F66E1534CCB30045906A /* first@2x.png in Resources */,
+				B670F6731534CCB30045906A /* second.png in Resources */,
+				B670F6751534CCB30045906A /* second@2x.png in Resources */,
+				B670F6781534CCB30045906A /* PDFirstViewController_iPhone.xib in Resources */,
+				B670F67B1534CCB30045906A /* PDFirstViewController_iPad.xib in Resources */,
+				B670F67E1534CCB30045906A /* PDSecondViewController_iPhone.xib in Resources */,
+				B670F6811534CCB30045906A /* PDSecondViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B670F64E1534CCB20045906A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B670F6631534CCB20045906A /* main.m in Sources */,
+				B670F6671534CCB30045906A /* PDAppDelegate.m in Sources */,
+				B670F66A1534CCB30045906A /* PDFirstViewController.m in Sources */,
+				B670F6711534CCB30045906A /* PDSecondViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B670F65F1534CCB20045906A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B670F6601534CCB20045906A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B670F6761534CCB30045906A /* PDFirstViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B670F6771534CCB30045906A /* en */,
+			);
+			name = PDFirstViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		B670F6791534CCB30045906A /* PDFirstViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B670F67A1534CCB30045906A /* en */,
+			);
+			name = PDFirstViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+		B670F67C1534CCB30045906A /* PDSecondViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B670F67D1534CCB30045906A /* en */,
+			);
+			name = PDSecondViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		B670F67F1534CCB30045906A /* PDSecondViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B670F6801534CCB30045906A /* en */,
+			);
+			name = PDSecondViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B670F6821534CCB30045906A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B670F6831534CCB30045906A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B670F6851534CCB30045906A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
+				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B670F6861534CCB30045906A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
+				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B670F64C1534CCB20045906A /* Build configuration list for PBXProject "Poetry-Daily" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B670F6821534CCB30045906A /* Debug */,
+				B670F6831534CCB30045906A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B670F6841534CCB30045906A /* Build configuration list for PBXNativeTarget "Poetry-Daily" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B670F6851534CCB30045906A /* Debug */,
+				B670F6861534CCB30045906A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B670F6491534CCB20045906A /* Project object */;
+}
