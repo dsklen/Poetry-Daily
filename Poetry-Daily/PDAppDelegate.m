@@ -8,9 +8,8 @@
 
 #import "PDAppDelegate.h"
 
-#import "PDFirstViewController.h"
-
-#import "PDSecondViewController.h"
+#import "PDHomeViewController.h"
+#import "PDFavoritesViewController.h"
 
 @implementation PDAppDelegate
 
@@ -20,14 +19,22 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+   
     // Override point for customization after application launch.
+   
     UIViewController *viewController1, *viewController2;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        viewController1 = [[PDFirstViewController alloc] initWithNibName:@"PDFirstViewController_iPhone" bundle:nil];
-        viewController2 = [[PDSecondViewController alloc] initWithNibName:@"PDSecondViewController_iPhone" bundle:nil];
-    } else {
-        viewController1 = [[PDFirstViewController alloc] initWithNibName:@"PDFirstViewController_iPad" bundle:nil];
-        viewController2 = [[PDSecondViewController alloc] initWithNibName:@"PDSecondViewController_iPad" bundle:nil];
+   
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
+    {
+        PDHomeViewController *home = [[PDHomeViewController alloc] initWithNibName:@"PDHomeViewController" bundle:nil];
+        viewController1 = [[UINavigationController alloc] initWithRootViewController:home];                                       
+        
+        PDFavoritesViewController *favorites = [[PDFavoritesViewController alloc] initWithNibName:@"PDFavoritesViewController" bundle:nil];
+        viewController2 = [[UINavigationController alloc] initWithRootViewController:favorites];   
+    } 
+    else 
+    {
+        viewController1 = [[PDHomeViewController alloc] initWithNibName:@"PDHomeViewController" bundle:nil];
     }
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, nil];

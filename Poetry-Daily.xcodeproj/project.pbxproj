@@ -7,25 +7,48 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B63176551578224600B12331 /* PDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B63176531578224600B12331 /* PDModel.xcdatamodeld */; };
+		B631765A1578235B00B12331 /* PDPoem.m in Sources */ = {isa = PBXBuildFile; fileRef = B63176591578235B00B12331 /* PDPoem.m */; };
+		B631765C157824F700B12331 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B631765B157824F700B12331 /* CoreData.framework */; };
+		B63176601578258E00B12331 /* PDMediaServer.m in Sources */ = {isa = PBXBuildFile; fileRef = B631765F1578258D00B12331 /* PDMediaServer.m */; };
+		B631769815782D1100B12331 /* PDCachedDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = B631769715782D1100B12331 /* PDCachedDataController.m */; };
+		B631769B15782D9000B12331 /* PDConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B631769A15782D8F00B12331 /* PDConstants.m */; };
+		B631769E157830EB00B12331 /* PDFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B631769D157830EB00B12331 /* PDFavoritesViewController.m */; };
+		B63176A01578311E00B12331 /* PDFavoritesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B631769F1578311E00B12331 /* PDFavoritesViewController.xib */; };
+		B63176A21578342B00B12331 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63176A11578342B00B12331 /* QuartzCore.framework */; };
 		B670F6571534CCB20045906A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6561534CCB20045906A /* UIKit.framework */; };
 		B670F6591534CCB20045906A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6581534CCB20045906A /* Foundation.framework */; };
 		B670F65B1534CCB20045906A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F65A1534CCB20045906A /* CoreGraphics.framework */; };
 		B670F6611534CCB20045906A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B670F65F1534CCB20045906A /* InfoPlist.strings */; };
 		B670F6631534CCB20045906A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B670F6621534CCB20045906A /* main.m */; };
 		B670F6671534CCB30045906A /* PDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B670F6661534CCB30045906A /* PDAppDelegate.m */; };
-		B670F66A1534CCB30045906A /* PDFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B670F6691534CCB30045906A /* PDFirstViewController.m */; };
 		B670F66C1534CCB30045906A /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = B670F66B1534CCB30045906A /* first.png */; };
 		B670F66E1534CCB30045906A /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B670F66D1534CCB30045906A /* first@2x.png */; };
-		B670F6711534CCB30045906A /* PDSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B670F6701534CCB30045906A /* PDSecondViewController.m */; };
 		B670F6731534CCB30045906A /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = B670F6721534CCB30045906A /* second.png */; };
 		B670F6751534CCB30045906A /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B670F6741534CCB30045906A /* second@2x.png */; };
-		B670F6781534CCB30045906A /* PDFirstViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B670F6761534CCB30045906A /* PDFirstViewController_iPhone.xib */; };
-		B670F67B1534CCB30045906A /* PDFirstViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B670F6791534CCB30045906A /* PDFirstViewController_iPad.xib */; };
-		B670F67E1534CCB30045906A /* PDSecondViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B670F67C1534CCB30045906A /* PDSecondViewController_iPhone.xib */; };
-		B670F6811534CCB30045906A /* PDSecondViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B670F67F1534CCB30045906A /* PDSecondViewController_iPad.xib */; };
+		B6919A6A156F012700DA70C2 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B6919A67156F012700DA70C2 /* SVProgressHUD.bundle */; };
+		B6919A6B156F012700DA70C2 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = B6919A69156F012700DA70C2 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		B6919A6F156F01B600DA70C2 /* PDHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6919A6D156F01B600DA70C2 /* PDHomeViewController.m */; };
+		B6919A70156F01B600DA70C2 /* PDHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6919A6E156F01B600DA70C2 /* PDHomeViewController.xib */; };
+		B6919A74156F028200DA70C2 /* PDMainPoemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6919A72156F028200DA70C2 /* PDMainPoemViewController.m */; };
+		B6919A75156F028200DA70C2 /* PDMainPoemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6919A73156F028200DA70C2 /* PDMainPoemViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B63176541578224600B12331 /* PDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PDModel.xcdatamodel; sourceTree = "<group>"; };
+		B63176581578235B00B12331 /* PDPoem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDPoem.h; sourceTree = "<group>"; };
+		B63176591578235B00B12331 /* PDPoem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDPoem.m; sourceTree = "<group>"; };
+		B631765B157824F700B12331 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B631765E1578258D00B12331 /* PDMediaServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDMediaServer.h; sourceTree = "<group>"; };
+		B631765F1578258D00B12331 /* PDMediaServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDMediaServer.m; sourceTree = "<group>"; };
+		B631769615782D1100B12331 /* PDCachedDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDCachedDataController.h; sourceTree = "<group>"; };
+		B631769715782D1100B12331 /* PDCachedDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDCachedDataController.m; sourceTree = "<group>"; };
+		B631769915782D8F00B12331 /* PDConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDConstants.h; sourceTree = "<group>"; };
+		B631769A15782D8F00B12331 /* PDConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDConstants.m; sourceTree = "<group>"; };
+		B631769C157830EA00B12331 /* PDFavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFavoritesViewController.h; sourceTree = "<group>"; };
+		B631769D157830EB00B12331 /* PDFavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFavoritesViewController.m; sourceTree = "<group>"; };
+		B631769F1578311E00B12331 /* PDFavoritesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDFavoritesViewController.xib; sourceTree = "<group>"; };
+		B63176A11578342B00B12331 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B670F6521534CCB20045906A /* Poetry-Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poetry-Daily.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B670F6561534CCB20045906A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B670F6581534CCB20045906A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -36,18 +59,19 @@
 		B670F6641534CCB20045906A /* Poetry-Daily-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Poetry-Daily-Prefix.pch"; sourceTree = "<group>"; };
 		B670F6651534CCB20045906A /* PDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDAppDelegate.h; sourceTree = "<group>"; };
 		B670F6661534CCB30045906A /* PDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDAppDelegate.m; sourceTree = "<group>"; };
-		B670F6681534CCB30045906A /* PDFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFirstViewController.h; sourceTree = "<group>"; };
-		B670F6691534CCB30045906A /* PDFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFirstViewController.m; sourceTree = "<group>"; };
 		B670F66B1534CCB30045906A /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		B670F66D1534CCB30045906A /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		B670F66F1534CCB30045906A /* PDSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDSecondViewController.h; sourceTree = "<group>"; };
-		B670F6701534CCB30045906A /* PDSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDSecondViewController.m; sourceTree = "<group>"; };
 		B670F6721534CCB30045906A /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		B670F6741534CCB30045906A /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
-		B670F6771534CCB30045906A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PDFirstViewController_iPhone.xib; sourceTree = "<group>"; };
-		B670F67A1534CCB30045906A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PDFirstViewController_iPad.xib; sourceTree = "<group>"; };
-		B670F67D1534CCB30045906A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PDSecondViewController_iPhone.xib; sourceTree = "<group>"; };
-		B670F6801534CCB30045906A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PDSecondViewController_iPad.xib; sourceTree = "<group>"; };
+		B6919A67156F012700DA70C2 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		B6919A68156F012700DA70C2 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		B6919A69156F012700DA70C2 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		B6919A6C156F01B600DA70C2 /* PDHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDHomeViewController.h; sourceTree = "<group>"; };
+		B6919A6D156F01B600DA70C2 /* PDHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDHomeViewController.m; sourceTree = "<group>"; };
+		B6919A6E156F01B600DA70C2 /* PDHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDHomeViewController.xib; sourceTree = "<group>"; };
+		B6919A71156F028100DA70C2 /* PDMainPoemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDMainPoemViewController.h; sourceTree = "<group>"; };
+		B6919A72156F028200DA70C2 /* PDMainPoemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDMainPoemViewController.m; sourceTree = "<group>"; };
+		B6919A73156F028200DA70C2 /* PDMainPoemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDMainPoemViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +79,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B63176A21578342B00B12331 /* QuartzCore.framework in Frameworks */,
+				B631765C157824F700B12331 /* CoreData.framework in Frameworks */,
 				B670F6571534CCB20045906A /* UIKit.framework in Frameworks */,
 				B670F6591534CCB20045906A /* Foundation.framework in Frameworks */,
 				B670F65B1534CCB20045906A /* CoreGraphics.framework in Frameworks */,
@@ -64,10 +90,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B63176571578233E00B12331 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B63176531578224600B12331 /* PDModel.xcdatamodeld */,
+				B63176581578235B00B12331 /* PDPoem.h */,
+				B63176591578235B00B12331 /* PDPoem.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		B631765D1578255E00B12331 /* Network & Caching */ = {
+			isa = PBXGroup;
+			children = (
+				B631765E1578258D00B12331 /* PDMediaServer.h */,
+				B631765F1578258D00B12331 /* PDMediaServer.m */,
+				B631769615782D1100B12331 /* PDCachedDataController.h */,
+				B631769715782D1100B12331 /* PDCachedDataController.m */,
+			);
+			name = "Network & Caching";
+			sourceTree = "<group>";
+		};
 		B670F6471534CCB20045906A = {
 			isa = PBXGroup;
 			children = (
 				B670F65C1534CCB20045906A /* Poetry-Daily */,
+				B6919A65156F00F800DA70C2 /* Third Party */,
 				B670F6551534CCB20045906A /* Frameworks */,
 				B670F6531534CCB20045906A /* Products */,
 			);
@@ -84,6 +132,8 @@
 		B670F6551534CCB20045906A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B63176A11578342B00B12331 /* QuartzCore.framework */,
+				B631765B157824F700B12331 /* CoreData.framework */,
 				B670F6561534CCB20045906A /* UIKit.framework */,
 				B670F6581534CCB20045906A /* Foundation.framework */,
 				B670F65A1534CCB20045906A /* CoreGraphics.framework */,
@@ -97,6 +147,8 @@
 				B670F6651534CCB20045906A /* PDAppDelegate.h */,
 				B670F6661534CCB30045906A /* PDAppDelegate.m */,
 				B670F68B1534CD560045906A /* View Controllers */,
+				B63176571578233E00B12331 /* Model */,
+				B631765D1578255E00B12331 /* Network & Caching */,
 				B670F65D1534CCB20045906A /* Supporting Files */,
 			);
 			path = "Poetry-Daily";
@@ -111,6 +163,8 @@
 				B670F65F1534CCB20045906A /* InfoPlist.strings */,
 				B670F6621534CCB20045906A /* main.m */,
 				B670F6641534CCB20045906A /* Poetry-Daily-Prefix.pch */,
+				B631769915782D8F00B12331 /* PDConstants.h */,
+				B631769A15782D8F00B12331 /* PDConstants.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -127,8 +181,9 @@
 		B670F6881534CCE20045906A /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
-				B670F6761534CCB30045906A /* PDFirstViewController_iPhone.xib */,
-				B670F67C1534CCB30045906A /* PDSecondViewController_iPhone.xib */,
+				B6919A6E156F01B600DA70C2 /* PDHomeViewController.xib */,
+				B6919A73156F028200DA70C2 /* PDMainPoemViewController.xib */,
+				B631769F1578311E00B12331 /* PDFavoritesViewController.xib */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -136,8 +191,6 @@
 		B670F6891534CCEB0045906A /* iPad */ = {
 			isa = PBXGroup;
 			children = (
-				B670F6791534CCB30045906A /* PDFirstViewController_iPad.xib */,
-				B670F67F1534CCB30045906A /* PDSecondViewController_iPad.xib */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -156,12 +209,24 @@
 		B670F68B1534CD560045906A /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B670F6681534CCB30045906A /* PDFirstViewController.h */,
-				B670F6691534CCB30045906A /* PDFirstViewController.m */,
-				B670F66F1534CCB30045906A /* PDSecondViewController.h */,
-				B670F6701534CCB30045906A /* PDSecondViewController.m */,
+				B6919A6C156F01B600DA70C2 /* PDHomeViewController.h */,
+				B6919A6D156F01B600DA70C2 /* PDHomeViewController.m */,
+				B6919A71156F028100DA70C2 /* PDMainPoemViewController.h */,
+				B6919A72156F028200DA70C2 /* PDMainPoemViewController.m */,
+				B631769C157830EA00B12331 /* PDFavoritesViewController.h */,
+				B631769D157830EB00B12331 /* PDFavoritesViewController.m */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		B6919A65156F00F800DA70C2 /* Third Party */ = {
+			isa = PBXGroup;
+			children = (
+				B6919A67156F012700DA70C2 /* SVProgressHUD.bundle */,
+				B6919A68156F012700DA70C2 /* SVProgressHUD.h */,
+				B6919A69156F012700DA70C2 /* SVProgressHUD.m */,
+			);
+			name = "Third Party";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,10 +286,10 @@
 				B670F66E1534CCB30045906A /* first@2x.png in Resources */,
 				B670F6731534CCB30045906A /* second.png in Resources */,
 				B670F6751534CCB30045906A /* second@2x.png in Resources */,
-				B670F6781534CCB30045906A /* PDFirstViewController_iPhone.xib in Resources */,
-				B670F67B1534CCB30045906A /* PDFirstViewController_iPad.xib in Resources */,
-				B670F67E1534CCB30045906A /* PDSecondViewController_iPhone.xib in Resources */,
-				B670F6811534CCB30045906A /* PDSecondViewController_iPad.xib in Resources */,
+				B6919A6A156F012700DA70C2 /* SVProgressHUD.bundle in Resources */,
+				B6919A70156F01B600DA70C2 /* PDHomeViewController.xib in Resources */,
+				B6919A75156F028200DA70C2 /* PDMainPoemViewController.xib in Resources */,
+				B63176A01578311E00B12331 /* PDFavoritesViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,8 +302,15 @@
 			files = (
 				B670F6631534CCB20045906A /* main.m in Sources */,
 				B670F6671534CCB30045906A /* PDAppDelegate.m in Sources */,
-				B670F66A1534CCB30045906A /* PDFirstViewController.m in Sources */,
-				B670F6711534CCB30045906A /* PDSecondViewController.m in Sources */,
+				B6919A6B156F012700DA70C2 /* SVProgressHUD.m in Sources */,
+				B6919A6F156F01B600DA70C2 /* PDHomeViewController.m in Sources */,
+				B6919A74156F028200DA70C2 /* PDMainPoemViewController.m in Sources */,
+				B63176551578224600B12331 /* PDModel.xcdatamodeld in Sources */,
+				B631765A1578235B00B12331 /* PDPoem.m in Sources */,
+				B63176601578258E00B12331 /* PDMediaServer.m in Sources */,
+				B631769815782D1100B12331 /* PDCachedDataController.m in Sources */,
+				B631769B15782D9000B12331 /* PDConstants.m in Sources */,
+				B631769E157830EB00B12331 /* PDFavoritesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,38 +323,6 @@
 				B670F6601534CCB20045906A /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		B670F6761534CCB30045906A /* PDFirstViewController_iPhone.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B670F6771534CCB30045906A /* en */,
-			);
-			name = PDFirstViewController_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		B670F6791534CCB30045906A /* PDFirstViewController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B670F67A1534CCB30045906A /* en */,
-			);
-			name = PDFirstViewController_iPad.xib;
-			sourceTree = "<group>";
-		};
-		B670F67C1534CCB30045906A /* PDSecondViewController_iPhone.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B670F67D1534CCB30045906A /* en */,
-			);
-			name = PDSecondViewController_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		B670F67F1534CCB30045906A /* PDSecondViewController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B670F6801534CCB30045906A /* en */,
-			);
-			name = PDSecondViewController_iPad.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -376,8 +416,22 @@
 				B670F6861534CCB30045906A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B63176531578224600B12331 /* PDModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B63176541578224600B12331 /* PDModel.xcdatamodel */,
+			);
+			currentVersion = B63176541578224600B12331 /* PDModel.xcdatamodel */;
+			path = PDModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B670F6491534CCB20045906A /* Project object */;
 }
