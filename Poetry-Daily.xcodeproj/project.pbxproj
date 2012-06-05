@@ -16,6 +16,16 @@
 		B631769E157830EB00B12331 /* PDFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B631769D157830EB00B12331 /* PDFavoritesViewController.m */; };
 		B63176A01578311E00B12331 /* PDFavoritesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B631769F1578311E00B12331 /* PDFavoritesViewController.xib */; };
 		B63176A21578342B00B12331 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63176A11578342B00B12331 /* QuartzCore.framework */; };
+		B66D4BE0157D6A19005830A4 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4BDF157D6A19005830A4 /* iCarousel.m */; };
+		B66D4BE4157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4BE2157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.m */; };
+		B66D4BE5157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66D4BE3157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.xib */; };
+		B66D4BE9157D6BB6005830A4 /* PDFavoriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4BE8157D6BB6005830A4 /* PDFavoriteView.m */; };
+		B66D4BEB157D74ED005830A4 /* favoriteStar.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4BEA157D74ED005830A4 /* favoriteStar.png */; };
+		B66D4BED157D7559005830A4 /* unfilledFavoriteStar.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4BEC157D7559005830A4 /* unfilledFavoriteStar.png */; };
+		B66D4BEF157D789E005830A4 /* plumlystanley.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B66D4BEE157D789E005830A4 /* plumlystanley.jpeg */; };
+		B66D4BF1157D7938005830A4 /* kenny-powers-accessories_large.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4BF0157D7937005830A4 /* kenny-powers-accessories_large.png */; };
+		B66D4BF5157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4BF3157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m */; };
+		B66D4BF6157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66D4BF4157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib */; };
 		B670F6571534CCB20045906A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6561534CCB20045906A /* UIKit.framework */; };
 		B670F6591534CCB20045906A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6581534CCB20045906A /* Foundation.framework */; };
 		B670F65B1534CCB20045906A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F65A1534CCB20045906A /* CoreGraphics.framework */; };
@@ -49,6 +59,20 @@
 		B631769D157830EB00B12331 /* PDFavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFavoritesViewController.m; sourceTree = "<group>"; };
 		B631769F1578311E00B12331 /* PDFavoritesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDFavoritesViewController.xib; sourceTree = "<group>"; };
 		B63176A11578342B00B12331 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B66D4BDE157D6A19005830A4 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		B66D4BDF157D6A19005830A4 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		B66D4BE1157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFavoritesCoverFlowViewController.h; sourceTree = "<group>"; };
+		B66D4BE2157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFavoritesCoverFlowViewController.m; sourceTree = "<group>"; };
+		B66D4BE3157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDFavoritesCoverFlowViewController.xib; sourceTree = "<group>"; };
+		B66D4BE7157D6BB6005830A4 /* PDFavoriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFavoriteView.h; sourceTree = "<group>"; };
+		B66D4BE8157D6BB6005830A4 /* PDFavoriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFavoriteView.m; sourceTree = "<group>"; };
+		B66D4BEA157D74ED005830A4 /* favoriteStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favoriteStar.png; sourceTree = "<group>"; };
+		B66D4BEC157D7559005830A4 /* unfilledFavoriteStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unfilledFavoriteStar.png; sourceTree = "<group>"; };
+		B66D4BEE157D789E005830A4 /* plumlystanley.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = plumlystanley.jpeg; sourceTree = "<group>"; };
+		B66D4BF0157D7937005830A4 /* kenny-powers-accessories_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kenny-powers-accessories_large.png"; sourceTree = "<group>"; };
+		B66D4BF2157D8A9A005830A4 /* PDBrowseAllPoemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDBrowseAllPoemsViewController.h; sourceTree = "<group>"; };
+		B66D4BF3157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDBrowseAllPoemsViewController.m; sourceTree = "<group>"; };
+		B66D4BF4157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDBrowseAllPoemsViewController.xib; sourceTree = "<group>"; };
 		B670F6521534CCB20045906A /* Poetry-Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poetry-Daily.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B670F6561534CCB20045906A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B670F6581534CCB20045906A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -111,6 +135,34 @@
 			name = "Network & Caching";
 			sourceTree = "<group>";
 		};
+		B66D4BDB157D699D005830A4 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				B6919A67156F012700DA70C2 /* SVProgressHUD.bundle */,
+				B6919A68156F012700DA70C2 /* SVProgressHUD.h */,
+				B6919A69156F012700DA70C2 /* SVProgressHUD.m */,
+			);
+			name = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		B66D4BDD157D69A6005830A4 /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				B66D4BDE157D6A19005830A4 /* iCarousel.h */,
+				B66D4BDF157D6A19005830A4 /* iCarousel.m */,
+			);
+			name = iCarousel;
+			sourceTree = "<group>";
+		};
+		B66D4BE6157D6B8B005830A4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B66D4BE7157D6BB6005830A4 /* PDFavoriteView.h */,
+				B66D4BE8157D6BB6005830A4 /* PDFavoriteView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		B670F6471534CCB20045906A = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +199,7 @@
 				B670F6651534CCB20045906A /* PDAppDelegate.h */,
 				B670F6661534CCB30045906A /* PDAppDelegate.m */,
 				B670F68B1534CD560045906A /* View Controllers */,
+				B66D4BE6157D6B8B005830A4 /* View */,
 				B63176571578233E00B12331 /* Model */,
 				B631765D1578255E00B12331 /* Network & Caching */,
 				B670F65D1534CCB20045906A /* Supporting Files */,
@@ -184,6 +237,7 @@
 				B6919A6E156F01B600DA70C2 /* PDHomeViewController.xib */,
 				B6919A73156F028200DA70C2 /* PDMainPoemViewController.xib */,
 				B631769F1578311E00B12331 /* PDFavoritesViewController.xib */,
+				B66D4BE3157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.xib */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -198,6 +252,10 @@
 		B670F68A1534CD0D0045906A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B66D4BEE157D789E005830A4 /* plumlystanley.jpeg */,
+				B66D4BF0157D7937005830A4 /* kenny-powers-accessories_large.png */,
+				B66D4BEA157D74ED005830A4 /* favoriteStar.png */,
+				B66D4BEC157D7559005830A4 /* unfilledFavoriteStar.png */,
 				B670F66B1534CCB30045906A /* first.png */,
 				B670F66D1534CCB30045906A /* first@2x.png */,
 				B670F6721534CCB30045906A /* second.png */,
@@ -215,6 +273,11 @@
 				B6919A72156F028200DA70C2 /* PDMainPoemViewController.m */,
 				B631769C157830EA00B12331 /* PDFavoritesViewController.h */,
 				B631769D157830EB00B12331 /* PDFavoritesViewController.m */,
+				B66D4BE1157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.h */,
+				B66D4BE2157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.m */,
+				B66D4BF2157D8A9A005830A4 /* PDBrowseAllPoemsViewController.h */,
+				B66D4BF3157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m */,
+				B66D4BF4157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -222,9 +285,8 @@
 		B6919A65156F00F800DA70C2 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
-				B6919A67156F012700DA70C2 /* SVProgressHUD.bundle */,
-				B6919A68156F012700DA70C2 /* SVProgressHUD.h */,
-				B6919A69156F012700DA70C2 /* SVProgressHUD.m */,
+				B66D4BDD157D69A6005830A4 /* iCarousel */,
+				B66D4BDB157D699D005830A4 /* SVProgressHUD */,
 			);
 			name = "Third Party";
 			sourceTree = "<group>";
@@ -290,6 +352,12 @@
 				B6919A70156F01B600DA70C2 /* PDHomeViewController.xib in Resources */,
 				B6919A75156F028200DA70C2 /* PDMainPoemViewController.xib in Resources */,
 				B63176A01578311E00B12331 /* PDFavoritesViewController.xib in Resources */,
+				B66D4BE5157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.xib in Resources */,
+				B66D4BEB157D74ED005830A4 /* favoriteStar.png in Resources */,
+				B66D4BED157D7559005830A4 /* unfilledFavoriteStar.png in Resources */,
+				B66D4BEF157D789E005830A4 /* plumlystanley.jpeg in Resources */,
+				B66D4BF1157D7938005830A4 /* kenny-powers-accessories_large.png in Resources */,
+				B66D4BF6157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +379,10 @@
 				B631769815782D1100B12331 /* PDCachedDataController.m in Sources */,
 				B631769B15782D9000B12331 /* PDConstants.m in Sources */,
 				B631769E157830EB00B12331 /* PDFavoritesViewController.m in Sources */,
+				B66D4BE0157D6A19005830A4 /* iCarousel.m in Sources */,
+				B66D4BE4157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.m in Sources */,
+				B66D4BE9157D6BB6005830A4 /* PDFavoriteView.m in Sources */,
+				B66D4BF5157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,10 +461,14 @@
 		B670F6861534CCB30045906A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Poetry Daily";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Poetry Daily";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

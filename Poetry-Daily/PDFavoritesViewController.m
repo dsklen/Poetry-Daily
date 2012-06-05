@@ -7,16 +7,20 @@
 //
 
 #import "PDFavoritesViewController.h"
+#import "PDFavoritesCoverFlowViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 
 @interface PDFavoritesViewController ()
 
 - (IBAction)sortFavorites:(id)sender;
+- (void)orientationChanged:(NSNotification *)notification;
 
 @end
 
 @implementation PDFavoritesViewController
+
+@synthesize isShowingLandscapeView = _isShowingLandscapeView;
 
 
 #pragma mark - API
@@ -64,17 +68,51 @@
     
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
+    
+    
+    self.isShowingLandscapeView = NO;
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+
+}
+
+- (void)orientationChanged:(NSNotification *)notification
+{
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if (UIDeviceOrientationIsLandscape(deviceOrientation) && !self.isShowingLandscapeView)
+    {
+        PDFavoritesCoverFlowViewController *favoriteFlow = [[PDFavoritesCoverFlowViewController alloc] initWithNibName:@"PDFavoritesCoverFlowViewController" bundle:nil];
+        favoriteFlow.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+
+        [self presentModalViewController:favoriteFlow animated:YES];
+        self.isShowingLandscapeView = YES;
+    }
+    else if (UIDeviceOrientationIsPortrait(deviceOrientation) && self.isShowingLandscapeView)
+    {
+        [UIView animateWithDuration:0.5f animations:^{
+                    
+        } completion:^(BOOL finished) {
+            [self dismissModalViewControllerAnimated:YES];
+            self.isShowingLandscapeView = NO;
+        }];
+    }
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    //return YES;
+        return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 
@@ -82,7 +120,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    return 120.0f;
+    return 100.0f;
 }
 
 
@@ -103,8 +141,6 @@
 {
     return 10;
 }
-
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -10,4 +10,6 @@
 
 @interface PDFavoritesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
+@property (readwrite, nonatomic) BOOL isShowingLandscapeView;
+
 @end
