@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PDBrowseAllPoemsViewController : UIViewController
+@interface PDBrowseAllPoemsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end

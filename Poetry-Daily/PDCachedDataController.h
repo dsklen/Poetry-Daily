@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-typedef void (^TVCompletionBlock)(BOOL success, NSError *error);
-typedef void (^TVCacheUpdateBlock)(NSArray *newResults);
+typedef void (^PDCompletionBlock)(BOOL success, NSError *error);
+typedef void (^PDCacheUpdateBlock)(NSArray *newResults);
 
 /*
  * Handles cached media data through a Core Data store. All UI controllers 
@@ -32,8 +32,8 @@ typedef void (^TVCacheUpdateBlock)(NSArray *newResults);
 
 + (id)sharedDataController;
 
-- (void)load:(TVCompletionBlock)block;
-- (void)save:(TVCompletionBlock)block;
+- (void)load:(PDCompletionBlock)block;
+- (void)save:(PDCompletionBlock)block;
 
 /*
  * Fetch objects from the cache. If the optional serverInfo dictionary and 
@@ -41,6 +41,6 @@ typedef void (^TVCacheUpdateBlock)(NSArray *newResults);
  * from the server and call the update block when finished.
  */
 
-- (NSArray *)fetchObjects:(NSFetchRequest *)fetch serverInfo:(NSDictionary *)info cacheUpdateBlock:(TVCacheUpdateBlock)block;
+- (NSArray *)fetchObjects:(NSFetchRequest *)fetch serverInfo:(NSDictionary *)info cacheUpdateBlock:(PDCacheUpdateBlock)block;
 
 @end

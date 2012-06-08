@@ -72,7 +72,7 @@
 
     self.carousel.accessibilityLabel = self.title;
     self.carousel.stopAtItemBoundary = YES;
-    self.carousel.type = iCarouselTypeInvertedRotary;
+    self.carousel.type = iCarouselTypeLinear;
     self.carousel.contentOffset = CGSizeMake( 0.0f, 0.0f );
 
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];    

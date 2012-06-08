@@ -33,18 +33,18 @@
 /*
  * TO DO: Add methods to hit PD endpoints.
  * e.g.
- 
- - (void)fetchPoemWithID:(NSString *)poemID block:(TVFetchBlock)block;
+ */
+
+ - (void)fetchPoemWithID:(NSString *)poemID block:(PDFetchBlock)block;
  {
      NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
      
      NSError *error = nil;
      NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-     
-     [params setObject:[NSString stringWithFormat:@"favorite:%@", higherID] forKey:@"1"];
-     [params setObject:[NSString stringWithFormat:@"favorite:%@", lowerID]  forKey:@"2"];
-     
-     NSDictionary *JSON = [self JSONForCommand:@"CreateFavoritePriority" parameters:params error:&error];
+         
+    [params setObject:poemID forKey:@"date"];
+          
+     NSDictionary *JSON = [self JSONForCommand:@"poem.php" parameters:params error:&error];
      
      dispatch_async( dispatch_get_main_queue(), ^{
      
@@ -56,9 +56,43 @@
      }];
      
      [self.operationQueue addOperation:fetch];
- }
+}
 
- */
+- (void)fetchArbitraryImagesWithURLs:(NSArray *)URLs block:(PDFetchBlock)block;
+{
+    NSParameterAssert( URLs != nil );
+    NSParameterAssert( block != nil );
+    
+    NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
+        
+        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:[URLs count]];
+        NSError *error = nil;
+        for ( NSURL *URL in URLs )
+        {
+            
+            NSLog(@"Fetching Image at URL: %@", [URL absoluteString] );
+            NSError *error = nil;
+            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+            NSHTTPURLResponse *response = nil;
+            
+            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            UIImage *image = [[UIImage alloc] initWithData:data];
+            
+            if ( image == nil )
+                image = (id)[NSNull null];            
+            
+            [results addObject:image];
+        }
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            block( results, error );
+        });
+    }];
+    
+    [fetch setQueuePriority:NSOperationQueuePriorityLow];
+    
+    [self.operationQueue addOperation:fetch];
+}
 
 - (NSDictionary *)JSONForCommand:(NSString *)command parameters:(NSDictionary *)parameters timeout:(NSTimeInterval)timeout error:(NSError *__autoreleasing *)error;
 {
@@ -69,9 +103,11 @@
     
     [mutableParams setObject:@"json" forKey:@"encoder"];
     
-    NSMutableString *URLString = [NSMutableString stringWithString:@"http://poems.com/"];
+//    NSMutableString *URLString = [NSMutableString stringWithString:@"http://poems.com/"];
     
-    [URLString appendFormat:@"/api?c=%@", command];
+    NSMutableString *URLString = [NSMutableString stringWithString:@"http://lawlmart.com/pd"];
+
+    [URLString appendFormat:@"/%@?", command];
     [mutableParams enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) { [URLString appendFormat:@"&%@=%@", key, obj]; }];
     
     NSURL *URL = [NSURL URLWithString:URLString];
@@ -99,9 +135,6 @@
     return [self JSONForCommand:command parameters:parameters timeout:DEFAULT_TIMEOUT error:error];
 }
 
-
-#pragma mark - Private API
-
 - (NSString *)poemIDFromDate:(NSDate *)date;
 {
     NSDate *referenceDate = [NSDate dateWithTimeIntervalSince1970:1269881100.0f];
@@ -126,6 +159,7 @@
         _operationQueue = [[NSOperationQueue alloc] init];
         _operationQueue.maxConcurrentOperationCount = 4;
                 
+#warning Add authentication as necessary here.
         _username = [NSString stringWithFormat:@"poems"];
         _password = [NSString stringWithFormat:@"all_day"];
         

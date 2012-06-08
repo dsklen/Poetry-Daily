@@ -39,7 +39,7 @@
     if (self) {
         // Custom initialization
         self.title = NSLocalizedString(@"Favorites", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"second"];
+        self.tabBarItem.image = [UIImage imageNamed:@"28-star"];
     }
     return self;
 }
@@ -158,8 +158,8 @@
         thumbnailImageView.backgroundColor = [UIColor lightGrayColor];
         thumbnailImageView.clipsToBounds = NO;
         thumbnailImageView.layer.shadowColor = [UIColor blackColor].CGColor;
-        thumbnailImageView.layer.shadowOffset = CGSizeMake( 2.0f, 2.0f );
-        thumbnailImageView.layer.shadowRadius = 4.0f;
+        thumbnailImageView.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
+        thumbnailImageView.layer.shadowRadius = 2.0f;
         thumbnailImageView.layer.shadowOpacity = 0.5f;       
         thumbnailImageView.layer.shouldRasterize = YES;
         thumbnailImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
@@ -183,13 +183,14 @@
         authorNameLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:authorNameLabel];
         
-//        UILabel *airingDateAndChannelLabel = [[UILabel alloc] initWithFrame:CGRectMake(127.0f, 50.0f, 300.0f, 20.0f)];
-//        airingDateAndChannelLabel.tag = 102;
-//        airingDateAndChannelLabel.font = [UIFont systemFontOfSize:12.0f];
-//        airingDateAndChannelLabel.textAlignment = UITextAlignmentLeft;
-//        airingDateAndChannelLabel.textColor = [UIColor lightGrayColor];
-//        airingDateAndChannelLabel.backgroundColor = [UIColor clearColor];
-//        [cell.contentView addSubview:airingDateAndChannelLabel];        
+        UILabel *publishedDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0f, 30.0f, 230.0f, 20.0f)];
+        publishedDateLabel.text = @"By David Sklenar";
+        publishedDateLabel.tag = 101;
+        publishedDateLabel.textAlignment = UITextAlignmentLeft;
+        publishedDateLabel.font = [UIFont systemFontOfSize:12.0f];
+        publishedDateLabel.textColor = [UIColor darkGrayColor];
+        publishedDateLabel.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:authorNameLabel];      
             
         UIButton *lockUnlockButton = [UIButton buttonWithType:UIButtonTypeCustom];
         lockUnlockButton.tag = 104;
@@ -210,4 +211,5 @@
     
     return cell;
 }
+
 @end

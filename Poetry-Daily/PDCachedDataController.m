@@ -25,7 +25,7 @@
 - (void)autosave:(NSTimer *)aTimer;
 - (void)purge:(NSTimer *)aTimer;
 
-- (void)updateDisplayItems:(NSString *)serverKey existingObjects:(NSArray *)objects genre:(NSString *)genre type:(NSString *)type size:(NSInteger)size completionBlock:(TVCacheUpdateBlock)block;
+- (void)updatePoemWithID:(NSString *)poemID completionBlock:(PDCacheUpdateBlock)block;
 
 @end
 
@@ -54,7 +54,7 @@
     return sharedDataController;
 }
 
-- (void)load:(TVCompletionBlock)block;
+- (void)load:(PDCompletionBlock)block;
 {
     NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:nil];
     NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
@@ -82,7 +82,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectsDidChange:) name:NSManagedObjectContextObjectsDidChangeNotification object:self.context];
 }
 
-- (void)save:(TVCompletionBlock)block;
+- (void)save:(PDCompletionBlock)block;
 {
     NSAssert( self.context != nil, @"self.context must not be nil" );
     
@@ -94,7 +94,7 @@
         block( YES, nil );
 }
 
-- (NSArray *)fetchObjects:(NSFetchRequest *)fetch serverInfo:(NSDictionary *)info cacheUpdateBlock:(TVCacheUpdateBlock)block;
+- (NSArray *)fetchObjects:(NSFetchRequest *)fetch serverInfo:(NSDictionary *)info cacheUpdateBlock:(PDCacheUpdateBlock)block;
 {
     NSParameterAssert( fetch != nil );
     NSAssert( self.context != nil, @"self.context must not be nil" );
@@ -103,41 +103,55 @@
     
     // A Dictionary is passed in with server command --> specifies which type of object
     // to update.
-    
-    NSInteger serverCommand = [[info objectForKey:@"CommandGoesHere"] integerValue];
+    NSInteger serverCommand = [[info objectForKey:PDServerCommandKey] integerValue];
     NSError *error = nil;
     NSArray *results = [self.context executeFetchRequest:fetch error:&error];
     
-    //    if ( server == nil || serverCommand == TVServerCommandNone )
-    //        return results;
-    //    
-    //    switch ( serverCommand ) 
-    //    {
-    //        case TVServerCommandHomeRow:
-    //            [self updateDisplayItems:[info objectForKey:TVHomeRowCategoryKey] existingObjects:results genre:@"" type:@"" size:[fetch fetchLimit] completionBlock:block];
-    //            break;
-    //        case TVServerCommandSearch:
-    //            [self updateSearchResults:[info objectForKey:TVSearchStringKey] existingObjects:results completionBlock:block];
-    //            break;
-    //        case TVServerCommandGuide:
-    //            [self updateGuideItemsForStartDate:[info objectForKey:TVGuideStartDateKey] endDate:[info objectForKey:TVGuideEndDateKey] completionBlock:block];
-    //            break;
-    //        case TVServerCommandDevices:
-    //            [self updateConnectedDevices:results completionBlock:block];
-    //            break;
-    //        case TVServerCommandSeriesInfo:
-    //            [self updateAvailableSeasonsAndEpisodesForAiringID:[info objectForKey:TVAiringIDKey] completionBlock:block];
-    //            break;
-    //        case TVServerCommandMediaItem:
-    //            [self updateMediaItemForAiringID:[info objectForKey:TVAiringIDKey] cachedMediaItem:[[results lastObject] item] completionBlock:block];
-    //            break;
-    //        case TVServerCommandSeeAll:
-    //            [self updateDisplayItems:[info objectForKey:TVHomeRowCategoryKey] existingObjects:results genre:[info objectForKey:TVDisplayObjectGenreKey] type:[info objectForKey:TVDisplayObjectTypeKey] size:-1 completionBlock:block];
-    //            break;
-    //    }
+     if ( server == nil || serverCommand == PDServerCommandNone )
+         return results;
+     
+     switch ( serverCommand ) 
+     {
+         case PDServerCommandPoem:
+             [self updatePoemWithID:[info objectForKey:PDPoemKey] completionBlock:block];
+             break;
+//         case TVServerCommandSearch:
+//             [self updateSearchResults:[info objectForKey:TVSearchStringKey] existingObjects:results completionBlock:block];
+//             break;  
+//         ....etc.
+     }
     
     return results;
 }
+
+- (void)updatePoemWithID:(NSString *)poemID completionBlock:(PDCacheUpdateBlock)block;
+{
+    PDMediaServer *server = [[PDMediaServer alloc] init];
+    
+    [server fetchPoemWithID:poemID block:^(NSArray *items, NSError *error) {
+        
+        if ( error != nil && items == nil )
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SetUpErrorHandlingNotificationHhere" object:error];
+            return;
+        }
+    
+        PDPoem *poem = [PDPoem fetchOrCreatePoemWithID:poemID];
+
+        NSDictionary *poemAttributesDictionary = [items lastObject];
+
+        poem.poemID = poemID;
+        poem.title = [poemAttributesDictionary objectForKey:@"byline"];
+        poem.poemBody = [poemAttributesDictionary objectForKey:@"poem"];
+        poem.author = [poemAttributesDictionary objectForKey:@"byline"];
+        poem.journalTitle = [poemAttributesDictionary objectForKey:@"book_title"];
+
+        block( [NSArray arrayWithObject:poem] );
+
+    }];
+}
+
+
 
 #pragma mark Private API
 
@@ -189,18 +203,18 @@
 
 - (void)purge:(NSTimer *)aTimer;
 {
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"CacheObject"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.updatedOn < %@", [NSDate dateWithTimeIntervalSinceNow:-1209600]];
-    
-    request.predicate = predicate;
-    
-    NSError *error = nil;
-    NSArray *items = [self.context executeFetchRequest:request error:&error];
-    
-    for ( NSManagedObject *object in items )
-        [self.context deleteObject:object];
-    
-    NSLog( @"Purged %ld stale objects from cache.", (long)[items count] );
+//    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"CacheObject"];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.updatedOn < %@", [NSDate dateWithTimeIntervalSinceNow:-1209600]];
+//    
+//    request.predicate = predicate;
+//    
+//    NSError *error = nil;
+//    NSArray *items = [self.context executeFetchRequest:request error:&error];
+//    
+//    for ( NSManagedObject *object in items )
+//        [self.context deleteObject:object];
+//    
+//    NSLog( @"Purged %ld stale objects from cache.", (long)[items count] );
 }
 
 

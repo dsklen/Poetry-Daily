@@ -26,6 +26,26 @@
 		B66D4BF1157D7938005830A4 /* kenny-powers-accessories_large.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4BF0157D7937005830A4 /* kenny-powers-accessories_large.png */; };
 		B66D4BF5157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4BF3157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m */; };
 		B66D4BF6157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66D4BF4157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib */; };
+		B66D4C0C157EAE84005830A4 /* 33-cabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C09157EAE84005830A4 /* 33-cabinet.png */; };
+		B66D4C0D157EAE84005830A4 /* 28-star.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C0A157EAE84005830A4 /* 28-star.png */; };
+		B66D4C0E157EAE84005830A4 /* 53-house.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C0B157EAE84005830A4 /* 53-house.png */; };
+		B66D4C15157EB954005830A4 /* PDSocialMediaController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C14157EB954005830A4 /* PDSocialMediaController.m */; };
+		B66D4C18157EBBC8005830A4 /* PDTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C17157EBBC8005830A4 /* PDTweet.m */; };
+		B66D4C1E157EBCFB005830A4 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66D4C1D157EBCFB005830A4 /* Twitter.framework */; };
+		B66D4C22157EBF38005830A4 /* PDTwitterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C20157EBF35005830A4 /* PDTwitterViewController.m */; };
+		B66D4C23157EBF38005830A4 /* PDTwitterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C21157EBF37005830A4 /* PDTwitterViewController.xib */; };
+		B66D4C25157EC5AF005830A4 /* 23-bird.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C24157EC5AF005830A4 /* 23-bird.png */; };
+		B66D4C31157ED20D005830A4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66D4C30157ED20D005830A4 /* MessageUI.framework */; };
+		B66D4C32157ED383005830A4 /* SVModalWebViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C27157ED104005830A4 /* SVModalWebViewController.h */; };
+		B66D4C33157ED383005830A4 /* SVModalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C28157ED104005830A4 /* SVModalWebViewController.m */; };
+		B66D4C34157ED383005830A4 /* SVWebViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C2A157ED104005830A4 /* SVWebViewController.h */; };
+		B66D4C35157ED383005830A4 /* SVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C2B157ED104005830A4 /* SVWebViewController.m */; };
+		B66D4C37157EFF31005830A4 /* tab_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C36157EFF31005830A4 /* tab_bg.png */; };
+		B66D4C7215801F15005830A4 /* paper.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C7115801F14005830A4 /* paper.png */; };
+		B66D4C7415802025005830A4 /* natural_paper.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C7315802024005830A4 /* natural_paper.png */; };
+		B66D4C761580209B005830A4 /* lightpaperfibers.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C751580209B005830A4 /* lightpaperfibers.png */; };
+		B66D4C78158021A2005830A4 /* spechbubble_sq_line.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C77158021A1005830A4 /* spechbubble_sq_line.png */; };
+		B66D4C7A158021C5005830A4 /* spechbubble_sq_line_black.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C79158021C5005830A4 /* spechbubble_sq_line_black.png */; };
 		B670F6571534CCB20045906A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6561534CCB20045906A /* UIKit.framework */; };
 		B670F6591534CCB20045906A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6581534CCB20045906A /* Foundation.framework */; };
 		B670F65B1534CCB20045906A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F65A1534CCB20045906A /* CoreGraphics.framework */; };
@@ -73,6 +93,30 @@
 		B66D4BF2157D8A9A005830A4 /* PDBrowseAllPoemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDBrowseAllPoemsViewController.h; sourceTree = "<group>"; };
 		B66D4BF3157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDBrowseAllPoemsViewController.m; sourceTree = "<group>"; };
 		B66D4BF4157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDBrowseAllPoemsViewController.xib; sourceTree = "<group>"; };
+		B66D4C09157EAE84005830A4 /* 33-cabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "33-cabinet.png"; sourceTree = "<group>"; };
+		B66D4C0A157EAE84005830A4 /* 28-star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "28-star.png"; sourceTree = "<group>"; };
+		B66D4C0B157EAE84005830A4 /* 53-house.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "53-house.png"; sourceTree = "<group>"; };
+		B66D4C13157EB954005830A4 /* PDSocialMediaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDSocialMediaController.h; sourceTree = "<group>"; };
+		B66D4C14157EB954005830A4 /* PDSocialMediaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDSocialMediaController.m; sourceTree = "<group>"; };
+		B66D4C16157EBBC8005830A4 /* PDTweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTweet.h; sourceTree = "<group>"; };
+		B66D4C17157EBBC8005830A4 /* PDTweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTweet.m; sourceTree = "<group>"; };
+		B66D4C1D157EBCFB005830A4 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		B66D4C1F157EBF35005830A4 /* PDTwitterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTwitterViewController.h; sourceTree = "<group>"; };
+		B66D4C20157EBF35005830A4 /* PDTwitterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTwitterViewController.m; sourceTree = "<group>"; };
+		B66D4C21157EBF37005830A4 /* PDTwitterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDTwitterViewController.xib; sourceTree = "<group>"; };
+		B66D4C24157EC5AF005830A4 /* 23-bird.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "23-bird.png"; path = "../../Desktop/23-bird.png"; sourceTree = "<group>"; };
+		B66D4C27157ED104005830A4 /* SVModalWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVModalWebViewController.h; sourceTree = "<group>"; };
+		B66D4C28157ED104005830A4 /* SVModalWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SVModalWebViewController.m; sourceTree = "<group>"; };
+		B66D4C29157ED104005830A4 /* SVWebViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVWebViewController.bundle; sourceTree = "<group>"; };
+		B66D4C2A157ED104005830A4 /* SVWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVWebViewController.h; sourceTree = "<group>"; };
+		B66D4C2B157ED104005830A4 /* SVWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SVWebViewController.m; sourceTree = "<group>"; };
+		B66D4C30157ED20D005830A4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		B66D4C36157EFF31005830A4 /* tab_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_bg.png; sourceTree = "<group>"; };
+		B66D4C7115801F14005830A4 /* paper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paper.png; sourceTree = "<group>"; };
+		B66D4C7315802024005830A4 /* natural_paper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = natural_paper.png; sourceTree = "<group>"; };
+		B66D4C751580209B005830A4 /* lightpaperfibers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightpaperfibers.png; sourceTree = "<group>"; };
+		B66D4C77158021A1005830A4 /* spechbubble_sq_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spechbubble_sq_line.png; sourceTree = "<group>"; };
+		B66D4C79158021C5005830A4 /* spechbubble_sq_line_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spechbubble_sq_line_black.png; sourceTree = "<group>"; };
 		B670F6521534CCB20045906A /* Poetry-Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poetry-Daily.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B670F6561534CCB20045906A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B670F6581534CCB20045906A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -103,6 +147,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B66D4C31157ED20D005830A4 /* MessageUI.framework in Frameworks */,
+				B66D4C1E157EBCFB005830A4 /* Twitter.framework in Frameworks */,
 				B63176A21578342B00B12331 /* QuartzCore.framework in Frameworks */,
 				B631765C157824F700B12331 /* CoreData.framework in Frameworks */,
 				B670F6571534CCB20045906A /* UIKit.framework in Frameworks */,
@@ -120,6 +166,8 @@
 				B63176531578224600B12331 /* PDModel.xcdatamodeld */,
 				B63176581578235B00B12331 /* PDPoem.h */,
 				B63176591578235B00B12331 /* PDPoem.m */,
+				B66D4C16157EBBC8005830A4 /* PDTweet.h */,
+				B66D4C17157EBBC8005830A4 /* PDTweet.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -131,6 +179,8 @@
 				B631765F1578258D00B12331 /* PDMediaServer.m */,
 				B631769615782D1100B12331 /* PDCachedDataController.h */,
 				B631769715782D1100B12331 /* PDCachedDataController.m */,
+				B66D4C13157EB954005830A4 /* PDSocialMediaController.h */,
+				B66D4C14157EB954005830A4 /* PDSocialMediaController.m */,
 			);
 			name = "Network & Caching";
 			sourceTree = "<group>";
@@ -163,6 +213,18 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		B66D4C26157ED0F7005830A4 /* SVWebViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B66D4C27157ED104005830A4 /* SVModalWebViewController.h */,
+				B66D4C28157ED104005830A4 /* SVModalWebViewController.m */,
+				B66D4C29157ED104005830A4 /* SVWebViewController.bundle */,
+				B66D4C2A157ED104005830A4 /* SVWebViewController.h */,
+				B66D4C2B157ED104005830A4 /* SVWebViewController.m */,
+			);
+			name = SVWebViewController;
+			sourceTree = "<group>";
+		};
 		B670F6471534CCB20045906A = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +246,8 @@
 		B670F6551534CCB20045906A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B66D4C30157ED20D005830A4 /* MessageUI.framework */,
+				B66D4C1D157EBCFB005830A4 /* Twitter.framework */,
 				B63176A11578342B00B12331 /* QuartzCore.framework */,
 				B631765B157824F700B12331 /* CoreData.framework */,
 				B670F6561534CCB20045906A /* UIKit.framework */,
@@ -236,8 +300,10 @@
 			children = (
 				B6919A6E156F01B600DA70C2 /* PDHomeViewController.xib */,
 				B6919A73156F028200DA70C2 /* PDMainPoemViewController.xib */,
+				B66D4BF4157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib */,
 				B631769F1578311E00B12331 /* PDFavoritesViewController.xib */,
 				B66D4BE3157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.xib */,
+				B66D4C21157EBF37005830A4 /* PDTwitterViewController.xib */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -253,6 +319,12 @@
 			isa = PBXGroup;
 			children = (
 				B66D4BEE157D789E005830A4 /* plumlystanley.jpeg */,
+				B66D4C7115801F14005830A4 /* paper.png */,
+				B66D4C77158021A1005830A4 /* spechbubble_sq_line.png */,
+				B66D4C79158021C5005830A4 /* spechbubble_sq_line_black.png */,
+				B66D4C751580209B005830A4 /* lightpaperfibers.png */,
+				B66D4C7315802024005830A4 /* natural_paper.png */,
+				B66D4C36157EFF31005830A4 /* tab_bg.png */,
 				B66D4BF0157D7937005830A4 /* kenny-powers-accessories_large.png */,
 				B66D4BEA157D74ED005830A4 /* favoriteStar.png */,
 				B66D4BEC157D7559005830A4 /* unfilledFavoriteStar.png */,
@@ -260,6 +332,10 @@
 				B670F66D1534CCB30045906A /* first@2x.png */,
 				B670F6721534CCB30045906A /* second.png */,
 				B670F6741534CCB30045906A /* second@2x.png */,
+				B66D4C24157EC5AF005830A4 /* 23-bird.png */,
+				B66D4C09157EAE84005830A4 /* 33-cabinet.png */,
+				B66D4C0A157EAE84005830A4 /* 28-star.png */,
+				B66D4C0B157EAE84005830A4 /* 53-house.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -271,13 +347,14 @@
 				B6919A6D156F01B600DA70C2 /* PDHomeViewController.m */,
 				B6919A71156F028100DA70C2 /* PDMainPoemViewController.h */,
 				B6919A72156F028200DA70C2 /* PDMainPoemViewController.m */,
+				B66D4BF2157D8A9A005830A4 /* PDBrowseAllPoemsViewController.h */,
+				B66D4BF3157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m */,
 				B631769C157830EA00B12331 /* PDFavoritesViewController.h */,
 				B631769D157830EB00B12331 /* PDFavoritesViewController.m */,
 				B66D4BE1157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.h */,
 				B66D4BE2157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.m */,
-				B66D4BF2157D8A9A005830A4 /* PDBrowseAllPoemsViewController.h */,
-				B66D4BF3157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m */,
-				B66D4BF4157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib */,
+				B66D4C1F157EBF35005830A4 /* PDTwitterViewController.h */,
+				B66D4C20157EBF35005830A4 /* PDTwitterViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -285,6 +362,7 @@
 		B6919A65156F00F800DA70C2 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				B66D4C26157ED0F7005830A4 /* SVWebViewController */,
 				B66D4BDD157D69A6005830A4 /* iCarousel */,
 				B66D4BDB157D699D005830A4 /* SVProgressHUD */,
 			);
@@ -358,6 +436,17 @@
 				B66D4BEF157D789E005830A4 /* plumlystanley.jpeg in Resources */,
 				B66D4BF1157D7938005830A4 /* kenny-powers-accessories_large.png in Resources */,
 				B66D4BF6157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib in Resources */,
+				B66D4C0C157EAE84005830A4 /* 33-cabinet.png in Resources */,
+				B66D4C0D157EAE84005830A4 /* 28-star.png in Resources */,
+				B66D4C0E157EAE84005830A4 /* 53-house.png in Resources */,
+				B66D4C23157EBF38005830A4 /* PDTwitterViewController.xib in Resources */,
+				B66D4C25157EC5AF005830A4 /* 23-bird.png in Resources */,
+				B66D4C37157EFF31005830A4 /* tab_bg.png in Resources */,
+				B66D4C7215801F15005830A4 /* paper.png in Resources */,
+				B66D4C7415802025005830A4 /* natural_paper.png in Resources */,
+				B66D4C761580209B005830A4 /* lightpaperfibers.png in Resources */,
+				B66D4C78158021A2005830A4 /* spechbubble_sq_line.png in Resources */,
+				B66D4C7A158021C5005830A4 /* spechbubble_sq_line_black.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +457,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B66D4C32157ED383005830A4 /* SVModalWebViewController.h in Sources */,
+				B66D4C33157ED383005830A4 /* SVModalWebViewController.m in Sources */,
+				B66D4C34157ED383005830A4 /* SVWebViewController.h in Sources */,
+				B66D4C35157ED383005830A4 /* SVWebViewController.m in Sources */,
 				B670F6631534CCB20045906A /* main.m in Sources */,
 				B670F6671534CCB30045906A /* PDAppDelegate.m in Sources */,
 				B6919A6B156F012700DA70C2 /* SVProgressHUD.m in Sources */,
@@ -383,6 +476,9 @@
 				B66D4BE4157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.m in Sources */,
 				B66D4BE9157D6BB6005830A4 /* PDFavoriteView.m in Sources */,
 				B66D4BF5157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m in Sources */,
+				B66D4C15157EB954005830A4 /* PDSocialMediaController.m in Sources */,
+				B66D4C18157EBBC8005830A4 /* PDTweet.m in Sources */,
+				B66D4C22157EBF38005830A4 /* PDTwitterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,8 +563,8 @@
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "6F76F0CA-6C5C-425E-8A47-0CBD31C3E78B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6F76F0CA-6C5C-425E-8A47-0CBD31C3E78B";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

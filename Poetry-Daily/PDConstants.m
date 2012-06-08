@@ -8,6 +8,7 @@
 
 #import "PDConstants.h"
 
-@implementation PDConstants
+NSString *PDServerCommandKey = @"PDServerCommandKey";
+NSString *PDPoemKey = @"PDPoemKey";
+NSString *PDAllPoemsKey = @"PDAllPoemsKey";
 
-@end

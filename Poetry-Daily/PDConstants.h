@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PDConstants : NSObject
+extern NSString *PDServerCommandKey;
+extern NSString *PDPoemKey;
+extern NSString *PDAllPoemsKey;
 
-@end
+typedef enum 
+{
+    PDServerCommandNone = 0,
+    PDServerCommandPoem,
+    PDServerCommandAllPoems
+} PDCacheServerCommand;

@@ -7,9 +7,11 @@
 //
 
 #import "PDAppDelegate.h"
-
+#import "PDCachedDataController.h"
 #import "PDHomeViewController.h"
 #import "PDFavoritesViewController.h"
+#import "PDBrowseAllPoemsViewController.h"
+#import "PDTwitterViewController.h"
 
 @implementation PDAppDelegate
 
@@ -18,29 +20,52 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-   
-    // Override point for customization after application launch.
-   
-    UIViewController *viewController1, *viewController2;
-   
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
-    {
-        PDHomeViewController *home = [[PDHomeViewController alloc] initWithNibName:@"PDHomeViewController" bundle:nil];
-        viewController1 = [[UINavigationController alloc] initWithRootViewController:home];                                       
+    PDCachedDataController *controller = [PDCachedDataController sharedDataController];
+    
+    [controller load:^(BOOL success, NSError *error) {
         
-        PDFavoritesViewController *favorites = [[PDFavoritesViewController alloc] initWithNibName:@"PDFavoritesViewController" bundle:nil];
-        viewController2 = [[UINavigationController alloc] initWithRootViewController:favorites];   
-    } 
-    else 
-    {
-        viewController1 = [[PDHomeViewController alloc] initWithNibName:@"PDHomeViewController" bundle:nil];
-    }
-    self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, nil];
+        if ( !success )
+        {
+            NSLog( @"Could not load cache, delete the Core Data store and try again. (%@)", [error localizedDescription] );
+            return;
+        }
+        
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+       
+        // Override point for customization after application launch.
+       
+        UIViewController *viewController1, *viewController2, *viewController3, *viewController4;
+       
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
+        {
+            PDHomeViewController *home = [[PDHomeViewController alloc] initWithNibName:@"PDHomeViewController" bundle:nil];
+            viewController1 = [[UINavigationController alloc] initWithRootViewController:home];                                       
+            
+            PDBrowseAllPoemsViewController *browse = [[PDBrowseAllPoemsViewController alloc] initWithNibName:@"PDBrowseAllPoemsViewController" bundle:nil];
+            viewController2 = [[UINavigationController alloc] initWithRootViewController:browse];
+            
+            PDFavoritesViewController *favorites = [[PDFavoritesViewController alloc] initWithNibName:@"PDFavoritesViewController" bundle:nil];
+            viewController3 = [[UINavigationController alloc] initWithRootViewController:favorites];   
+            
+            PDTwitterViewController *twitter = [[PDTwitterViewController alloc] initWithNibName:@"PDTwitterViewController" bundle:nil];
+            viewController4 = [[UINavigationController alloc] initWithRootViewController:twitter];  
+        } 
+        else 
+        {
+            viewController1 = [[PDHomeViewController alloc] initWithNibName:@"PDHomeViewController" bundle:nil];
+        }
+        self.tabBarController = [[UITabBarController alloc] init];
+        self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, viewController3, viewController4, nil];
+        
+        [self.tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:@"tab_bg"]];
+        [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor colorWithRed:90/255 green:30/255 blue:25/255 alpha:1]];
+        
+        self.window.rootViewController = self.tabBarController;
+        [self.window makeKeyAndVisible];
+        
 
-    self.window.rootViewController = self.tabBarController;
-    [self.window makeKeyAndVisible];
+        }];
+    
     return YES;
 }
 

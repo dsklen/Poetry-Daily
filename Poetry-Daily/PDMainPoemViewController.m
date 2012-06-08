@@ -7,6 +7,7 @@
 //
 
 #import "PDMainPoemViewController.h"
+#import "SVProgressHUD.h"
 
 @interface PDMainPoemViewController ()
 
@@ -24,7 +25,6 @@
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
 
 #pragma mark - View Lifecycle
 
@@ -46,7 +46,6 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     self.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
-    
     
     CGSize newSize = self.containerScrollView.contentSize;
     newSize.height += 244.0f;

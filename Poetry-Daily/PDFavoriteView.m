@@ -42,7 +42,7 @@
     if (self) 
     {
         _thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake( 27.5f, 0.0f, 145.0f, 200.0f )];
-        _thumbnailImageView.image = [UIImage imageNamed:@"kenny-powers-accessories_large"];
+        _thumbnailImageView.image = [UIImage imageNamed:@"plumlystanley.jpeg"];
         _thumbnailImageView.clipsToBounds = YES;
         _thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
         _thumbnailImageView.userInteractionEnabled = NO;
@@ -63,14 +63,14 @@
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(27.5f, 155.0f, 135.0f, 20.0f)];
         _titleLabel.text = @"A Poem";
         _titleLabel.textAlignment = UITextAlignmentRight;
-        _titleLabel.textColor = [UIColor lightGrayColor];
+        _titleLabel.textColor = [UIColor blackColor];
         _titleLabel.font = [UIFont boldSystemFontOfSize:11];
         _titleLabel.backgroundColor = [UIColor clearColor];
         
         _authorLabel = [[UILabel alloc] initWithFrame:CGRectMake(27.5f, 175.0f, 135.0f, 20.0f)];
         _authorLabel.text = @"The Author";
         _authorLabel.textAlignment = UITextAlignmentRight;
-        _authorLabel.textColor = [UIColor lightGrayColor];
+        _authorLabel.textColor = [UIColor blackColor];
         _authorLabel.font = [UIFont boldSystemFontOfSize:11];
         _authorLabel.backgroundColor = [UIColor clearColor];
         
