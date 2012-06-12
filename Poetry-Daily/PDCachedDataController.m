@@ -141,10 +141,10 @@
         NSDictionary *poemAttributesDictionary = [items lastObject];
 
         poem.poemID = poemID;
-        poem.title = [poemAttributesDictionary objectForKey:@"byline"];
+        poem.title = [poemAttributesDictionary objectForKey:@"book_title"];
         poem.poemBody = [poemAttributesDictionary objectForKey:@"poem"];
         poem.author = [poemAttributesDictionary objectForKey:@"byline"];
-        poem.journalTitle = [poemAttributesDictionary objectForKey:@"book_title"];
+        poem.journalTitle = [poemAttributesDictionary objectForKey:@"date"];
 
         block( [NSArray arrayWithObject:poem] );
 

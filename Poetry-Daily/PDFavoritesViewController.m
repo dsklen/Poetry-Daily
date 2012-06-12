@@ -40,6 +40,19 @@
         // Custom initialization
         self.title = NSLocalizedString(@"Favorites", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"28-star"];
+        
+        NSDictionary *titleTextAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                       [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
+                                                       [UIColor darkGrayColor], UITextAttributeTextColor,
+                                                       nil];
+        
+        NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                  [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
+                                                                  [UIColor blackColor], UITextAttributeTextColor,
+                                                                  nil];
+        
+        [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
+        [self.tabBarItem setTitleTextAttributes:titleTextHighlightedAttributesDictionary forState:UIControlStateSelected];
     }
     return self;
 }

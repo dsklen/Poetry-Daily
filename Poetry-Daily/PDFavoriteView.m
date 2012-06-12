@@ -47,10 +47,7 @@
         _thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
         _thumbnailImageView.userInteractionEnabled = NO;
         _thumbnailImageView.backgroundColor = [UIColor whiteColor];
-        
-        // Made some changes to fix performance trouble on iPad 1. Still need 
-        // to profile the app in Instruments to see exactly what issues remain.
-        
+    
         _thumbnailImageView.layer.shadowColor = [UIColor blackColor].CGColor;
         _thumbnailImageView.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
         _thumbnailImageView.layer.shadowRadius = 2.0f;

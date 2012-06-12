@@ -65,6 +65,21 @@
         self.tabBarItem.image = [UIImage imageNamed:@"23-bird"];
         _tweetsArray = [NSArray array];
         _pdLogoImage = [[UIImage alloc] init];
+        
+        NSDictionary *titleTextAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                       [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
+                                                       [UIColor darkGrayColor], UITextAttributeTextColor,
+                                                       nil];
+        
+        NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                  [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
+                                                                  [UIColor blackColor], UITextAttributeTextColor,
+                                                                  nil];
+        
+        [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
+        [self.tabBarItem setTitleTextAttributes:titleTextHighlightedAttributesDictionary forState:UIControlStateSelected];
+
+
     }
     return self;
 }

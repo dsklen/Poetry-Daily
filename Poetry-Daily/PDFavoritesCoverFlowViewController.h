@@ -15,4 +15,5 @@
 @property(strong, nonatomic) IBOutlet iCarousel *carousel;
 @property(strong, nonatomic) NSMutableArray *favorites;
 
+
 @end

@@ -43,28 +43,13 @@
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
 						<array class="NSMutableArray" key="NSSubviews">
-							<object class="IBUIWebView" id="9948090">
-								<reference key="NSNextResponder" ref="654834917"/>
-								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{0, 44}, {320, 416}}</string>
-								<reference key="NSSuperview" ref="654834917"/>
-								<reference key="NSWindow"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<object class="NSColor" key="IBUIBackgroundColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MSAxIDEAA</bytes>
-								</object>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<bool key="IBUIScalesPageToFit">YES</bool>
-							</object>
 							<object class="IBUINavigationBar" id="1050959772">
 								<reference key="NSNextResponder" ref="654834917"/>
 								<int key="NSvFlags">290</int>
 								<string key="NSFrameSize">{320, 44}</string>
 								<reference key="NSSuperview" ref="654834917"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="9948090"/>
+								<reference key="NSNextKeyView" ref="773869720"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<array key="IBUIItems">
@@ -80,6 +65,21 @@
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 									</object>
 								</array>
+							</object>
+							<object class="IBUIWebView" id="773869720">
+								<reference key="NSNextResponder" ref="654834917"/>
+								<int key="NSvFlags">274</int>
+								<string key="NSFrame">{{0, 44}, {320, 416}}</string>
+								<reference key="NSSuperview" ref="654834917"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4zNTIwNDA4MyAwLjEzMDI0MDQ0IDAuMTU3MDUzMDcAA</bytes>
+								</object>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<bool key="IBUIScalesPageToFit">YES</bool>
 							</object>
 						</array>
 						<string key="NSFrameSize">{320, 460}</string>
@@ -137,9 +137,9 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">webView</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="9948090"/>
+						<reference key="destination" ref="773869720"/>
 					</object>
-					<int key="connectionID">14</int>
+					<int key="connectionID">19</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -190,7 +190,7 @@
 						<reference key="object" ref="654834917"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="1050959772"/>
-							<reference ref="9948090"/>
+							<reference ref="773869720"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -216,8 +216,8 @@
 						<reference key="parent" ref="295084825"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">8</int>
-						<reference key="object" ref="9948090"/>
+						<int key="objectID">18</int>
+						<reference key="object" ref="773869720"/>
 						<reference key="parent" ref="654834917"/>
 					</object>
 				</array>
@@ -230,15 +230,15 @@
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">16</int>
+			<int key="maxID">19</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class PDWindow;
+
 @interface PDAppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

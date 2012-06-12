@@ -7,13 +7,19 @@
 //
 
 #import "PDBrowseAllPoemsViewController.h"
+#import "PDFavoritesCoverFlowViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface PDBrowseAllPoemsViewController ()
+- (void)orientationChanged:(NSNotification *)notification;
 
 @end
 
 @implementation PDBrowseAllPoemsViewController
+
+#pragma mark - Properties
+@synthesize isShowingLandscapeView = _isShowingLandscapeView;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -23,6 +29,20 @@
     {
         self.title = NSLocalizedString(@"Archive", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"33-cabinet"];
+        
+        NSDictionary *titleTextAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                       [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
+                                                       [UIColor darkGrayColor], UITextAttributeTextColor,
+                                                       nil];
+        
+        NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                  [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
+                                                                  [UIColor blackColor], UITextAttributeTextColor,
+                                                                  nil];
+        
+        [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
+        [self.tabBarItem setTitleTextAttributes:titleTextHighlightedAttributesDictionary forState:UIControlStateSelected];
+    
     }
     return self;
 }
@@ -32,17 +52,51 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
+    
+    self.isShowingLandscapeView = NO;
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+- (void)orientationChanged:(NSNotification *)notification
+{
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if (UIDeviceOrientationIsLandscape(deviceOrientation) && !self.isShowingLandscapeView)
+    {
+        PDFavoritesCoverFlowViewController *favoriteFlow = [[PDFavoritesCoverFlowViewController alloc] initWithNibName:@"PDFavoritesCoverFlowViewController" bundle:nil];
+        favoriteFlow.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        
+        [self presentModalViewController:favoriteFlow animated:YES];
+        self.isShowingLandscapeView = YES;
+    }
+    else if (UIDeviceOrientationIsPortrait(deviceOrientation) && self.isShowingLandscapeView)
+    {
+        [UIView animateWithDuration:0.5f animations:^{
+            
+        } completion:^(BOOL finished) {
+            [self dismissModalViewControllerAnimated:YES];
+            self.isShowingLandscapeView = NO;
+        }];
+    }
+}
+
 
 #pragma mark - UITableView Delegate
 
@@ -82,6 +136,7 @@
         UIImageView *thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 60.0f, 80.0f)];
         thumbnailImageView.tag = 99;
         thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
+        thumbnailImageView.image = [UIImage imageNamed:@"plumlystanley.jpeg"];;
         thumbnailImageView.clipsToBounds = YES;
         thumbnailImageView.backgroundColor = [UIColor lightGrayColor];
         thumbnailImageView.clipsToBounds = NO;

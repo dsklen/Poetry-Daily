@@ -8,6 +8,7 @@
 
 #import "PDFavoritesCoverFlowViewController.h"
 #import "PDFavoriteView.h"
+#import "PDFavoritesCoverFlowViewController.h"
 
 #define ITEM_SIZE 200.0f
 
@@ -76,6 +77,8 @@
     self.carousel.contentOffset = CGSizeMake( 0.0f, 0.0f );
 
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];    
+    
+
 }
 
 - (void)viewDidUnload
@@ -84,14 +87,14 @@
     
     self.carousel = nil;
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];    
-
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];       
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortrait);
 }
+
 
 
 #pragma mark iCarouselDataSource
@@ -120,7 +123,7 @@
 
 - (NSUInteger)numberOfVisibleItemsInCarousel:(iCarousel *)carousel
 {
-    return 10; //[self.favorites count];
+    return 4; //[self.favorites count];
 }
 
 - (CGFloat)carouselItemWidth:(iCarousel *)carousel

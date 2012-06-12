@@ -10,4 +10,7 @@
 
 @interface PDBrowseAllPoemsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
+@property (readwrite, nonatomic) BOOL isShowingLandscapeView;
+
+
 @end

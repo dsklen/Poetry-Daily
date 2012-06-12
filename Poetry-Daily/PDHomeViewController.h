@@ -20,5 +20,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *readPoemButton;
 
 - (IBAction)showMainPoemView:(id)sender;
+- (IBAction)fetchRandomPoem:(id)sender;
 
 @end

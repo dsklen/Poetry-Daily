@@ -7,11 +7,14 @@
 //
 
 #import "PDAppDelegate.h"
+#import "PDWindow.h"
 #import "PDCachedDataController.h"
 #import "PDHomeViewController.h"
 #import "PDFavoritesViewController.h"
 #import "PDBrowseAllPoemsViewController.h"
 #import "PDTwitterViewController.h"
+#import "PDMoreViewController.h"
+#import "FlurryAnalytics.h"
 
 @implementation PDAppDelegate
 
@@ -30,7 +33,7 @@
             return;
         }
         
-        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.window = [[PDWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
        
         // Override point for customization after application launch.
        
@@ -44,11 +47,12 @@
             PDBrowseAllPoemsViewController *browse = [[PDBrowseAllPoemsViewController alloc] initWithNibName:@"PDBrowseAllPoemsViewController" bundle:nil];
             viewController2 = [[UINavigationController alloc] initWithRootViewController:browse];
             
-            PDFavoritesViewController *favorites = [[PDFavoritesViewController alloc] initWithNibName:@"PDFavoritesViewController" bundle:nil];
-            viewController3 = [[UINavigationController alloc] initWithRootViewController:favorites];   
             
             PDTwitterViewController *twitter = [[PDTwitterViewController alloc] initWithNibName:@"PDTwitterViewController" bundle:nil];
-            viewController4 = [[UINavigationController alloc] initWithRootViewController:twitter];  
+            viewController3 = [[UINavigationController alloc] initWithRootViewController:twitter]; 
+            
+            PDMoreViewController *more = [[PDMoreViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            viewController4 = [[UINavigationController alloc] initWithRootViewController:more];
         } 
         else 
         {
@@ -58,13 +62,18 @@
         self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, viewController3, viewController4, nil];
         
         [self.tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:@"tab_bg"]];
-        [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor colorWithRed:90/255 green:30/255 blue:25/255 alpha:1]];
+        [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor darkGrayColor]];
         
         self.window.rootViewController = self.tabBarController;
         [self.window makeKeyAndVisible];
         
 
         }];
+    
+    
+        [FlurryAnalytics startSession:@"RCE71QKU7J9GWWHSN67D"];
+    
+    
     
     return YES;
 }
