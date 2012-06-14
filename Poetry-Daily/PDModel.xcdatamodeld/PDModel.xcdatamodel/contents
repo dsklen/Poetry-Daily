@@ -2,7 +2,7 @@
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50b" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Poem" syncable="YES">
         <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isFavorite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="journalTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poemBody" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poemID" optional="YES" attributeType="String" syncable="YES"/>

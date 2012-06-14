@@ -34,7 +34,6 @@
 		B66D4C1E157EBCFB005830A4 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66D4C1D157EBCFB005830A4 /* Twitter.framework */; };
 		B66D4C22157EBF38005830A4 /* PDTwitterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C20157EBF35005830A4 /* PDTwitterViewController.m */; };
 		B66D4C23157EBF38005830A4 /* PDTwitterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C21157EBF37005830A4 /* PDTwitterViewController.xib */; };
-		B66D4C25157EC5AF005830A4 /* 23-bird.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C24157EC5AF005830A4 /* 23-bird.png */; };
 		B66D4C31157ED20D005830A4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66D4C30157ED20D005830A4 /* MessageUI.framework */; };
 		B66D4C32157ED383005830A4 /* SVModalWebViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C27157ED104005830A4 /* SVModalWebViewController.h */; };
 		B66D4C33157ED383005830A4 /* SVModalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4C28157ED104005830A4 /* SVModalWebViewController.m */; };
@@ -62,6 +61,9 @@
 		B6919A70156F01B600DA70C2 /* PDHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6919A6E156F01B600DA70C2 /* PDHomeViewController.xib */; };
 		B6919A74156F028200DA70C2 /* PDMainPoemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6919A72156F028200DA70C2 /* PDMainPoemViewController.m */; };
 		B6919A75156F028200DA70C2 /* PDMainPoemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6919A73156F028200DA70C2 /* PDMainPoemViewController.xib */; };
+		B697941F158A87DA0031162B /* NSDate+PDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B697941E158A87DA0031162B /* NSDate+PDAdditions.m */; };
+		B6979421158AA3930031162B /* 23-bird.png in Resources */ = {isa = PBXBuildFile; fileRef = B6979420158AA3930031162B /* 23-bird.png */; };
+		B6979458158AA8C00031162B /* PDLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = B6979457158AA8C00031162B /* PDLogo.png */; };
 		B6CBEEC21582C6F9005AE033 /* PDMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CBEEC01582C6F9005AE033 /* PDMoreViewController.m */; };
 		B6CBEEC31582C6F9005AE033 /* PDMoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6CBEEC11582C6F9005AE033 /* PDMoreViewController.xib */; };
 		B6CBEF001586B69A005AE033 /* PDWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CBEEFF1586B69A005AE033 /* PDWindow.m */; };
@@ -112,7 +114,6 @@
 		B66D4C1F157EBF35005830A4 /* PDTwitterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTwitterViewController.h; sourceTree = "<group>"; };
 		B66D4C20157EBF35005830A4 /* PDTwitterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTwitterViewController.m; sourceTree = "<group>"; };
 		B66D4C21157EBF37005830A4 /* PDTwitterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDTwitterViewController.xib; sourceTree = "<group>"; };
-		B66D4C24157EC5AF005830A4 /* 23-bird.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "23-bird.png"; path = "../../Desktop/23-bird.png"; sourceTree = "<group>"; };
 		B66D4C27157ED104005830A4 /* SVModalWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVModalWebViewController.h; sourceTree = "<group>"; };
 		B66D4C28157ED104005830A4 /* SVModalWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SVModalWebViewController.m; sourceTree = "<group>"; };
 		B66D4C29157ED104005830A4 /* SVWebViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVWebViewController.bundle; sourceTree = "<group>"; };
@@ -148,6 +149,10 @@
 		B6919A71156F028100DA70C2 /* PDMainPoemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDMainPoemViewController.h; sourceTree = "<group>"; };
 		B6919A72156F028200DA70C2 /* PDMainPoemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDMainPoemViewController.m; sourceTree = "<group>"; };
 		B6919A73156F028200DA70C2 /* PDMainPoemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDMainPoemViewController.xib; sourceTree = "<group>"; };
+		B697941D158A87DA0031162B /* NSDate+PDAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+PDAdditions.h"; sourceTree = "<group>"; };
+		B697941E158A87DA0031162B /* NSDate+PDAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+PDAdditions.m"; sourceTree = "<group>"; };
+		B6979420158AA3930031162B /* 23-bird.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "23-bird.png"; sourceTree = "<group>"; };
+		B6979457158AA8C00031162B /* PDLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PDLogo.png; sourceTree = "<group>"; };
 		B6CBEEBF1582C6F9005AE033 /* PDMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDMoreViewController.h; sourceTree = "<group>"; };
 		B6CBEEC01582C6F9005AE033 /* PDMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDMoreViewController.m; sourceTree = "<group>"; };
 		B6CBEEC11582C6F9005AE033 /* PDMoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDMoreViewController.xib; sourceTree = "<group>"; };
@@ -155,7 +160,7 @@
 		B6CBEEFF1586B69A005AE033 /* PDWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDWindow.m; sourceTree = "<group>"; };
 		B6CBEF0515870E1D005AE033 /* more_info_tab_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more_info_tab_bg@2x.png"; sourceTree = "<group>"; };
 		B6CBEF07158716C3005AE033 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
-		B6CBEF09158717EB005AE033 /* logo_iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_iPad.png; sourceTree = "<group>"; };
+		B6CBEF09158717EB005AE033 /* logo_iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_iPad.png; path = ../logo_iPad.png; sourceTree = "<group>"; };
 		B6CBEF0C1587FA78005AE033 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
 		B6CBEF0D1587FA78005AE033 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		B6CBEF101587FC10005AE033 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
@@ -250,9 +255,9 @@
 		B670F6471534CCB20045906A = {
 			isa = PBXGroup;
 			children = (
-				B6CBEF09158717EB005AE033 /* logo_iPad.png */,
 				B670F65C1534CCB20045906A /* Poetry-Daily */,
 				B6919A65156F00F800DA70C2 /* Third Party */,
+				B6979419158A871F0031162B /* Categories */,
 				B670F6551534CCB20045906A /* Frameworks */,
 				B670F6531534CCB20045906A /* Products */,
 			);
@@ -324,6 +329,7 @@
 				B6919A6E156F01B600DA70C2 /* PDHomeViewController.xib */,
 				B6919A73156F028200DA70C2 /* PDMainPoemViewController.xib */,
 				B66D4BF4157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib */,
+				B6CBEEC11582C6F9005AE033 /* PDMoreViewController.xib */,
 				B631769F1578311E00B12331 /* PDFavoritesViewController.xib */,
 				B66D4BE3157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.xib */,
 				B66D4C21157EBF37005830A4 /* PDTwitterViewController.xib */,
@@ -341,26 +347,28 @@
 		B670F68A1534CD0D0045906A /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				B66D4BEE157D789E005830A4 /* plumlystanley.jpeg */,
-				B66D4C7115801F14005830A4 /* paper.png */,
-				B66D4C77158021A1005830A4 /* spechbubble_sq_line.png */,
-				B66D4C79158021C5005830A4 /* spechbubble_sq_line_black.png */,
-				B66D4C751580209B005830A4 /* lightpaperfibers.png */,
-				B66D4C7315802024005830A4 /* natural_paper.png */,
-				B66D4C36157EFF31005830A4 /* tab_bg.png */,
-				B66D4BF0157D7937005830A4 /* kenny-powers-accessories_large.png */,
+				B66D4C0A157EAE84005830A4 /* 28-star.png */,
+				B6979420158AA3930031162B /* 23-bird.png */,
+				B66D4C09157EAE84005830A4 /* 33-cabinet.png */,
+				B66D4C0B157EAE84005830A4 /* 53-house.png */,
 				B66D4BEA157D74ED005830A4 /* favoriteStar.png */,
-				B66D4BEC157D7559005830A4 /* unfilledFavoriteStar.png */,
 				B670F66B1534CCB30045906A /* first.png */,
+				B6979457158AA8C00031162B /* PDLogo.png */,
 				B670F66D1534CCB30045906A /* first@2x.png */,
+				B66D4BF0157D7937005830A4 /* kenny-powers-accessories_large.png */,
+				B66D4C751580209B005830A4 /* lightpaperfibers.png */,
+				B6CBEF07158716C3005AE033 /* logo@2x.png */,
+				B6CBEF09158717EB005AE033 /* logo_iPad.png */,
+				B6CBEF0515870E1D005AE033 /* more_info_tab_bg@2x.png */,
+				B66D4C7315802024005830A4 /* natural_paper.png */,
+				B66D4C7115801F14005830A4 /* paper.png */,
+				B66D4BEE157D789E005830A4 /* plumlystanley.jpeg */,
 				B670F6721534CCB30045906A /* second.png */,
 				B670F6741534CCB30045906A /* second@2x.png */,
-				B66D4C24157EC5AF005830A4 /* 23-bird.png */,
-				B66D4C09157EAE84005830A4 /* 33-cabinet.png */,
-				B66D4C0A157EAE84005830A4 /* 28-star.png */,
-				B66D4C0B157EAE84005830A4 /* 53-house.png */,
-				B6CBEF07158716C3005AE033 /* logo@2x.png */,
-				B6CBEF0515870E1D005AE033 /* more_info_tab_bg@2x.png */,
+				B66D4C77158021A1005830A4 /* spechbubble_sq_line.png */,
+				B66D4C79158021C5005830A4 /* spechbubble_sq_line_black.png */,
+				B66D4C36157EFF31005830A4 /* tab_bg.png */,
+				B66D4BEC157D7559005830A4 /* unfilledFavoriteStar.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -382,7 +390,6 @@
 				B66D4C20157EBF35005830A4 /* PDTwitterViewController.m */,
 				B6CBEEBF1582C6F9005AE033 /* PDMoreViewController.h */,
 				B6CBEEC01582C6F9005AE033 /* PDMoreViewController.m */,
-				B6CBEEC11582C6F9005AE033 /* PDMoreViewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -396,6 +403,16 @@
 				B66D4BDB157D699D005830A4 /* SVProgressHUD */,
 			);
 			name = "Third Party";
+			sourceTree = "<group>";
+		};
+		B6979419158A871F0031162B /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				B697941D158A87DA0031162B /* NSDate+PDAdditions.h */,
+				B697941E158A87DA0031162B /* NSDate+PDAdditions.m */,
+			);
+			name = Categories;
+			path = "Poetry-Daily";
 			sourceTree = "<group>";
 		};
 		B6CBEF0B1587FA78005AE033 /* FlurryAnalytics */ = {
@@ -479,7 +496,6 @@
 				B66D4C0D157EAE84005830A4 /* 28-star.png in Resources */,
 				B66D4C0E157EAE84005830A4 /* 53-house.png in Resources */,
 				B66D4C23157EBF38005830A4 /* PDTwitterViewController.xib in Resources */,
-				B66D4C25157EC5AF005830A4 /* 23-bird.png in Resources */,
 				B66D4C37157EFF31005830A4 /* tab_bg.png in Resources */,
 				B66D4C7215801F15005830A4 /* paper.png in Resources */,
 				B66D4C7415802025005830A4 /* natural_paper.png in Resources */,
@@ -490,6 +506,8 @@
 				B6CBEF0615870E1D005AE033 /* more_info_tab_bg@2x.png in Resources */,
 				B6CBEF08158716C3005AE033 /* logo@2x.png in Resources */,
 				B6CBEF0A158717EB005AE033 /* logo_iPad.png in Resources */,
+				B6979421158AA3930031162B /* 23-bird.png in Resources */,
+				B6979458158AA8C00031162B /* PDLogo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,6 +543,7 @@
 				B66D4C22157EBF38005830A4 /* PDTwitterViewController.m in Sources */,
 				B6CBEEC21582C6F9005AE033 /* PDMoreViewController.m in Sources */,
 				B6CBEF001586B69A005AE033 /* PDWindow.m in Sources */,
+				B697941F158A87DA0031162B /* NSDate+PDAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,7 +581,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -581,7 +600,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

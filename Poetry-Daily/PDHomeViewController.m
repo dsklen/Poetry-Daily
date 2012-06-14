@@ -14,8 +14,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SVProgressHUD.h"
 #import "PDConstants.h"
+#import "NSDate+PDAdditions.h"
 
 @interface PDHomeViewController ()
+
+- (void)showPoemForDay:(NSDate *)date;
 
 @end
 
@@ -30,6 +33,8 @@
 @synthesize poemAuthorLabel = _poemAuthorLabel;
 @synthesize poemAuthorImageView = _poemAuthorImageView;
 @synthesize readPoemButton = _readPoemButton;
+@synthesize showPreviousDayButton = _showPreviousDayButton;
+@synthesize showNextDayButton = _showNextDayButton;
 
 
 #pragma mark - API
@@ -60,16 +65,13 @@
 
 #pragma mark - Private API
 
-- (IBAction)fetchRandomPoem:(id)sender;
+- (void)showPoemForDay:(NSDate *)date;
 {
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
-    
+
     PDMediaServer *server = [[PDMediaServer alloc] init];
-    
-    int randomInterval = arc4random() % 365 * 24 * 60 * 60 * -1;
-    NSDate *randomDate = [NSDate dateWithTimeIntervalSinceNow:randomInterval];
-    NSString *poemID = [server poemIDFromDate:randomDate];
-    
+    NSString *poemID = [server poemIDFromDate:date];
+
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Poem"];
     
     NSMutableDictionary *serverInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
@@ -87,13 +89,19 @@
                                                                     
                                                                     if ( poem )
                                                                     {
+                                                                        poem.publishedDate = date;
                                                                         self.currentPoem = poem;
                                                                         self.poemTitleLabel.text = poem.title;
                                                                         self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
                                                                         self.poemPublishedDateLabel.text = poem.journalTitle;
                                                                         
-                                                                        [SVProgressHUD dismiss];
+                                                                        NSLog(@"%f", [date timeIntervalSinceDate:[NSDate charlottesvilleDate]]);
+                                                                        
+                                                                        self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );         
 
+                                                                        
+                                                                        [SVProgressHUD dismiss];
+                                                                        
                                                                     }
                                                                     
                                                                 }];
@@ -102,13 +110,38 @@
     
     if ( poem )
     {
+        poem.publishedDate = date;
+        self.currentPoem = poem;
         self.poemTitleLabel.text = poem.title;
         self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
         self.poemPublishedDateLabel.text = poem.journalTitle;
-
+        
+        self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );         
+        
         [SVProgressHUD dismiss];
     }
+}
 
+- (IBAction)fetchRandomPoem:(id)sender;
+{
+    int randomInterval = arc4random() % 365 * 24 * 60 * 60 * -1;
+    NSDate *randomDate = [NSDate dateWithTimeIntervalSinceNow:randomInterval];
+
+    [self showPoemForDay:randomDate];
+}
+
+- (IBAction)showPreviousDay:(id)sender;
+{
+    NSDate *newDate = [self.currentPoem.publishedDate dateByAddingTimeInterval:-86400.0f];
+    
+    [self showPoemForDay:newDate];
+}
+
+- (IBAction)showNextDay:(id)sender;
+{
+    NSDate *newDate = [self.currentPoem.publishedDate dateByAddingTimeInterval:86400.0f];
+    
+    [self showPoemForDay:newDate];
 }
 
 
@@ -146,6 +179,11 @@
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
     
+    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PDLogo.png"]];
+    logoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    logoImageView.frame = CGRectMake(0.0f, 0.0f, 100.0f, 42.0f);
+    self.navigationItem.titleView = logoImageView;    
+    
     self.poemAuthorImageView.image = [UIImage imageNamed:@"plumlystanley.jpeg"];
     self.poemAuthorImageView.layer.shadowColor = [UIColor blackColor].CGColor;
     self.poemAuthorImageView.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
@@ -157,54 +195,13 @@
     self.readPoemButton.layer.borderWidth = 2.0f;
     self.readPoemButton.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     
-    
-    [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
-    
-    PDMediaServer *server = [[PDMediaServer alloc] init];
-    
-    NSString *poemID = [server poemIDFromDate:[NSDate date]];
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Poem"];
-    
-    NSMutableDictionary *serverInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
-    [serverInfo setObject:poemID forKey:PDPoemKey];
-    [serverInfo setObject:[NSNumber numberWithInteger:PDServerCommandPoem] forKey:PDServerCommandKey];
-    
-    request.predicate = [NSPredicate predicateWithFormat:@"SELF.poemID == %@", poemID];
-    request.fetchLimit = 1;
-    
-    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request
-                                                                      serverInfo:serverInfo 
-                                                                cacheUpdateBlock:^(NSArray *newResults) {
-                                                                
-                                                                    PDPoem *poem = [newResults lastObject];
-                                                                    
-                                                                    if ( poem )
-                                                                    {
-                                                                        self.currentPoem = poem;
-                                                                        self.poemTitleLabel.text = poem.title;
-                                                                        self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
-                                                                        
-                                                                        [SVProgressHUD dismiss];
-                                                                    }
-                                                                
-                                                                }];
-
-    PDPoem *poem = [items lastObject];
-    
-    if ( poem )
-    {
-        self.poemTitleLabel.text = poem.title;
-        self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
-        
-        [SVProgressHUD dismiss];
-    }
-    
+    [self showPoemForDay:[NSDate charlottesvilleDate]];    
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(fetchRandomPoem:) 
                                                  name:@"DeviceShaken"
                                                object:nil];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated;
@@ -226,6 +223,8 @@
                                                     name:@"DeviceShaken"
                                                   object:nil];
 
+    [self setShowPreviousDayButton:nil];
+    [self setShowNextDayButton:nil];
     [super viewDidUnload];
 }
 

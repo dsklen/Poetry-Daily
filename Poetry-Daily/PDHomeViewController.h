@@ -18,8 +18,12 @@
 @property (strong, nonatomic) IBOutlet UILabel *poemAuthorLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *poemAuthorImageView;
 @property (strong, nonatomic) IBOutlet UIButton *readPoemButton;
+@property (strong, nonatomic) IBOutlet UIButton *showPreviousDayButton;
+@property (strong, nonatomic) IBOutlet UIButton *showNextDayButton;
 
 - (IBAction)showMainPoemView:(id)sender;
 - (IBAction)fetchRandomPoem:(id)sender;
+- (IBAction)showPreviousDay:(id)sender;
+- (IBAction)showNextDay:(id)sender;
 
 @end

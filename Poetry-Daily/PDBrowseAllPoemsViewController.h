@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PDBrowseAllPoemsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface PDBrowseAllPoemsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>
 
 @property (readwrite, nonatomic) BOOL isShowingLandscapeView;
 
+@property (strong, nonatomic) NSMutableArray *poemsArray;
+@property (strong, nonatomic) NSMutableArray *filteredPoemsArray;
+@property (strong, nonatomic) IBOutlet UITableView *poemsTableView;
+@property (strong, nonatomic) UISearchDisplayController *searchController;
 
 @end

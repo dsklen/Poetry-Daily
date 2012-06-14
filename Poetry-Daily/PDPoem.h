@@ -12,7 +12,7 @@
 @interface PDPoem : NSManagedObject
 
 @property (strong, nonatomic) NSString *author;
-@property (assign, nonatomic) BOOL isFavorite;
+@property (strong, nonatomic) NSNumber *isFavorite;
 @property (strong, nonatomic) NSString *journalTitle;
 @property (strong, nonatomic) NSString *poemBody;
 @property (strong, nonatomic) NSString *poemID;

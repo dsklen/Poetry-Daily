@@ -8,18 +8,81 @@
 
 #import "PDBrowseAllPoemsViewController.h"
 #import "PDFavoritesCoverFlowViewController.h"
+#import "PDPoem.h"
 #import <QuartzCore/QuartzCore.h>
+#import "PDCachedDataController.h"
 
 @interface PDBrowseAllPoemsViewController ()
 - (void)orientationChanged:(NSNotification *)notification;
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope;
+- (IBAction)sortPoems:(id)sender;
 
 @end
 
 @implementation PDBrowseAllPoemsViewController
 
 #pragma mark - Properties
-@synthesize isShowingLandscapeView = _isShowingLandscapeView;
 
+@synthesize isShowingLandscapeView = _isShowingLandscapeView;
+@synthesize poemsArray = _poemsArray;
+@synthesize filteredPoemsArray = _filteredPoemsArray;
+@synthesize poemsTableView = _poemsTableView;
+@synthesize searchController = _searchController;
+
+
+#pragma mark - API
+
+- (IBAction)sortPoems:(id)sender;
+{
+    UISegmentedControl *seg = (UISegmentedControl *)sender;
+    
+    if (seg.selectedSegmentIndex == 0) 
+    {
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+        [self.poemsArray sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+
+        [self.poemsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade]; 
+        [self.poemsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewRowAnimationTop animated:YES];
+    }
+    else 
+    {
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"publishedDate" ascending:NO];
+        [self.poemsArray sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+        
+        [self.poemsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade]; 
+        [self.poemsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewRowAnimationTop animated:YES];
+    }
+}
+
+- (IBAction)toggleFavorites:(id)sender;
+{
+    
+}
+
+- (IBAction)favoriteOrUnfavoritePoem:(id)sender;
+{      
+    UIButton *senderButton = (UIButton *)sender;
+    
+    
+    UITableViewCell *cell = (UITableViewCell *) [[senderButton superview] superview];
+    NSIndexPath *indexPath = [self.poemsTableView indexPathForCell:cell]; 
+    
+    PDPoem *poem = [self.poemsArray objectAtIndex:indexPath.row];
+
+    if (senderButton.imageView.image == [UIImage imageNamed:@"favoriteStar"])
+    {
+        poem.isFavorite = [NSNumber numberWithBool:NO];
+        [senderButton setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        poem.isFavorite = [NSNumber numberWithBool:YES];
+        [senderButton setImage:[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];
+    }
+}
+
+
+#pragma mark - View Lifecycle
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,8 +105,11 @@
         
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
         [self.tabBarItem setTitleTextAttributes:titleTextHighlightedAttributesDictionary forState:UIControlStateSelected];
-    
+        
+        _poemsArray = [NSMutableArray array];
+        _filteredPoemsArray = [NSMutableArray array];
     }
+    
     return self;
 }
 
@@ -53,12 +119,72 @@
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
     
+    // Load all poems (currently from cache - update command will be added once API is in place).
+        
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Poem"];
+    
+    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request
+                                                                      serverInfo:nil 
+                                                                cacheUpdateBlock:nil];
+    
+    self.poemsArray = [items mutableCopy];
+    
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"publishedDate" ascending:NO];
+    [self.poemsArray sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+
+    [self.poemsTableView reloadData];
+
+    // Add sorting segmented control.
+    
+    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
+											[NSArray arrayWithObjects:
+											 [NSString stringWithFormat:@"123"],
+											 [NSString stringWithFormat:@"AZ"],
+											 nil]];
+    
+    segmentedControl.selectedSegmentIndex = 0;
+    
+    [segmentedControl addTarget:self action:@selector(sortPoems:) forControlEvents:UIControlEventValueChanged];
+    
+    segmentedControl.frame = CGRectMake(0, 0, 90, 30);
+    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    segmentedControl.momentary = NO;
+	
+    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+    self.navigationItem.rightBarButtonItem = segmentBarItem;
+    
+    // Add favorites toggle
+    
+    UIBarButtonItem *favoritesBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Favorites" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleFavorites:)];
+    self.navigationItem.leftBarButtonItem = favoritesBarItem;
+
+                                         
     self.isShowingLandscapeView = NO;
+    
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationChanged:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+
+}
+
+- (void)viewDidAppear:(BOOL)animated;
+{
+    // Load all poems (currently from cache - update command will be added once API is in place).
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Poem"];
+    
+    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request
+                                                                      serverInfo:nil 
+                                                                cacheUpdateBlock:nil];
+    
+    self.poemsArray = [items mutableCopy];
+    
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"publishedDate" ascending:NO];
+    [self.poemsArray sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+
+    [self.poemsTableView reloadData];
 
 }
 
@@ -121,7 +247,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
-    return 10;
+    if ( tableView == self.searchDisplayController.searchResultsTableView )
+        return [self.filteredPoemsArray count];
+    
+    return [self.poemsArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -149,7 +278,6 @@
         [cell.contentView addSubview:thumbnailImageView];
         
         UILabel *poemTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0f, 10.0f, 230.0f, 20.0f)];
-        poemTitleLabel.text = @"Poem Title Goes Here";
         poemTitleLabel.tag = 100;
         poemTitleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
         poemTitleLabel.textAlignment = UITextAlignmentLeft;
@@ -158,7 +286,6 @@
         [cell.contentView addSubview:poemTitleLabel];
         
         UILabel *authorNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0f, 30.0f, 230.0f, 20.0f)];
-        authorNameLabel.text = @"By David Sklenar";
         authorNameLabel.tag = 101;
         authorNameLabel.textAlignment = UITextAlignmentLeft;
         authorNameLabel.font = [UIFont systemFontOfSize:12.0f];
@@ -167,7 +294,6 @@
         [cell.contentView addSubview:authorNameLabel];
         
         UILabel *publishedDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0f, 30.0f, 230.0f, 20.0f)];
-        publishedDateLabel.text = @"By David Sklenar";
         publishedDateLabel.tag = 101;
         publishedDateLabel.textAlignment = UITextAlignmentLeft;
         publishedDateLabel.font = [UIFont systemFontOfSize:12.0f];
@@ -175,17 +301,113 @@
         publishedDateLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:authorNameLabel];      
         
-        UIButton *lockUnlockButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        lockUnlockButton.tag = 104;
-        lockUnlockButton.frame = CGRectMake(490, 0.0f, 40.0f, 100.0f);
-        [lockUnlockButton setImage:[UIImage imageNamed:@"dvr_unlocked_icon"] forState:UIControlStateNormal];
-        [lockUnlockButton addTarget:self action:@selector(batchLockOrUnlockAiring:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:lockUnlockButton];
+        UIButton *favoriteUnfavoriteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        favoriteUnfavoriteButton.tag = 104;
+        favoriteUnfavoriteButton.frame = CGRectMake(80.0f, 70.0f, 20.0f, 20.0f);
+        [favoriteUnfavoriteButton setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
+        [favoriteUnfavoriteButton addTarget:self action:@selector(favoriteOrUnfavoritePoem:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:favoriteUnfavoriteButton];
     }
+    
+    PDPoem *poem;
+    
+    if ( tableView == self.searchDisplayController.searchResultsTableView )
+        poem = [self.filteredPoemsArray objectAtIndex:indexPath.row];        
+    else
+        poem = [self.poemsArray objectAtIndex:indexPath.row];
+    
+    [(UILabel *)[cell.contentView viewWithTag:100] setText:poem.title];
+    [(UILabel *)[cell.contentView viewWithTag:101] setText:poem.journalTitle];
+    
+    if ( poem.isFavorite.boolValue )
+        [(UIButton *)[cell.contentView viewWithTag:104] setImage:[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];
+    else
+        [(UIButton *)[cell.contentView viewWithTag:104]  setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
+    
+    
+    if (indexPath.row % 2 == 0 )
+    {
+		cell.contentView.backgroundColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+        cell.backgroundColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+	}
+    else 
+	{
+        cell.contentView.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
+        cell.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
+    }    
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row % 2 == 0 )
+    {
+		cell.contentView.backgroundColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.8f];
+        cell.backgroundColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+	}
+    else 
+	{
+        cell.contentView.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
+        cell.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.8f];
+    }  
+}
+
+
+#pragma mark - UISearchDisplayController delegate methods
+
+- (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope;
+{
+    NSPredicate *resultPredicate = nil;
+    
+    switch ( [self.searchDisplayController.searchBar selectedScopeButtonIndex] ) {
+        case 0:
+        {
+            resultPredicate = [NSPredicate predicateWithFormat:@"SELF.title contains[cd] %@ OR SELF.author contains[cd] %@", searchText, searchText];
+        }
+            break;
+        case 1:
+        {
+            resultPredicate = [NSPredicate predicateWithFormat:@"SELF.title contains[cd] %@", searchText];
+        }
+            break;
+        case 2:
+        {
+            resultPredicate = [NSPredicate predicateWithFormat:@"SELF.author contains[cd] %@", searchText];
+        }
+            break;
+            
+        default:
+            break;
+    }
+
+    self.filteredPoemsArray = [[self.poemsArray filteredArrayUsingPredicate:resultPredicate] mutableCopy];
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString 
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] 
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    
+    return YES;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText;
+{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] 
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+}
+
 
 @end

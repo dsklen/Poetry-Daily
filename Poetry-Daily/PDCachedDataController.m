@@ -145,7 +145,7 @@
         poem.poemBody = [poemAttributesDictionary objectForKey:@"poem"];
         poem.author = [poemAttributesDictionary objectForKey:@"byline"];
         poem.journalTitle = [poemAttributesDictionary objectForKey:@"date"];
-
+        
         block( [NSArray arrayWithObject:poem] );
 
     }];

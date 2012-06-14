@@ -61,7 +61,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"Twitter", @"");
+        self.title = NSLocalizedString(@"News", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"23-bird"];
         _tweetsArray = [NSArray array];
         _pdLogoImage = [[UIImage alloc] init];
