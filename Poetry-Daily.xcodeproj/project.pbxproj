@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B62A65A41599393B007EB20D /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62A65A31599393B007EB20D /* AssetsLibrary.framework */; };
+		B62A65FB15A24FB3007EB20D /* NSURL+DTUnshorten.m in Sources */ = {isa = PBXBuildFile; fileRef = B62A65FA15A24FB3007EB20D /* NSURL+DTUnshorten.m */; };
 		B63176551578224600B12331 /* PDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B63176531578224600B12331 /* PDModel.xcdatamodeld */; };
 		B631765A1578235B00B12331 /* PDPoem.m in Sources */ = {isa = PBXBuildFile; fileRef = B63176591578235B00B12331 /* PDPoem.m */; };
 		B631765C157824F700B12331 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B631765B157824F700B12331 /* CoreData.framework */; };
@@ -64,6 +66,7 @@
 		B697941F158A87DA0031162B /* NSDate+PDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B697941E158A87DA0031162B /* NSDate+PDAdditions.m */; };
 		B6979421158AA3930031162B /* 23-bird.png in Resources */ = {isa = PBXBuildFile; fileRef = B6979420158AA3930031162B /* 23-bird.png */; };
 		B6979458158AA8C00031162B /* PDLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = B6979457158AA8C00031162B /* PDLogo.png */; };
+		B697945A158AB6730031162B /* Kraft_Recycled_Brown_Envelope_160x160.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B6979459158AB6730031162B /* Kraft_Recycled_Brown_Envelope_160x160.jpeg */; };
 		B6CBEEC21582C6F9005AE033 /* PDMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CBEEC01582C6F9005AE033 /* PDMoreViewController.m */; };
 		B6CBEEC31582C6F9005AE033 /* PDMoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6CBEEC11582C6F9005AE033 /* PDMoreViewController.xib */; };
 		B6CBEF001586B69A005AE033 /* PDWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CBEEFF1586B69A005AE033 /* PDWindow.m */; };
@@ -75,6 +78,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B62A65A31599393B007EB20D /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		B62A65F915A24FB3007EB20D /* NSURL+DTUnshorten.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+DTUnshorten.h"; sourceTree = "<group>"; };
+		B62A65FA15A24FB3007EB20D /* NSURL+DTUnshorten.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+DTUnshorten.m"; sourceTree = "<group>"; };
 		B63176541578224600B12331 /* PDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PDModel.xcdatamodel; sourceTree = "<group>"; };
 		B63176581578235B00B12331 /* PDPoem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDPoem.h; sourceTree = "<group>"; };
 		B63176591578235B00B12331 /* PDPoem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDPoem.m; sourceTree = "<group>"; };
@@ -153,6 +159,7 @@
 		B697941E158A87DA0031162B /* NSDate+PDAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+PDAdditions.m"; sourceTree = "<group>"; };
 		B6979420158AA3930031162B /* 23-bird.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "23-bird.png"; sourceTree = "<group>"; };
 		B6979457158AA8C00031162B /* PDLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PDLogo.png; sourceTree = "<group>"; };
+		B6979459158AB6730031162B /* Kraft_Recycled_Brown_Envelope_160x160.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Kraft_Recycled_Brown_Envelope_160x160.jpeg; sourceTree = "<group>"; };
 		B6CBEEBF1582C6F9005AE033 /* PDMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDMoreViewController.h; sourceTree = "<group>"; };
 		B6CBEEC01582C6F9005AE033 /* PDMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDMoreViewController.m; sourceTree = "<group>"; };
 		B6CBEEC11582C6F9005AE033 /* PDMoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDMoreViewController.xib; sourceTree = "<group>"; };
@@ -171,6 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B62A65A41599393B007EB20D /* AssetsLibrary.framework in Frameworks */,
 				B66D4C31157ED20D005830A4 /* MessageUI.framework in Frameworks */,
 				B66D4C1E157EBCFB005830A4 /* Twitter.framework in Frameworks */,
 				B63176A21578342B00B12331 /* QuartzCore.framework in Frameworks */,
@@ -185,6 +193,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B62A65F815A24F83007EB20D /* DTFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				B62A65F915A24FB3007EB20D /* NSURL+DTUnshorten.h */,
+				B62A65FA15A24FB3007EB20D /* NSURL+DTUnshorten.m */,
+			);
+			name = DTFoundation;
+			sourceTree = "<group>";
+		};
 		B63176571578233E00B12331 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +291,7 @@
 		B670F6551534CCB20045906A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B62A65A31599393B007EB20D /* AssetsLibrary.framework */,
 				B66D4C30157ED20D005830A4 /* MessageUI.framework */,
 				B66D4C1D157EBCFB005830A4 /* Twitter.framework */,
 				B63176A11578342B00B12331 /* QuartzCore.framework */,
@@ -359,6 +377,7 @@
 				B66D4C751580209B005830A4 /* lightpaperfibers.png */,
 				B6CBEF07158716C3005AE033 /* logo@2x.png */,
 				B6CBEF09158717EB005AE033 /* logo_iPad.png */,
+				B6979459158AB6730031162B /* Kraft_Recycled_Brown_Envelope_160x160.jpeg */,
 				B6CBEF0515870E1D005AE033 /* more_info_tab_bg@2x.png */,
 				B66D4C7315802024005830A4 /* natural_paper.png */,
 				B66D4C7115801F14005830A4 /* paper.png */,
@@ -397,6 +416,7 @@
 		B6919A65156F00F800DA70C2 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				B62A65F815A24F83007EB20D /* DTFoundation */,
 				B6CBEF0B1587FA78005AE033 /* FlurryAnalytics */,
 				B66D4C26157ED0F7005830A4 /* SVWebViewController */,
 				B66D4BDD157D69A6005830A4 /* iCarousel */,
@@ -508,6 +528,7 @@
 				B6CBEF0A158717EB005AE033 /* logo_iPad.png in Resources */,
 				B6979421158AA3930031162B /* 23-bird.png in Resources */,
 				B6979458158AA8C00031162B /* PDLogo.png in Resources */,
+				B697945A158AB6730031162B /* Kraft_Recycled_Brown_Envelope_160x160.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,6 +565,7 @@
 				B6CBEEC21582C6F9005AE033 /* PDMoreViewController.m in Sources */,
 				B6CBEF001586B69A005AE033 /* PDWindow.m in Sources */,
 				B697941F158A87DA0031162B /* NSDate+PDAdditions.m in Sources */,
+				B62A65FB15A24FB3007EB20D /* NSURL+DTUnshorten.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
