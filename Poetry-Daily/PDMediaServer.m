@@ -103,11 +103,9 @@
     
     [mutableParams setObject:@"json" forKey:@"encoder"];
     
-//    NSMutableString *URLString = [NSMutableString stringWithString:@"http://poems.com/"];
+    NSMutableString *URLString = [NSMutableString stringWithString:@"http://poems.com/"];
     
-    NSMutableString *URLString = [NSMutableString stringWithString:@"http://lawlmart.com/pd"];
-
-    [URLString appendFormat:@"/%@?", command];
+    [URLString appendFormat:@"/%@.php?", command];
     [mutableParams enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) { [URLString appendFormat:@"&%@=%@", key, obj]; }];
     
     NSURL *URL = [NSURL URLWithString:URLString];
@@ -159,7 +157,6 @@
         _operationQueue = [[NSOperationQueue alloc] init];
         _operationQueue.maxConcurrentOperationCount = 4;
                 
-#warning Add authentication as necessary here.
         _username = [NSString stringWithFormat:@"poems"];
         _password = [NSString stringWithFormat:@"all_day"];
         
