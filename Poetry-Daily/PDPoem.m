@@ -11,9 +11,11 @@
 
 @implementation PDPoem
 
-#pragma mark Properties
+
+#pragma mark - Properties
 
 @dynamic author;
+@dynamic authorImageData;
 @dynamic isFavorite;
 @dynamic journalTitle;
 @dynamic poemBody;
@@ -21,7 +23,31 @@
 @dynamic publishedDate;
 @dynamic title;
 
-#pragma mark API
+- (UIImage *)authorImage;
+{
+    UIImage *image = [UIImage imageWithData:self.authorImageData];
+    
+    // Return a placeholder image if the real avatar hasn't been set or
+    // isn't available.
+    
+    // TODO: specify user avatar default.
+    
+    if ( image == nil )
+        image = [UIImage imageNamed:@"plumlystanley.jpeg"];
+    
+    return image;
+}
+
+- (void)setAuthorImage:(UIImage *)authorImage;
+{
+    // If you're using this method, keep in mind you will probably get better
+    // performance if you use setAvatarData: directly (assuming you're not
+    // dealing with an existing UIImage).
+    
+    [self setAuthorImageData:UIImagePNGRepresentation( authorImage )];
+}
+
+#pragma mark - API
 
 + (PDPoem *)fetchOrCreatePoemWithID:(NSString *)poemID;
 {

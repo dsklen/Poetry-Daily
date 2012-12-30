@@ -13,7 +13,9 @@
 #import "SVWebViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Twitter/Twitter.h>
+
 #import "SVProgressHUD.h"
+#import "NSURL+DTUnshorten.h"
 
 @interface PDTwitterViewController ()
 
@@ -156,14 +158,50 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    
-    PDTweet *tweet = [self.tweetsArray objectAtIndex:indexPath.row];
 
+        
+    PDTweet *tweet = [self.tweetsArray objectAtIndex:indexPath.row];
+    
+    if ( tweet.urlEntityString.length == 0)
+        return;
+    
+    [SVProgressHUD showWithStatus:@"Checking Archive..."];
+    
     NSURL *URL = [NSURL URLWithString:tweet.urlEntityString];
-	SVWebViewController *webViewController = [[SVWebViewController alloc] initWithURL:URL];
-    webViewController.hidesBottomBarWhenPushed = YES;
-	[self.navigationController pushViewController:webViewController animated:YES];
+    __block UIAlertView *alert = nil;
+    
+    [URL unshortenWithCompletion:^(NSURL *url) {
+        
+        NSLog(@"String URL Found to be: %@", url.absoluteString);
+        
+        if ( url != nil )
+        {
+            [SVProgressHUD dismiss];
+            
+            if ( [url.absoluteString isEqualToString:@"http://poems.com/today.php"])
+            {
+                alert = [[UIAlertView alloc] initWithTitle:@"Open Poem" message:@"Would you like to see today's poem?" delegate:self cancelButtonTitle:@"Not now" otherButtonTitles:@"Yes", nil];
+                alert.tag = 1;
+                [alert show];
+            }
+            else if ( [url.absoluteString rangeOfString:@"poem.php?date"].location != NSNotFound )
+            {
+                NSString *messageString = [NSString stringWithFormat:@"Would you like to see this poem?"];
+                alert = [[UIAlertView alloc] initWithTitle:@"Open Poem" message:messageString delegate:self cancelButtonTitle:@"Not now" otherButtonTitles:@"Yes", nil];
+                alert.tag = 2;
+                [alert show];
+            }
+            else
+            {
+                SVWebViewController *webViewController = [[SVWebViewController alloc] initWithURL:url];
+                [self.navigationController pushViewController:webViewController animated:YES];
+            }
+        }
+        else
+        {
+            [SVProgressHUD dismissWithError:@"Not found"];
+        }
+    }];
 }
 
 
@@ -219,7 +257,7 @@
         tweeterScreennameLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:tweeterScreennameLabel];
         
-        UILabel *publishedDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(270.0f, 5.0f, 45.0f, 20.0f)];
+        UILabel *publishedDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(265.0f, 5.0f, 50.0f, 20.0f)];
         publishedDateLabel.tag = 102;
         publishedDateLabel.textAlignment = UITextAlignmentLeft;
         publishedDateLabel.font = [UIFont systemFontOfSize:12.0f];
@@ -282,7 +320,6 @@
     UILabel *tweeterNameLabel = (UILabel *)[cell.contentView viewWithTag:100];
     tweeterNameLabel.text = tweet.nameString;
     
-    
     UILabel *tweeterScreenNameLabel = (UILabel *)[cell.contentView viewWithTag:101];
     tweeterScreenNameLabel.text = [NSString stringWithFormat:@"@%@", tweet.nameString];
     
@@ -337,11 +374,17 @@
     UIImageView *logoImageView = (UIImageView *)[cell.contentView viewWithTag:99];
     logoImageView.image = self.pdLogoImage;
     
-    if (tweet.urlEntityString.length > 0)
-        cell.accessoryType = UITableViewCellAccessoryNone;
+    if ( tweet.urlEntityString.length > 0)
+    {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    }
     else
+    {
         cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
+    }
     return cell;
 }
 

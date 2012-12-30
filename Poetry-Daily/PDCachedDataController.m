@@ -26,6 +26,7 @@
 - (void)purge:(NSTimer *)aTimer;
 
 - (void)updatePoemWithID:(NSString *)poemID completionBlock:(PDCacheUpdateBlock)block;
+- (void)updatePoemArchiveWithExistingObjects:(NSArray *)existingPoems completionBlock:(PDCacheUpdateBlock)block;
 
 @end
 
@@ -115,9 +116,9 @@
          case PDServerCommandPoem:
              [self updatePoemWithID:[info objectForKey:PDPoemKey] completionBlock:block];
              break;
-//         case TVServerCommandSearch:
-//             [self updateSearchResults:[info objectForKey:TVSearchStringKey] existingObjects:results completionBlock:block];
-//             break;  
+         case PDServerCommandAllPoems:
+             [self updatePoemArchiveWithExistingObjects:results completionBlock:block];
+             break;  
 //         ....etc.
      }
     
@@ -132,7 +133,7 @@
         
         if ( error != nil && items == nil )
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"SetUpErrorHandlingNotificationHhere" object:error];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SetUpErrorHandlingNotificationHere" object:error];
             return;
         }
     
@@ -141,10 +142,10 @@
         NSDictionary *poemAttributesDictionary = [items lastObject];
 
         poem.poemID = poemID;
-        poem.title = [poemAttributesDictionary objectForKey:@"book_title"];
-        poem.poemBody = [poemAttributesDictionary objectForKey:@"poem"];
-        poem.author = [poemAttributesDictionary objectForKey:@"byline"];
-        poem.journalTitle = [poemAttributesDictionary objectForKey:@"date"];
+        poem.title = [poemAttributesDictionary objectForKey:@"title"];
+        poem.poemBody = [poemAttributesDictionary objectForKey:@"text"];
+        poem.author = [NSString stringWithFormat:@"%@ %@", [poemAttributesDictionary objectForKey:@"poetFN"], [poemAttributesDictionary objectForKey:@"poetLN"]];;
+        poem.journalTitle = [poemAttributesDictionary objectForKey:@"jName"];
         
         block( [NSArray arrayWithObject:poem] );
 
@@ -152,6 +153,75 @@
 }
 
 
+- (void)updatePoemArchiveWithExistingObjects:(NSArray *)existingPoems completionBlock:(PDCacheUpdateBlock)block;
+{
+    PDMediaServer *server = [[PDMediaServer alloc] init];
+    
+    [server fetchPoemArchiveWithBlock:^(NSArray *items, NSError *error) {
+       
+        if ( error != nil && items == nil )
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SetUpErrorHandlingNotificationHere" object:error];
+            return;
+        }
+        
+        NSArray *allPoems = [items lastObject];
+        NSMutableArray *updatedPoems = [[NSMutableArray alloc] init];
+        NSMutableArray *imagesToFetch = [[NSMutableArray alloc] init];
+        NSMutableDictionary *poemsToFetchImages = [[NSMutableDictionary alloc] init];
+
+        for ( NSDictionary *poemDescriptionDictionary in allPoems )
+        {
+            NSString *poemID = [[poemDescriptionDictionary allKeys] lastObject];
+            NSDictionary *poemAttributesDictionary = [poemDescriptionDictionary objectForKey:poemID];
+            
+            PDPoem *poem = [PDPoem fetchOrCreatePoemWithID:poemID];
+            
+            poem.poemID = poemID;
+            
+            PDMediaServer *server = [[PDMediaServer alloc] init];
+            
+            poem.publishedDate = [server dateFromPoemID:poemID];
+            poem.title = [poemAttributesDictionary objectForKey:@"title"];
+            poem.author = [poemAttributesDictionary objectForKey:@"poetname"];
+            
+            NSString *imageAddress = [poemAttributesDictionary objectForKey:@"pImage"];
+            
+            if ( poem.authorImageData == nil && [imageAddress length] > 0  )
+            {
+                [poemsToFetchImages setObject:poem forKey:imageAddress];
+                [imagesToFetch addObject:imageAddress];
+            }
+            
+            [updatedPoems addObject:poem];
+        }
+        
+        block( updatedPoems );
+
+        [server fetchPoetImagesWithStrings:imagesToFetch block:^(NSArray *items, NSError *error) {
+            
+            [items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                
+//                if ( [obj ] == 0 )
+//                    return;
+                
+                NSString *address = [imagesToFetch objectAtIndex:idx];
+                PDPoem *poem = (PDPoem *)[poemsToFetchImages objectForKey:address];
+                
+                if ( obj != [NSNull null] )
+                    poem.authorImageData = obj;
+                
+//                NSError *error = nil;
+//                if ( ![self.backgroundContext save:&error] )
+//                    NSLog( @"Core Data save failed" );
+                
+            }];
+            
+            block( updatedPoems );
+        }];
+
+    }];
+}
 
 #pragma mark Private API
 
@@ -187,7 +257,7 @@
     NSError *error = nil;
     NSLog( @"Beginning autosave operation..." );
     
-    [SVProgressHUD showWithStatus:NSLocalizedString( @"Saving Cache…", @"" ) maskType:SVProgressHUDMaskTypeBlack networkIndicator:YES];
+//    [SVProgressHUD showWithStatus:NSLocalizedString( @"Saving Cache…", @"" ) maskType:SVProgressHUDMaskTypeBlack networkIndicator:YES];
     
     
     if ( ![self.context save:&error] && error != nil ) 
@@ -196,7 +266,7 @@
         NSLog( @"Cache autosave finished." );
     
     
-    [SVProgressHUD dismissWithSuccess:NSLocalizedString( @"Cache saved", @"" )];
+//    [SVProgressHUD dismissWithSuccess:NSLocalizedString( @"Cache saved", @"" )];
     
     self.autosaveTimer = nil;
 }

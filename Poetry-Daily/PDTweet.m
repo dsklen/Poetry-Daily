@@ -36,8 +36,8 @@
         self.retweetCount = [[JSONObject objectForKey:@"retweet_count"] integerValue];
         
         if ( [[JSONObject objectForKey:@"entities"] objectForKey:@"urls"] )
-            if ( [[[JSONObject objectForKey:@"entities"] objectForKey:@"urls"] objectAtIndex:0] )
-                self.urlEntityString = [[[[JSONObject objectForKey:@"entities"] objectForKey:@"urls"] objectAtIndex:0] objectForKey:@"url"];
+          if ( [[[JSONObject objectForKey:@"entities"] objectForKey:@"urls"] lastObject] )
+              self.urlEntityString = [[[[JSONObject objectForKey:@"entities"] objectForKey:@"urls"] lastObject] objectForKey:@"url"];
     }
 
     return self;

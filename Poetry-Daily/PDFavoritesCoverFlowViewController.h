@@ -13,7 +13,7 @@
 @interface PDFavoritesCoverFlowViewController : UIViewController <iCarouselDataSource, iCarouselDelegate>
 
 @property(strong, nonatomic) IBOutlet iCarousel *carousel;
-@property(strong, nonatomic) NSMutableArray *favorites;
+@property(strong, nonatomic) NSMutableArray *poems;
 
 
 @end

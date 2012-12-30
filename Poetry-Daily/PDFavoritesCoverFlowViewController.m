@@ -9,10 +9,14 @@
 #import "PDFavoritesCoverFlowViewController.h"
 #import "PDFavoriteView.h"
 #import "PDFavoritesCoverFlowViewController.h"
+#import "PDPoem.h"
+#import "PDCachedDataController.h"
+#import "PDConstants.h"
 
 #define ITEM_SIZE 200.0f
 
 @interface PDFavoritesCoverFlowViewController ()
+
 - (void)reloadData;
 - (void)loadMediaItems:(NSArray *)newItems;
 
@@ -21,12 +25,13 @@
 @implementation PDFavoritesCoverFlowViewController
 
 
-#pragma mark Properties
+#pragma mark - Properties
 
 @synthesize carousel = _carousel;
-@synthesize favorites = _favorites;
+@synthesize poems = _poems;
 
-#pragma mark Private API
+
+#pragma mark - Private API
 
 - (void)reloadData;
 {
@@ -50,6 +55,8 @@
 {
     
 }
+
+
 
 #pragma mark View Lifecycle
 
@@ -77,8 +84,30 @@
     self.carousel.contentOffset = CGSizeMake( 0.0f, 0.0f );
 
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];    
+        
+    // Load all poems and update from server.
     
-
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Poem"];
+    
+    NSMutableDictionary *serverInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [serverInfo setObject:[NSNumber numberWithInteger:PDServerCommandAllPoems] forKey:PDServerCommandKey];
+    
+    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults) {
+        
+        self.poems = [newResults mutableCopy];
+        
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"publishedDate" ascending:NO];
+        [self.poems sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+        
+        [self.carousel reloadData];
+    }];
+    
+    self.poems = [items mutableCopy];
+    
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"publishedDate" ascending:NO];
+    [self.poems sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+    
+    [self.carousel reloadData];
 }
 
 - (void)viewDidUnload
@@ -96,12 +125,11 @@
 }
 
 
-
 #pragma mark iCarouselDataSource
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
 {
-    return 10; // [self.favorites count];
+    return [self.poems count];
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
@@ -109,7 +137,7 @@
 	if ( view == nil )
         view = [[PDFavoriteView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, ITEM_SIZE, ITEM_SIZE + 30.0f )];
     
-//    ((PDFavoriteView *)view).mediaItem = [self.favorites objectAtIndex:index];
+    ((PDFavoriteView *)view).poem = [self.poems objectAtIndex:index];
     
 	return view;
 }   

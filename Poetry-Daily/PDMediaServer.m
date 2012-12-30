@@ -35,8 +35,8 @@
  * e.g.
  */
 
- - (void)fetchPoemWithID:(NSString *)poemID block:(PDFetchBlock)block;
- {
+- (void)fetchPoemWithID:(NSString *)poemID block:(PDFetchBlock)block;
+{
      NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
      
      NSError *error = nil;
@@ -44,7 +44,7 @@
          
     [params setObject:poemID forKey:@"date"];
           
-     NSDictionary *JSON = [self JSONForCommand:@"poem.php" parameters:params error:&error];
+     NSDictionary *JSON = [self JSONForCommand:@"iphone" parameters:params error:&error];
      
      dispatch_async( dispatch_get_main_queue(), ^{
      
@@ -56,6 +56,64 @@
      }];
      
      [self.operationQueue addOperation:fetch];
+}
+
+- (void)fetchPoemArchiveWithBlock:(PDFetchBlock)block;
+{
+    NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
+        
+        NSError *error = nil;
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                
+        NSDictionary *JSON = [self JSONForCommand:@"iphoneArchive" parameters:params error:&error];
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            
+            if ( JSON == nil && error != nil )
+                block( nil, error );
+            else
+                block( [NSArray arrayWithObject:JSON], nil );
+        });
+    }];
+    
+    [self.operationQueue addOperation:fetch];
+}
+
+- (void)fetchPoetImagesWithStrings:(NSArray *)strings block:(PDFetchBlock)block;
+{
+    NSParameterAssert( strings != nil );
+    NSParameterAssert( block != nil );
+    
+    NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
+        
+        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:[strings count]];
+        NSError *error = nil;
+        
+        for ( NSString *address in strings )
+        {
+            NSURL *URL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://poems.com/images/_poets/%@", address]];
+            
+            NSLog(@"Fetching Image at URL: %@", [URL absoluteString] );
+            NSError *error = nil;
+            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+            NSHTTPURLResponse *response = nil;
+            
+            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            if ( data == nil )
+                data = (id)[NSNull null];            
+            
+            [results addObject:data];
+        }
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            block( results, error );
+        });
+    }];
+    
+//    [fetch setQueuePriority:NSOperationQueuePriorityLow];
+    
+    [self.operationQueue addOperation:fetch];
 }
 
 - (void)fetchArbitraryImagesWithURLs:(NSArray *)URLs block:(PDFetchBlock)block;
@@ -79,7 +137,7 @@
             UIImage *image = [[UIImage alloc] initWithData:data];
             
             if ( image == nil )
-                image = (id)[NSNull null];            
+                image = (id)[NSNull null];
             
             [results addObject:image];
         }
@@ -101,9 +159,9 @@
     
     NSMutableDictionary *mutableParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
     
-    [mutableParams setObject:@"json" forKey:@"encoder"];
+//    [mutableParams setObject:@"json" forKey:@"encoder"];
     
-    NSMutableString *URLString = [NSMutableString stringWithString:@"http://poems.com/"];
+    NSMutableString *URLString = [NSMutableString stringWithString:@"http://poems.com"];
     
     [URLString appendFormat:@"/%@.php?", command];
     [mutableParams enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) { [URLString appendFormat:@"&%@=%@", key, obj]; }];
@@ -138,9 +196,18 @@
     NSDate *referenceDate = [NSDate dateWithTimeIntervalSince1970:1269881100.0f];
     
     int difference = (int)[date timeIntervalSinceDate:referenceDate];
-    int poemIDInt = difference / 60 /60 /24 + 14698;
+    int poemIDInt = difference / 60 / 60 / 24 + 14698;
         
     return [NSString stringWithFormat:@"%i", poemIDInt];
+}
+
+- (NSDate *)dateFromPoemID:(NSString *)poemID;
+{
+    int intPoemID = [poemID intValue];
+    int difference = (intPoemID - 14698 ) * 60 * 60 * 24 ;
+    NSDate *referenceDate = [NSDate dateWithTimeIntervalSince1970:1269881100.0f];
+
+    return [referenceDate dateByAddingTimeInterval: difference];
 }
 
 - (NSString *)poemIDForToday;

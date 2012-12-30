@@ -61,19 +61,16 @@
         self.tabBarController = [[UITabBarController alloc] init];
         self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, viewController3, viewController4, nil];
         
-        [self.tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:@"tab_bg"]];
+    //    [self.tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:@"tab_bg"]];
         [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor darkGrayColor]];
         
         self.window.rootViewController = self.tabBarController;
         [self.window makeKeyAndVisible];
         
 
-        }];
+    }];
     
-    
-        [FlurryAnalytics startSession:@"RCE71QKU7J9GWWHSN67D"];
-    
-    
+    [FlurryAnalytics startSession:@"RCE71QKU7J9GWWHSN67D"];
     
     return YES;
 }
