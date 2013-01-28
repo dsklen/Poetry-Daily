@@ -3,6 +3,8 @@
     <entity name="Poem" representedClassName="PDPoem" syncable="YES">
         <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="authorImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="authorImageURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasAttemptedDownload" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="journalTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poemBody" optional="YES" attributeType="String" syncable="YES"/>
@@ -11,6 +13,6 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Poem" positionX="160" positionY="192" width="128" height="165"/>
+        <element name="Poem" positionX="160" positionY="192" width="128" height="195"/>
     </elements>
 </model>

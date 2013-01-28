@@ -12,11 +12,14 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PDCachedDataController.h"
 #import "PDMainPoemViewController.h"
+#import "PDMediaServer.h"
 
 @interface PDBrowseAllPoemsViewController ()
 - (void)orientationChanged:(NSNotification *)notification;
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope;
 - (IBAction)sortPoems:(id)sender;
+
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @end
 
@@ -80,7 +83,7 @@
     }
     
     if ( [self.poemsArray count] > 0 )
-        [self.poemsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.poemsTableView reloadData];
 }
 
 - (IBAction)favoriteOrUnfavoritePoem:(id)sender;
@@ -171,6 +174,10 @@
 
     [self.poemsTableView reloadData];
     
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    self.dateFormatter = dateFormatter;
     
     
     // Add sorting segmented control.
@@ -204,6 +211,7 @@
                                              selector:@selector(orientationChanged:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+
 
 }
 
@@ -372,12 +380,40 @@
     [(UILabel *)[cell.contentView viewWithTag:100] setText:poem.title];
     [(UILabel *)[cell.contentView viewWithTag:101] setText:poem.author];
     
-    [(UIImageView *)[cell.contentView viewWithTag:99] setImage:poem.authorImage];
+    if ( poem.authorImageData.length > 0 && poem.hasAttemptedDownload )
+    {
+        [(UIImageView *)[cell.contentView viewWithTag:99] setImage:poem.authorImage];
+    }
+    else
+    {
+        [(UIImageView *)[cell.contentView viewWithTag:99] setImage:[UIImage imageNamed:@"default-avatar"]];
+        
+        if ( poem.authorImageURLString.length > 0)
+        {
+            PDMediaServer *server = [[PDMediaServer alloc] init];
+            
+            [server fetchPoetImagesWithStrings:@[poem.authorImageURLString] block:^(NSArray *items, NSError *error) {
+                
+                if ( items && !error )
+                {
+                    NSData *newImageData = items[0];
+                    
+                    poem.authorImageData = newImageData;
+                    [(UIImageView *)[cell.contentView viewWithTag:99] setImage:poem.authorImage];
+                    
+                    poem.hasAttemptedDownload = YES;
+                }
+                else
+                {
+                    poem.hasAttemptedDownload = NO;
+                }
+                
+            }];
+        }
+    }
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    [(UILabel *)[cell.contentView viewWithTag:102] setText:[dateFormatter stringFromDate:poem.publishedDate]];
+
+    [(UILabel *)[cell.contentView viewWithTag:102] setText:[self.dateFormatter stringFromDate:poem.publishedDate]];
 
     if ( poem.isFavorite.boolValue )
         [(UIButton *)[cell.contentView viewWithTag:104] setImage:[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];

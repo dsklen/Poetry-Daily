@@ -187,6 +187,8 @@
             
             NSString *imageAddress = [poemAttributesDictionary objectForKey:@"pImage"];
             
+            poem.authorImageURLString = imageAddress;
+            
             if ( poem.authorImageData == nil && [imageAddress length] > 0  )
             {
                 [poemsToFetchImages setObject:poem forKey:imageAddress];
@@ -198,27 +200,27 @@
         
         block( updatedPoems );
 
-        [server fetchPoetImagesWithStrings:imagesToFetch block:^(NSArray *items, NSError *error) {
-            
-            [items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                
-//                if ( [obj ] == 0 )
-//                    return;
-                
-                NSString *address = [imagesToFetch objectAtIndex:idx];
-                PDPoem *poem = (PDPoem *)[poemsToFetchImages objectForKey:address];
-                
-                if ( obj != [NSNull null] )
-                    poem.authorImageData = obj;
-                
-//                NSError *error = nil;
-//                if ( ![self.backgroundContext save:&error] )
-//                    NSLog( @"Core Data save failed" );
-                
-            }];
-            
-            block( updatedPoems );
-        }];
+//        [server fetchPoetImagesWithStrings:imagesToFetch block:^(NSArray *items, NSError *error) {
+//            
+//            [items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//                
+////                if ( [obj ] == 0 )
+////                    return;
+//                
+//                NSString *address = [imagesToFetch objectAtIndex:idx];
+//                PDPoem *poem = (PDPoem *)[poemsToFetchImages objectForKey:address];
+//                
+//                if ( obj != [NSNull null] )
+//                    poem.authorImageData = obj;
+//                
+////                NSError *error = nil;
+////                if ( ![self.backgroundContext save:&error] )
+////                    NSLog( @"Core Data save failed" );
+//                
+//            }];
+//            
+//            block( updatedPoems );
+//        }];
 
     }];
 }

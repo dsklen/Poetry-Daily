@@ -7,7 +7,10 @@
 //
 
 #import "AFRESTClient.h"
+#import "AFIncrementalStore.h"
 
-@interface PDAPIClient : AFRESTClient
+@interface PDAPIClient :AFRESTClient <AFIncrementalStoreHTTPClient>
+
++ (PDAPIClient *)sharedClient;
 
 @end
