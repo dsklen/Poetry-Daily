@@ -85,7 +85,6 @@
                     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
                     self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
                     
-                    
                     if ( poem.authorImageURLString.length > 0)
                     {
                         PDMediaServer *server = [[PDMediaServer alloc] init];
@@ -106,13 +105,7 @@
                             }
                             
                         }];
-                    }
-
-                    
-                    
-                    
-                    
-                    
+                    }   
                     
                     self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );         
                     self.todaysPoemLabel.hidden = !( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );

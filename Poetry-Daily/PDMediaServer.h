@@ -19,6 +19,7 @@ typedef void (^PDFetchBlock)(NSArray *items, NSError *error);
 @interface PDMediaServer : NSObject <NSURLConnectionDelegate>
 
 @property(strong) NSOperationQueue *operationQueue;
+@property(strong) NSOperationQueue *poemOperationQueue;
 @property(strong) NSString *username;
 @property(strong) NSString *password;
 

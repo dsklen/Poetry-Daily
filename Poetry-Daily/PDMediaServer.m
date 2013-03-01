@@ -24,6 +24,7 @@
 #pragma mark Properties
 
 @synthesize operationQueue = _operationQueue;
+@synthesize poemOperationQueue = _poemOperationQueue;
 @synthesize username = _username;
 @synthesize password = _password;
 
@@ -54,8 +55,9 @@
         block( [NSArray arrayWithObject:JSON], nil );
         });
      }];
-     
-     [self.operationQueue addOperation:fetch];
+    
+    [self.poemOperationQueue cancelAllOperations];
+    [self.poemOperationQueue addOperation:fetch];
 }
 
 - (void)fetchPoemArchiveWithBlock:(PDFetchBlock)block;
@@ -223,7 +225,10 @@
     {
         _operationQueue = [[NSOperationQueue alloc] init];
         _operationQueue.maxConcurrentOperationCount = 4;
-                
+        
+        _poemOperationQueue = [[NSOperationQueue alloc] init];
+        _poemOperationQueue.maxConcurrentOperationCount = 1;
+
         _username = [NSString stringWithFormat:@"poems"];
         _password = [NSString stringWithFormat:@"all_day"];
         

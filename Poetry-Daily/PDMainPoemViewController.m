@@ -40,7 +40,7 @@
     
     if ( currentPoem.poemBody.length == 0 )
     {
-        [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
+//        [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
 
         [serverInfo setObject:[NSNumber numberWithInteger:PDServerCommandPoem] forKey:PDServerCommandKey];
     }
@@ -72,13 +72,17 @@
             
             NSString *loadingStyle =  @"<html><head><style type=\"text/css\"> body {font-size: 484px; white-space:normal; padding:15px; margin:8px;width:100px;}</style></head><body>";
             
-            NSString *formatedHTML = [NSString stringWithFormat:@"%@%@%@", ( currentPoem.poemBody.length > 0 ) ? style : loadingStyle, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @"Loading..."  , @"</body></html>"];
+            if ( currentPoem.poemBody.length > 0 )
+                [SVProgressHUD showWithStatus:NSLocalizedString( @"Loading...", @"" )];
             
+            NSString *formatedHTML = [NSString stringWithFormat:@"%@%@%@", ( currentPoem.poemBody.length > 0 ) ? style : loadingStyle, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""  , @"</body></html>"];
             
             [self.webView loadHTMLString:formatedHTML baseURL:nil];
             NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
             [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
             
+//            [SVProgressHUD dismiss];
+
             self.poemTitleLabel.text = poem.title;
             self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
             
@@ -103,8 +107,10 @@
         else {
             style = @"<html><head><style type=\"text/css\"> body {font-size: 40px; white-space:normal; padding:5px; margin:8px;width:800px;}</style></head><body>";
         }
+        if ( currentPoem.poemBody.length == 0 )
+            [SVProgressHUD showWithStatus:NSLocalizedString( @"Loading", @"" )];
         
-        NSString *formatedHTML = [NSString stringWithFormat:@"%@%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @"Loading..."  , @"</body></html>"];        
+        NSString *formatedHTML = [NSString stringWithFormat:@"%@%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""  , @"</body></html>"];
         
         [self.webView loadHTMLString:formatedHTML baseURL:nil];
         NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
@@ -113,7 +119,8 @@
         self.poemTitleLabel.text = poem.title;
         self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
         
-        [SVProgressHUD dismiss];
+        if ( currentPoem.poemBody.length > 0 )
+            [SVProgressHUD dismiss];
     }
 }
 
