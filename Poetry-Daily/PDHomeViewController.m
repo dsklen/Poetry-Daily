@@ -213,10 +213,7 @@
         [self.poemInformationWebView loadHTMLString:HTML baseURL:nil];
 
     }
-    
-    
-    
- 
+     
     NSString *resize = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
     [self.poemInformationWebView stringByEvaluatingJavaScriptFromString:resize];
 }
