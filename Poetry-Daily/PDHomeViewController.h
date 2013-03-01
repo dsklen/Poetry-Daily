@@ -20,6 +20,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *readPoemButton;
 @property (strong, nonatomic) IBOutlet UIButton *showPreviousDayButton;
 @property (strong, nonatomic) IBOutlet UIButton *showNextDayButton;
+@property (strong, nonatomic) IBOutlet UILabel *todaysPoemLabel;
+@property (strong, nonatomic) IBOutlet UIWebView *poemInformationWebView;
 
 - (IBAction)showMainPoemView:(id)sender;
 - (IBAction)fetchRandomPoem:(id)sender;

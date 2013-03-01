@@ -8,7 +8,7 @@
 
 #import "PDFavoriteView.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "PDPoem.h"
 
 @implementation PDFavoriteView
 
@@ -20,6 +20,20 @@
 @synthesize publishedDateLabel = _publishedDateLabel;
 @synthesize favoriteButton = _favoriteButton;
 
+
+- (void)setPoem:(PDPoem *)poem;
+{
+    self.thumbnailImageView.image = poem.authorImage;
+    self.titleLabel.text = poem.title;
+    self.authorLabel.text = poem.author;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    self.publishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
+
+    [self setNeedsDisplay];
+}
 
 #pragma mark - API
 
@@ -42,7 +56,7 @@
     if (self) 
     {
         _thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake( 27.5f, 0.0f, 145.0f, 200.0f )];
-        _thumbnailImageView.image = [UIImage imageNamed:@"plumlystanley.jpeg"];
+//        _thumbnailImageView.image = [UIImage imageNamed:@"plumlystanley.jpeg"];
         _thumbnailImageView.clipsToBounds = YES;
         _thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
         _thumbnailImageView.userInteractionEnabled = NO;

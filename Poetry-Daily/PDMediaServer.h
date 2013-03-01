@@ -27,9 +27,12 @@ typedef void (^PDFetchBlock)(NSArray *items, NSError *error);
  */
 
 - (void)fetchPoemWithID:(NSString *)poemID block:(PDFetchBlock)block;
+- (void)fetchPoemArchiveWithBlock:(PDFetchBlock)block;
+- (void)fetchPoetImagesWithStrings:(NSArray *)strings block:(PDFetchBlock)block;
 - (void)fetchArbitraryImagesWithURLs:(NSArray *)URLs block:(PDFetchBlock)block;
 
 - (NSString *)poemIDFromDate:(NSDate *)date;
+- (NSDate *)dateFromPoemID:(NSString *)poemID;
 
 - (NSDictionary *)JSONForCommand:(NSString *)command parameters:(NSDictionary *)parameters timeout:(NSTimeInterval)timeout error:(NSError *__autoreleasing *)error;
 - (NSDictionary *)JSONForCommand:(NSString *)command parameters:(NSDictionary *)parameters error:(NSError *__autoreleasing *)error;

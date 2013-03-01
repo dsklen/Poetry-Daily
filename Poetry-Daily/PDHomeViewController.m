@@ -19,6 +19,9 @@
 @interface PDHomeViewController ()
 
 - (void)showPoemForDay:(NSDate *)date;
+- (void)swipePreviousDay:(UISwipeGestureRecognizer *)swipeGesture;
+- (void)swipeNextDay:(UISwipeGestureRecognizer *)swipeGesture;
+- (void)updatePoemInformationForPoem:(PDPoem *)poem animated:(BOOL)animated;
 
 @end
 
@@ -42,24 +45,10 @@
 - (IBAction)showMainPoemView:(id)sender;
 {
     PDMainPoemViewController *mainViewController = [[PDMainPoemViewController alloc] initWithNibName:@"PDMainPoemViewController" bundle:nil];
-    
-    
-    NSString *style = nil;
-
-	if ([self.currentPoem.poemBody rangeOfString:@"<!--prose-->"].location == NSNotFound) {
-		style = @"<html><head><style type=\"text/css\"> body {font-size: 40px; white-space:normal; padding:5px; margin:8px; width:800px;}</style></head><body>";
-	}
-	else {
-		style = @"<html><head><style type=\"text/css\"> body {font-size: 40px; white-space:normal; padding:5px; margin:8px;width:800px;}</style></head><body>";
-	}
-	
-	NSString *formatedHTML = [NSString stringWithFormat:@"%@%@%@", style, self.currentPoem.poemBody , @"</body></html>"];
-    
+     
     [self.navigationController pushViewController:mainViewController animated:YES];
-    [mainViewController.webView loadHTMLString:formatedHTML baseURL:nil];
-    
-    NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
-    [mainViewController.webView stringByEvaluatingJavaScriptFromString:newHtml];
+
+    [mainViewController setCurrentPoem:self.currentPoem];
 }
 
 
@@ -67,8 +56,6 @@
 
 - (void)showPoemForDay:(NSDate *)date;
 {
-    [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
-
     PDMediaServer *server = [[PDMediaServer alloc] init];
     NSString *poemID = [server poemIDFromDate:date];
 
@@ -81,44 +68,83 @@
     request.predicate = [NSPredicate predicateWithFormat:@"SELF.poemID == %@", poemID];
     request.fetchLimit = 1;
     
-    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request
-                                                                      serverInfo:serverInfo 
-                                                                cacheUpdateBlock:^(NSArray *newResults) {
+    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults) {
                                                                     
-                                                                    PDPoem *poem = [newResults lastObject];
-                                                                    
-                                                                    if ( poem )
-                                                                    {
-                                                                        poem.publishedDate = date;
-                                                                        self.currentPoem = poem;
-                                                                        self.poemTitleLabel.text = poem.title;
-                                                                        self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
-                                                                        self.poemPublishedDateLabel.text = poem.journalTitle;
-                                                                        
-                                                                        NSLog(@"%f", [date timeIntervalSinceDate:[NSDate charlottesvilleDate]]);
-                                                                        
-                                                                        self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );         
+                PDPoem *poem = [newResults lastObject];
+        
+//                if ( ![self.currentPoem.poemID isEqualToString:poem.poemID] ) return;
+        
+                if ( poem )
+                {
+                    [self updatePoemInformationForPoem:poem animated:NO];
+                    
+                    _currentPoem = poem;
+                    
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+                    [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+                    self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
+                    
+                    
+                    if ( poem.authorImageURLString.length > 0)
+                    {
+                        PDMediaServer *server = [[PDMediaServer alloc] init];
+                        
+                        [server fetchPoetImagesWithStrings:@[poem.authorImageURLString] block:^(NSArray *items, NSError *error) {
+                            
+                            if ( items && !error )
+                            {
+                                NSData *newImageData = items[0];
+                                poem.authorImageData  = newImageData;
+                                self.poemAuthorImageView.image = poem.authorImage;
+                                
+                                poem.hasAttemptedDownload = YES;
+                            }
+                            else
+                            {
+                                poem.hasAttemptedDownload = NO;
+                            }
+                            
+                        }];
+                    }
 
-                                                                        
-                                                                        [SVProgressHUD dismiss];
-                                                                        
-                                                                    }
-                                                                    
-                                                                }];
+                    
+                    
+                    
+                    
+                    
+                    
+                    self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );         
+                    self.todaysPoemLabel.hidden = !( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
+
+                    [SVProgressHUD dismiss];
+                }
+         }];
     
     PDPoem *poem = [items lastObject];
     
     if ( poem )
     {
-        poem.publishedDate = date;
-        self.currentPoem = poem;
-        self.poemTitleLabel.text = poem.title;
-        self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
-        self.poemPublishedDateLabel.text = poem.journalTitle;
+        [self updatePoemInformationForPoem:poem animated:YES];
+
+        _currentPoem = poem;
+
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+        self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
+
+        self.poemAuthorImageView.image = poem.authorImage;
+
+        self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
+        self.todaysPoemLabel.hidden = !( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
         
-        self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );         
-        
-        [SVProgressHUD dismiss];
+        if ( poem.title.length > 0 && poem.author.length > 0  )
+            [SVProgressHUD dismiss];
+        else
+            [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
+
+
     }
 }
 
@@ -137,11 +163,88 @@
     [self showPoemForDay:newDate];
 }
 
+- (void)swipePreviousDay:(UISwipeGestureRecognizer *)swipeGesture;
+{
+    NSDate *newDate = [self.currentPoem.publishedDate dateByAddingTimeInterval:-86400.0f];
+    
+    if ( [newDate timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f )
+        return;
+    
+    [self showPoemForDay:newDate];
+}
+
 - (IBAction)showNextDay:(id)sender;
 {
     NSDate *newDate = [self.currentPoem.publishedDate dateByAddingTimeInterval:86400.0f];
+        
+    [self showPoemForDay:newDate];
+}
+
+- (void)swipeNextDay:(UISwipeGestureRecognizer *)swipeGesture;
+{
+    NSDate *newDate = [self.currentPoem.publishedDate dateByAddingTimeInterval:86400.0f];
+    
+    if ( [newDate timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f )
+        return;
     
     [self showPoemForDay:newDate];
+}
+
+- (void)updatePoemInformationForPoem:(PDPoem *)poem animated:(BOOL)animated;
+{
+    NSMutableString *HTML = [[NSMutableString alloc ] init];
+   
+    [HTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 16px; white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
+
+    [HTML appendString:[NSString stringWithFormat:@"<h3>%@</h3>", poem.title]];
+    [HTML appendString:[NSString stringWithFormat:@"By %@", poem.author]];
+   
+    if ( poem.journalTitle.length > 0 )
+        [HTML appendString:[NSString stringWithFormat:@"<br>from <i>%@</i> ", poem.journalTitle]];
+    
+    [HTML appendString:@"</body></html>"];
+    
+    
+    NSString *oldHTML = [self.poemInformationWebView stringByEvaluatingJavaScriptFromString:
+                      @"document.body.innerHTML"];
+    
+    if ( poem.journalTitle.length == 0 )
+    {
+        [self.poemInformationWebView loadHTMLString:HTML baseURL:nil];
+
+        return;
+    }
+    
+    NSLog( @"animated: %@", animated ? @"YES" : @"NO");
+    
+    if ( YES ) //[oldHTML rangeOfString:poem.journalTitle].location != NSNotFound )
+    {
+        [UIView animateWithDuration:animated ? 0.2f : 0.0f animations:^{
+          
+            self.poemInformationWebView.alpha  = 1.0f;
+            self.poemInformationWebView.alpha  = 0.0f;
+
+        } completion:^(BOOL finished) {
+         
+            [self.poemInformationWebView loadHTMLString:HTML baseURL:nil];
+
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                self.poemInformationWebView.alpha  = 0.0f;
+                self.poemInformationWebView.alpha  = 1.0f;
+                
+            } completion:^(BOOL finished) {
+                
+            }];
+        }];
+    }
+    else
+    {
+        [self.poemInformationWebView loadHTMLString:HTML baseURL:nil];
+    }
+
+    NSString *resize = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
+    [self.poemInformationWebView stringByEvaluatingJavaScriptFromString:resize];
 }
 
 
@@ -202,6 +305,13 @@
                                                  name:@"DeviceShaken"
                                                object:nil];
     
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeNextDay:)];
+    swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.poemPublishedDateLabel addGestureRecognizer:swipeLeft];
+    
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipePreviousDay:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.poemPublishedDateLabel addGestureRecognizer:swipeRight];
 }
 
 - (void)viewWillAppear:(BOOL)animated;
@@ -225,6 +335,8 @@
 
     [self setShowPreviousDayButton:nil];
     [self setShowNextDayButton:nil];
+    [self setTodaysPoemLabel:nil];
+    [self setPoemInformationWebView:nil];
     [super viewDidUnload];
 }
 

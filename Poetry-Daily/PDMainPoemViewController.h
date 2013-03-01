@@ -8,11 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class PDPoem;
+
 @interface PDMainPoemViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UIScrollView *containerScrollView;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
+
+@property (strong, nonatomic) IBOutlet UIView *titleView;
+@property (strong, nonatomic) IBOutlet UILabel *poemTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *poemAuthorLabel;
+
+@property (strong, nonatomic) PDPoem *currentPoem;
 
 - (IBAction)returnToHomeView:(id)sender;
 
