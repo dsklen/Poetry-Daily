@@ -15,6 +15,8 @@
 #pragma mark - Properties
 
 @dynamic author;
+@dynamic authorImageURLString;
+@dynamic hasAttemptedDownload;
 @dynamic authorImageData;
 @dynamic isFavorite;
 @dynamic journalTitle;

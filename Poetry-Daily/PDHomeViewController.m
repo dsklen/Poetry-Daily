@@ -21,7 +21,7 @@
 - (void)showPoemForDay:(NSDate *)date;
 - (void)swipePreviousDay:(UISwipeGestureRecognizer *)swipeGesture;
 - (void)swipeNextDay:(UISwipeGestureRecognizer *)swipeGesture;
-- (void)updatePoemInformationForPoem:(PDPoem *)poem;
+- (void)updatePoemInformationForPoem:(PDPoem *)poem animated:(BOOL)animated;
 
 @end
 
@@ -56,7 +56,6 @@
 
 - (void)showPoemForDay:(NSDate *)date;
 {
-
     PDMediaServer *server = [[PDMediaServer alloc] init];
     NSString *poemID = [server poemIDFromDate:date];
 
@@ -72,10 +71,12 @@
     NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults) {
                                                                     
                 PDPoem *poem = [newResults lastObject];
-                
+        
+//                if ( ![self.currentPoem.poemID isEqualToString:poem.poemID] ) return;
+        
                 if ( poem )
                 {
-                    [self updatePoemInformationForPoem:poem];
+                    [self updatePoemInformationForPoem:poem animated:NO];
                     
                     _currentPoem = poem;
                     
@@ -97,7 +98,7 @@
     
     if ( poem )
     {
-        [self updatePoemInformationForPoem:poem];
+        [self updatePoemInformationForPoem:poem animated:YES];
 
         _currentPoem = poem;
 
@@ -162,7 +163,7 @@
     [self showPoemForDay:newDate];
 }
 
-- (void)updatePoemInformationForPoem:(PDPoem *)poem;
+- (void)updatePoemInformationForPoem:(PDPoem *)poem animated:(BOOL)animated;
 {
     NSMutableString *HTML = [[NSMutableString alloc ] init];
    
@@ -187,9 +188,11 @@
         return;
     }
     
-    if ( [oldHTML rangeOfString:poem.journalTitle].location == NSNotFound )
+    NSLog( @"animated: %@", animated ? @"YES" : @"NO");
+    
+    if ( YES ) //[oldHTML rangeOfString:poem.journalTitle].location != NSNotFound )
     {
-        [UIView animateWithDuration:0.2f animations:^{
+        [UIView animateWithDuration:animated ? 0.2f : 0.0f animations:^{
           
             self.poemInformationWebView.alpha  = 1.0f;
             self.poemInformationWebView.alpha  = 0.0f;
@@ -211,9 +214,12 @@
     else
     {
         [self.poemInformationWebView loadHTMLString:HTML baseURL:nil];
-
     }
+<<<<<<< HEAD
      
+=======
+    
+>>>>>>> c5730525ad9ea7eea3939d45a54dadc404fa8414
     NSString *resize = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
     [self.poemInformationWebView stringByEvaluatingJavaScriptFromString:resize];
 }
