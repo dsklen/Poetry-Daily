@@ -7,6 +7,7 @@
 //
 
 #import "PDMoreViewController.h"
+#import "PDDonationsViewController.h"
 
 @interface PDMoreViewController ()
 
@@ -127,7 +128,10 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
     if (indexPath.section == 0) {
-        PDDonations
+        if (indexPath.row==1) {
+            PDDonationsViewController *donationsViewController = [[PDDonationsViewController alloc] initWithNibName:@"PDDonationsViewController" bundle:nil];
+            [self.navigationController pushViewController:donationsViewController animated:YES];
+        }
     }
 }
 
