@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Poetry-Daily/PDHomeViewController.m"
-         timestampString = "380160574.856905"
+         timestampString = "383807382.646286"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "134"
-         endingLineNumber = "134"
+         startingLineNumber = "161"
+         endingLineNumber = "161"
          landmarkName = "-showPreviousDay:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Poetry-Daily/PDHomeViewController.m"
-         timestampString = "380160574.856905"
+         timestampString = "383807382.646286"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "158"
-         endingLineNumber = "158"
+         startingLineNumber = "185"
+         endingLineNumber = "185"
          landmarkName = "-swipeNextDay:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Poetry-Daily/PDHomeViewController.m"
-         timestampString = "380160574.856905"
+         timestampString = "383807382.646286"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "141"
-         endingLineNumber = "141"
+         startingLineNumber = "168"
+         endingLineNumber = "168"
          landmarkName = "-swipePreviousDay:"
          landmarkType = "5">
       </FileBreakpoint>

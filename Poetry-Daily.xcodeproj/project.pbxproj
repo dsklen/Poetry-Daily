@@ -84,7 +84,6 @@
 		B6CBEF0615870E1D005AE033 /* more_info_tab_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6CBEF0515870E1D005AE033 /* more_info_tab_bg@2x.png */; };
 		B6CBEF08158716C3005AE033 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6CBEF07158716C3005AE033 /* logo@2x.png */; };
 		B6CBEF0A158717EB005AE033 /* logo_iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B6CBEF09158717EB005AE033 /* logo_iPad.png */; };
-		B6CBEF0E1587FA78005AE033 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CBEF0D1587FA78005AE033 /* libFlurryAnalytics.a */; };
 		B6EF93FA16A8B6AA000CB0E4 /* default-avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = B6EF93F916A8B6AA000CB0E4 /* default-avatar.png */; };
 /* End PBXBuildFile section */
 
@@ -206,9 +205,6 @@
 		B6CBEF0515870E1D005AE033 /* more_info_tab_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more_info_tab_bg@2x.png"; sourceTree = "<group>"; };
 		B6CBEF07158716C3005AE033 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		B6CBEF09158717EB005AE033 /* logo_iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_iPad.png; path = ../logo_iPad.png; sourceTree = "<group>"; };
-		B6CBEF0C1587FA78005AE033 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
-		B6CBEF0D1587FA78005AE033 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
-		B6CBEF101587FC10005AE033 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
 		B6EF93F916A8B6AA000CB0E4 /* default-avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-avatar.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -225,7 +221,6 @@
 				B670F6571534CCB20045906A /* UIKit.framework in Frameworks */,
 				B670F6591534CCB20045906A /* Foundation.framework in Frameworks */,
 				B670F65B1534CCB20045906A /* CoreGraphics.framework in Frameworks */,
-				B6CBEF0E1587FA78005AE033 /* libFlurryAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,7 +455,6 @@
 				B69BA96816A8A81F00708524 /* AFNetworking */,
 				B69BA94B16A8A7B600708524 /* AFIncrementalStore */,
 				B62A65F815A24F83007EB20D /* DTFoundation */,
-				B6CBEF0B1587FA78005AE033 /* FlurryAnalytics */,
 				B66D4C26157ED0F7005830A4 /* SVWebViewController */,
 				B66D4BDD157D69A6005830A4 /* iCarousel */,
 				B66D4BDB157D699D005830A4 /* SVProgressHUD */,
@@ -524,16 +518,6 @@
 				B69BA96E16A8AD3400708524 /* PDIncrementalStore.m */,
 			);
 			name = "Incremental Store";
-			sourceTree = "<group>";
-		};
-		B6CBEF0B1587FA78005AE033 /* FlurryAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-				B6CBEF0C1587FA78005AE033 /* FlurryAnalytics.h */,
-				B6CBEF101587FC10005AE033 /* FlurryAnalytics.h */,
-				B6CBEF0D1587FA78005AE033 /* libFlurryAnalytics.a */,
-			);
-			path = FlurryAnalytics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -739,11 +723,8 @@
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/FlurryAnalytics\"",
-				);
-				ONLY_ACTIVE_ARCH = YES;
+				LIBRARY_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -759,11 +740,8 @@
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/FlurryAnalytics\"",
-				);
-				ONLY_ACTIVE_ARCH = YES;
+				LIBRARY_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

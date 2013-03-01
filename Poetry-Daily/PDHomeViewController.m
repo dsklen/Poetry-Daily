@@ -85,7 +85,34 @@
                     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
                     self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
                     
-                    self.poemAuthorImageView.image = poem.authorImage;
+                    
+                    if ( poem.authorImageURLString.length > 0)
+                    {
+                        PDMediaServer *server = [[PDMediaServer alloc] init];
+                        
+                        [server fetchPoetImagesWithStrings:@[poem.authorImageURLString] block:^(NSArray *items, NSError *error) {
+                            
+                            if ( items && !error )
+                            {
+                                NSData *newImageData = items[0];
+                                poem.authorImageData  = newImageData;
+                                self.poemAuthorImageView.image = poem.authorImage;
+                                
+                                poem.hasAttemptedDownload = YES;
+                            }
+                            else
+                            {
+                                poem.hasAttemptedDownload = NO;
+                            }
+                            
+                        }];
+                    }
+
+                    
+                    
+                    
+                    
+                    
                     
                     self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );         
                     self.todaysPoemLabel.hidden = !( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
@@ -215,11 +242,7 @@
     {
         [self.poemInformationWebView loadHTMLString:HTML baseURL:nil];
     }
-<<<<<<< HEAD
-     
-=======
-    
->>>>>>> c5730525ad9ea7eea3939d45a54dadc404fa8414
+
     NSString *resize = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
     [self.poemInformationWebView stringByEvaluatingJavaScriptFromString:resize];
 }

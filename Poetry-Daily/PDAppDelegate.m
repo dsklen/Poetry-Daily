@@ -14,7 +14,7 @@
 #import "PDBrowseAllPoemsViewController.h"
 #import "PDTwitterViewController.h"
 #import "PDMoreViewController.h"
-#import "FlurryAnalytics.h"
+//#import "FlurryAnalytics.h"
 
 @implementation PDAppDelegate
 
@@ -70,7 +70,7 @@
 
     }];
     
-    [FlurryAnalytics startSession:@"RCE71QKU7J9GWWHSN67D"];
+//    [FlurryAnalytics startSession:@"RCE71QKU7J9GWWHSN67D"];
     
     return YES;
 }
