@@ -200,6 +200,17 @@
     }
 }
 
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error;
+{
+    if ( result == MFMailComposeResultSent )
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString( @"Sent", @"" )];
+    else if ( result == MFMailComposeResultFailed )
+        [SVProgressHUD dismissWithError:NSLocalizedString( @"Failed to send", @"" ) afterDelay:0.0f];
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex;

@@ -672,11 +672,8 @@
 				B6979458158AA8C00031162B /* PDLogo.png in Resources */,
 				B67EA451168D037D008C59F5 /* Default-568h@2x.png in Resources */,
 				B6EF93FA16A8B6AA000CB0E4 /* default-avatar.png in Resources */,
-<<<<<<< HEAD
 				B66EA87616E152640086BE64 /* PDHomeViewController-iPad.xib in Resources */,
-=======
 				969D181716E074F4009E7D3B /* PDDonationsViewController.xib in Resources */,
->>>>>>> 01a3405c7e4b11614fa29774f259e7fde5e65962
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,16 +793,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
-<<<<<<< HEAD
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "";
-=======
+
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Poetry-Daily/Library\"",
 				);
->>>>>>> 01a3405c7e4b11614fa29774f259e7fde5e65962
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -821,16 +814,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
-<<<<<<< HEAD
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "";
-=======
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Poetry-Daily/Library\"",
 				);
->>>>>>> 01a3405c7e4b11614fa29774f259e7fde5e65962
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
