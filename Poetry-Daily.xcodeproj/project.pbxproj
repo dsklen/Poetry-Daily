@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		969D181116E07485009E7D3B /* libPayPalMPL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 969D180616E07485009E7D3B /* libPayPalMPL.a */; };
+		969D181616E074F4009E7D3B /* PDDonationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969D181416E074F4009E7D3B /* PDDonationsViewController.m */; };
+		969D181716E074F4009E7D3B /* PDDonationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969D181516E074F4009E7D3B /* PDDonationsViewController.xib */; };
+		969D181E16E07EE3009E7D3B /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 969D181D16E07EE3009E7D3B /* libxml2.2.dylib */; };
+		969D182016E07EF3009E7D3B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 969D181F16E07EF3009E7D3B /* Security.framework */; };
+		969D182216E07F01009E7D3B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 969D182116E07F01009E7D3B /* libz.dylib */; };
+		969D182F16E0846D009E7D3B /* SuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969D182D16E08406009E7D3B /* SuccessViewController.m */; };
 		B62A65A41599393B007EB20D /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62A65A31599393B007EB20D /* AssetsLibrary.framework */; };
 		B63176551578224600B12331 /* PDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B63176531578224600B12331 /* PDModel.xcdatamodeld */; };
 		B631765A1578235B00B12331 /* PDPoem.m in Sources */ = {isa = PBXBuildFile; fileRef = B63176591578235B00B12331 /* PDPoem.m */; };
@@ -89,6 +96,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		963AA6FF16E08C0A0083218A /* GlobalSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalSettingsViewController.h; sourceTree = "<group>"; };
+		963AA70016E08C0B0083218A /* GlobalSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GlobalSettingsViewController.m; sourceTree = "<group>"; };
+		969D180616E07485009E7D3B /* libPayPalMPL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPayPalMPL.a; sourceTree = "<group>"; };
+		969D180716E07485009E7D3B /* PayPal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPal.h; sourceTree = "<group>"; };
+		969D180816E07485009E7D3B /* PayPalAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalAddress.h; sourceTree = "<group>"; };
+		969D180916E07485009E7D3B /* PayPalAdvancedPayment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalAdvancedPayment.h; sourceTree = "<group>"; };
+		969D180A16E07485009E7D3B /* PayPalAmounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalAmounts.h; sourceTree = "<group>"; };
+		969D180B16E07485009E7D3B /* PayPalInvoiceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalInvoiceData.h; sourceTree = "<group>"; };
+		969D180C16E07485009E7D3B /* PayPalInvoiceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalInvoiceItem.h; sourceTree = "<group>"; };
+		969D180D16E07485009E7D3B /* PayPalPayment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalPayment.h; sourceTree = "<group>"; };
+		969D180E16E07485009E7D3B /* PayPalPreapprovalDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalPreapprovalDetails.h; sourceTree = "<group>"; };
+		969D180F16E07485009E7D3B /* PayPalReceiverAmounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalReceiverAmounts.h; sourceTree = "<group>"; };
+		969D181016E07485009E7D3B /* PayPalReceiverPaymentDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalReceiverPaymentDetails.h; sourceTree = "<group>"; };
+		969D181316E074F4009E7D3B /* PDDonationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDDonationsViewController.h; sourceTree = "<group>"; };
+		969D181416E074F4009E7D3B /* PDDonationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDDonationsViewController.m; sourceTree = "<group>"; };
+		969D181516E074F4009E7D3B /* PDDonationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDDonationsViewController.xib; sourceTree = "<group>"; };
+		969D181D16E07EE3009E7D3B /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
+		969D181F16E07EF3009E7D3B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		969D182116E07F01009E7D3B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		969D182C16E08406009E7D3B /* SuccessViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SuccessViewController.h; sourceTree = "<group>"; };
+		969D182D16E08406009E7D3B /* SuccessViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuccessViewController.m; sourceTree = "<group>"; };
 		B62A65A31599393B007EB20D /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		B63176541578224600B12331 /* PDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PDModel.xcdatamodel; sourceTree = "<group>"; };
 		B63176581578235B00B12331 /* PDPoem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDPoem.h; sourceTree = "<group>"; };
@@ -216,6 +244,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				969D182216E07F01009E7D3B /* libz.dylib in Frameworks */,
+				969D182016E07EF3009E7D3B /* Security.framework in Frameworks */,
+				969D181E16E07EE3009E7D3B /* libxml2.2.dylib in Frameworks */,
 				B62A65A41599393B007EB20D /* AssetsLibrary.framework in Frameworks */,
 				B66D4C31157ED20D005830A4 /* MessageUI.framework in Frameworks */,
 				B66D4C1E157EBCFB005830A4 /* Twitter.framework in Frameworks */,
@@ -224,12 +255,32 @@
 				B670F6571534CCB20045906A /* UIKit.framework in Frameworks */,
 				B670F6591534CCB20045906A /* Foundation.framework in Frameworks */,
 				B670F65B1534CCB20045906A /* CoreGraphics.framework in Frameworks */,
+				969D181116E07485009E7D3B /* libPayPalMPL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		969D180516E07485009E7D3B /* PayPal Library */ = {
+			isa = PBXGroup;
+			children = (
+				969D180616E07485009E7D3B /* libPayPalMPL.a */,
+				969D180716E07485009E7D3B /* PayPal.h */,
+				969D180816E07485009E7D3B /* PayPalAddress.h */,
+				969D180916E07485009E7D3B /* PayPalAdvancedPayment.h */,
+				969D180A16E07485009E7D3B /* PayPalAmounts.h */,
+				969D180B16E07485009E7D3B /* PayPalInvoiceData.h */,
+				969D180C16E07485009E7D3B /* PayPalInvoiceItem.h */,
+				969D180D16E07485009E7D3B /* PayPalPayment.h */,
+				969D180E16E07485009E7D3B /* PayPalPreapprovalDetails.h */,
+				969D180F16E07485009E7D3B /* PayPalReceiverAmounts.h */,
+				969D181016E07485009E7D3B /* PayPalReceiverPaymentDetails.h */,
+			);
+			name = "PayPal Library";
+			path = Library;
+			sourceTree = "<group>";
+		};
 		B62A65F815A24F83007EB20D /* DTFoundation */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,6 +361,9 @@
 		B670F6471534CCB20045906A = {
 			isa = PBXGroup;
 			children = (
+				969D182116E07F01009E7D3B /* libz.dylib */,
+				969D181F16E07EF3009E7D3B /* Security.framework */,
+				969D181D16E07EE3009E7D3B /* libxml2.2.dylib */,
 				B670F65C1534CCB20045906A /* Poetry-Daily */,
 				B6919A65156F00F800DA70C2 /* Third Party */,
 				B6979419158A871F0031162B /* Categories */,
@@ -351,6 +405,9 @@
 				B66D4BE6157D6B8B005830A4 /* View */,
 				B63176571578233E00B12331 /* Model */,
 				B631765D1578255E00B12331 /* Network & Caching */,
+				969D180516E07485009E7D3B /* PayPal Library */,
+				963AA6FF16E08C0A0083218A /* GlobalSettingsViewController.h */,
+				963AA70016E08C0B0083218A /* GlobalSettingsViewController.m */,
 				B670F65D1534CCB20045906A /* Supporting Files */,
 			);
 			path = "Poetry-Daily";
@@ -390,6 +447,7 @@
 				B631769F1578311E00B12331 /* PDFavoritesViewController.xib */,
 				B66D4BE3157D6AC6005830A4 /* PDFavoritesCoverFlowViewController.xib */,
 				B66D4C21157EBF37005830A4 /* PDTwitterViewController.xib */,
+				969D181516E074F4009E7D3B /* PDDonationsViewController.xib */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -439,6 +497,8 @@
 				B6919A6C156F01B600DA70C2 /* PDHomeViewController.h */,
 				B6919A6D156F01B600DA70C2 /* PDHomeViewController.m */,
 				B6919A71156F028100DA70C2 /* PDMainPoemViewController.h */,
+				969D181316E074F4009E7D3B /* PDDonationsViewController.h */,
+				969D181416E074F4009E7D3B /* PDDonationsViewController.m */,
 				B6919A72156F028200DA70C2 /* PDMainPoemViewController.m */,
 				B66D4BF2157D8A9A005830A4 /* PDBrowseAllPoemsViewController.h */,
 				B66D4BF3157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m */,
@@ -450,6 +510,8 @@
 				B66D4C20157EBF35005830A4 /* PDTwitterViewController.m */,
 				B6CBEEBF1582C6F9005AE033 /* PDMoreViewController.h */,
 				B6CBEEC01582C6F9005AE033 /* PDMoreViewController.m */,
+				969D182C16E08406009E7D3B /* SuccessViewController.h */,
+				969D182D16E08406009E7D3B /* SuccessViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -610,7 +672,11 @@
 				B6979458158AA8C00031162B /* PDLogo.png in Resources */,
 				B67EA451168D037D008C59F5 /* Default-568h@2x.png in Resources */,
 				B6EF93FA16A8B6AA000CB0E4 /* default-avatar.png in Resources */,
+<<<<<<< HEAD
 				B66EA87616E152640086BE64 /* PDHomeViewController-iPad.xib in Resources */,
+=======
+				969D181716E074F4009E7D3B /* PDDonationsViewController.xib in Resources */,
+>>>>>>> 01a3405c7e4b11614fa29774f259e7fde5e65962
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,6 +687,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				969D182F16E0846D009E7D3B /* SuccessViewController.m in Sources */,
 				B66D4C33157ED383005830A4 /* SVModalWebViewController.m in Sources */,
 				B66D4C35157ED383005830A4 /* SVWebViewController.m in Sources */,
 				B670F6631534CCB20045906A /* main.m in Sources */,
@@ -658,6 +725,7 @@
 				B69BA96716A8A81800708524 /* UIImageView+AFNetworking.m in Sources */,
 				B69BA96C16A8AAFE00708524 /* PDAPIClient.m in Sources */,
 				B69BA96F16A8AD3400708524 /* PDIncrementalStore.m in Sources */,
+				969D181616E074F4009E7D3B /* PDDonationsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,8 +796,16 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
+<<<<<<< HEAD
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "";
+=======
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Poetry-Daily/Library\"",
+				);
+>>>>>>> 01a3405c7e4b11614fa29774f259e7fde5e65962
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -745,8 +821,16 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
+<<<<<<< HEAD
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "";
+=======
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Poetry-Daily/Library\"",
+				);
+>>>>>>> 01a3405c7e4b11614fa29774f259e7fde5e65962
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
