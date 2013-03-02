@@ -187,8 +187,17 @@
 {
     NSMutableString *HTML = [[NSMutableString alloc ] init];
    
-    [HTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 16px; white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [HTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 16px;  white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
+    }
+    else
+    {
+        [HTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 24px;  white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
 
+    }
+    
+    
     [HTML appendString:[NSString stringWithFormat:@"<h3>%@</h3>", poem.title]];
     [HTML appendString:[NSString stringWithFormat:@"By %@", poem.author]];
    

@@ -127,7 +127,7 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
     if (indexPath.section == 0) {
-        PDDonations
+//        PDDonations
     }
 }
 

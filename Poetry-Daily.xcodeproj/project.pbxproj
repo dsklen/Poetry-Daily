@@ -45,6 +45,7 @@
 		B66D4C761580209B005830A4 /* lightpaperfibers.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C751580209B005830A4 /* lightpaperfibers.png */; };
 		B66D4C78158021A2005830A4 /* spechbubble_sq_line.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C77158021A1005830A4 /* spechbubble_sq_line.png */; };
 		B66D4C7A158021C5005830A4 /* spechbubble_sq_line_black.png in Resources */ = {isa = PBXBuildFile; fileRef = B66D4C79158021C5005830A4 /* spechbubble_sq_line_black.png */; };
+		B66EA87616E152640086BE64 /* PDHomeViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66EA87516E152640086BE64 /* PDHomeViewController-iPad.xib */; };
 		B670F6571534CCB20045906A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6561534CCB20045906A /* UIKit.framework */; };
 		B670F6591534CCB20045906A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F6581534CCB20045906A /* Foundation.framework */; };
 		B670F65B1534CCB20045906A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B670F65A1534CCB20045906A /* CoreGraphics.framework */; };
@@ -142,6 +143,8 @@
 		B66D4C751580209B005830A4 /* lightpaperfibers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightpaperfibers.png; sourceTree = "<group>"; };
 		B66D4C77158021A1005830A4 /* spechbubble_sq_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spechbubble_sq_line.png; sourceTree = "<group>"; };
 		B66D4C79158021C5005830A4 /* spechbubble_sq_line_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spechbubble_sq_line_black.png; sourceTree = "<group>"; };
+		B66EA87416E1518B0086BE64 /* Poetry-Daily copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Poetry-Daily copy-Info.plist"; path = "/Users/dsklen/Poetry-Daily/Poetry-Daily copy-Info.plist"; sourceTree = "<absolute>"; };
+		B66EA87516E152640086BE64 /* PDHomeViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "PDHomeViewController-iPad.xib"; sourceTree = "<group>"; };
 		B670F6521534CCB20045906A /* Poetry-Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poetry-Daily.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B670F6561534CCB20045906A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B670F6581534CCB20045906A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -312,6 +315,7 @@
 				B6979419158A871F0031162B /* Categories */,
 				B670F6551534CCB20045906A /* Frameworks */,
 				B670F6531534CCB20045906A /* Products */,
+				B66EA87416E1518B0086BE64 /* Poetry-Daily copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -393,6 +397,7 @@
 		B670F6891534CCEB0045906A /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				B66EA87516E152640086BE64 /* PDHomeViewController-iPad.xib */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -605,6 +610,7 @@
 				B6979458158AA8C00031162B /* PDLogo.png in Resources */,
 				B67EA451168D037D008C59F5 /* Default-568h@2x.png in Resources */,
 				B6EF93FA16A8B6AA000CB0E4 /* default-avatar.png in Resources */,
+				B66EA87616E152640086BE64 /* PDHomeViewController-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -722,11 +728,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -739,13 +745,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Poetry-Daily/Poetry-Daily-Prefix.pch";
 				INFOPLIST_FILE = "Poetry-Daily/Poetry-Daily-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

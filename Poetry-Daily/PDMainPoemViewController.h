@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
 @class PDPoem;
 
-@interface PDMainPoemViewController : UIViewController
+@interface PDMainPoemViewController : UIViewController <UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIScrollView *containerScrollView;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navigationBar;

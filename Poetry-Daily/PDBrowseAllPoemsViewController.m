@@ -248,6 +248,8 @@
 
 - (void)orientationChanged:(NSNotification *)notification
 {
+    return;
+        
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
     
     if (UIDeviceOrientationIsLandscape(deviceOrientation) && !self.isShowingLandscapeView)

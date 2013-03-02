@@ -56,8 +56,21 @@
         } 
         else 
         {
-            viewController1 = [[PDHomeViewController alloc] initWithNibName:@"PDHomeViewController" bundle:nil];
+            PDHomeViewController *home = [[PDHomeViewController alloc] initWithNibName:@"PDHomeViewController-iPad" bundle:nil];
+            viewController1 = [[UINavigationController alloc] initWithRootViewController:home];
+            
+            PDBrowseAllPoemsViewController *browse = [[PDBrowseAllPoemsViewController alloc] initWithNibName:@"PDBrowseAllPoemsViewController" bundle:nil];
+            viewController2 = [[UINavigationController alloc] initWithRootViewController:browse];
+            
+            
+            PDTwitterViewController *twitter = [[PDTwitterViewController alloc] initWithNibName:@"PDTwitterViewController" bundle:nil];
+            viewController3 = [[UINavigationController alloc] initWithRootViewController:twitter];
+            
+            PDMoreViewController *more = [[PDMoreViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            viewController4 = [[UINavigationController alloc] initWithRootViewController:more];
         }
+        
+        
         self.tabBarController = [[UITabBarController alloc] init];
         self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, viewController3, viewController4, nil];
         
