@@ -220,7 +220,6 @@
         [self share:nil];
     if ( buttonIndex == 1 )
         return;
-    
 }
 
 

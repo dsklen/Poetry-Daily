@@ -284,6 +284,8 @@
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Random" style:UIBarButtonItemStyleBordered target:self action:@selector(fetchRandomPoem:)];
+    
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PDLogo.png"]];
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
     logoImageView.frame = CGRectMake(0.0f, 0.0f, 100.0f, 42.0f);
