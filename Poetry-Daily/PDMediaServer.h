@@ -20,16 +20,17 @@ typedef void (^PDFetchBlock)(NSArray *items, NSError *error);
 
 @property(strong) NSOperationQueue *operationQueue;
 @property(strong) NSOperationQueue *poemOperationQueue;
+@property(strong) NSOperationQueue *featureOperationQueue;
 @property(strong) NSString *username;
 @property(strong) NSString *password;
 
 /*
  * TO DO: Add methods to hit PD API endpoints.
  */
-
+- (void)fetchFeatureWithID:(NSString *)poemID block:(PDFetchBlock)block;
 - (void)fetchPoemWithID:(NSString *)poemID block:(PDFetchBlock)block;
 - (void)fetchPoemArchiveWithBlock:(PDFetchBlock)block;
-- (void)fetchPoetImagesWithStrings:(NSArray *)strings block:(PDFetchBlock)block;
+- (void)fetchPoetImagesWithStrings:(NSArray *)strings isJournalImage:(BOOL)isJournal block:(PDFetchBlock)block;
 - (void)fetchArbitraryImagesWithURLs:(NSArray *)URLs block:(PDFetchBlock)block;
 
 - (NSString *)poemIDFromDate:(NSDate *)date;

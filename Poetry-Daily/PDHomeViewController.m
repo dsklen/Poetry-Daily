@@ -14,7 +14,10 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SVProgressHUD.h"
 #import "PDConstants.h"
+#import "PDFeatureViewController.h"
 #import "NSDate+PDAdditions.h"
+#import "QBFlatButton.h"
+#import "SVWebViewController.h"
 
 @interface PDHomeViewController ()
 
@@ -22,6 +25,8 @@
 - (void)swipePreviousDay:(UISwipeGestureRecognizer *)swipeGesture;
 - (void)swipeNextDay:(UISwipeGestureRecognizer *)swipeGesture;
 - (void)updatePoemInformationForPoem:(PDPoem *)poem animated:(BOOL)animated;
+
+@property (strong, nonatomic) NSURL *publicationURL;
 
 @end
 
@@ -54,6 +59,15 @@
 
 #pragma mark - Private API
 
+- (IBAction)showFeatureInformation:(id)sender;
+{
+    PDFeatureViewController *feature = [[PDFeatureViewController alloc] initWithNibName:@"PDFeatureViewController" bundle:nil];
+    
+    [feature setPoemID:self.currentPoem.poemID];
+    
+    [self.navigationController pushViewController:feature animated:YES];
+}
+
 - (void)showPoemForDay:(NSDate *)date;
 {
     PDMediaServer *server = [[PDMediaServer alloc] init];
@@ -72,9 +86,8 @@
                                                                     
                 PDPoem *poem = [newResults lastObject];
         
-//                if ( ![self.currentPoem.poemID isEqualToString:poem.poemID] ) return;
         
-                if ( poem )
+                if ( poem && [poemID isEqualToString:poem.poemID] )
                 {
                     [self updatePoemInformationForPoem:poem animated:NO];
                     
@@ -85,14 +98,18 @@
                     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
                     self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
                     
+                    NSLog(@"IMAGE URL: %@", poem.authorImageURLString);
+                    
                     if ( poem.authorImageURLString.length > 0)
                     {
                         PDMediaServer *server = [[PDMediaServer alloc] init];
                         
-                        [server fetchPoetImagesWithStrings:@[poem.authorImageURLString] block:^(NSArray *items, NSError *error) {
+                        [server fetchPoetImagesWithStrings:@[poem.authorImageURLString] isJournalImage:poem.isJournalImage block:^(NSArray *items, NSError *error) {
                             
                             if ( items && !error )
                             {
+                                NSLog(@"Found Image.");
+                                
                                 NSData *newImageData = items[0];
                                 poem.authorImageData  = newImageData;
                                 self.poemAuthorImageView.image = poem.authorImage;
@@ -136,8 +153,39 @@
             [SVProgressHUD dismiss];
         else
             [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
+    }
 
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [server fetchFeatureWithID:poemID block:^(NSArray *items, NSError *error) {
+           
+            if ( items && !error)
+            {
+                NSDictionary *featureAttributesDictionary = [items lastObject];
 
+                NSString *poetInfo = [featureAttributesDictionary objectForKey:@"poetLT"];
+                NSString *journalInfo = [featureAttributesDictionary objectForKey:@"jText"];
+
+                NSMutableString *HTML = [[NSMutableString alloc] init];
+                
+                [HTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 20px;  white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
+                NSString *combinedInfo = [NSString stringWithFormat:@"%@<br><br>%@", poetInfo, journalInfo];
+                
+                [HTML appendString:combinedInfo];
+                [HTML appendString:@"</body></html>"];
+                
+                [self.iPadfeatureInformationWebView loadHTMLString:combinedInfo baseURL:nil];
+                
+                self.publicationURL = [NSURL URLWithString:[featureAttributesDictionary objectForKey:@"puburl"]];
+                
+                NSString *publisherName = [featureAttributesDictionary objectForKey:@"publisher"];
+                NSString *pubURLString = [featureAttributesDictionary objectForKey:@"puburl"];
+                self.iPadVisitPublicationPageButton.hidden = ( [pubURLString length] == 0 );
+                
+                [self.iPadVisitPublicationPageButton setTitle:[NSString stringWithFormat:@"Visit %@ Site ⇗", ([publisherName length] == 0 ) ? @"Publisher" : publisherName] forState:UIControlStateNormal];
+//                [self.iPadVisitPublicationPageButton sizeToFit];
+            }
+        }];
     }
 }
 
@@ -171,6 +219,17 @@
     NSDate *newDate = [self.currentPoem.publishedDate dateByAddingTimeInterval:86400.0f];
         
     [self showPoemForDay:newDate];
+}
+
+- (IBAction)showPublicationSite:(id)sender;
+{
+    SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:self.publicationURL];
+    
+    NSLog(@"Visiting external site at %@", [self.publicationURL absoluteString]);
+    
+    webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+    webViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentModalViewController:webViewController animated:YES];
 }
 
 - (void)swipeNextDay:(UISwipeGestureRecognizer *)swipeGesture;
@@ -219,7 +278,7 @@
     
     NSLog( @"animated: %@", animated ? @"YES" : @"NO");
     
-    if ( YES ) //[oldHTML rangeOfString:poem.journalTitle].location != NSNotFound )
+    if ( NO ) //[oldHTML rangeOfString:poem.journalTitle].location != NSNotFound )
     {
         [UIView animateWithDuration:animated ? 0.2f : 0.0f animations:^{
           
@@ -267,7 +326,7 @@
         
         NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
-                                                                  [UIColor blackColor], UITextAttributeTextColor,
+                                                                  [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f], UITextAttributeTextColor,
                                                                   nil];
         
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
@@ -280,7 +339,7 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"lightpaperfibers"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
     
@@ -288,7 +347,7 @@
     
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PDLogo.png"]];
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    logoImageView.frame = CGRectMake(0.0f, 0.0f, 100.0f, 42.0f);
+    logoImageView.frame = CGRectMake(0.0f, 0.0f, self.navigationItem.titleView.frame.size.width, 42.0f);
     self.navigationItem.titleView = logoImageView;    
     
     self.poemAuthorImageView.image = [UIImage imageNamed:@"plumlystanley.jpeg"];
@@ -297,10 +356,31 @@
     self.poemAuthorImageView.layer.shadowRadius = 2.0f;
     self.poemAuthorImageView.layer.shadowOpacity = 0.5f;  
     
-    self.readPoemButton.layer.backgroundColor = [[UIColor lightGrayColor] CGColor];
+    self.readPoemButton.layer.borderColor = [[UIColor colorWithRed:99.0f/255.0f green:33.0f/255.0f blue:40.0f/255.0f alpha:0.9f] CGColor];
     self.readPoemButton.layer.cornerRadius = 6.0f;
     self.readPoemButton.layer.borderWidth = 2.0f;
-    self.readPoemButton.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    self.readPoemButton.layer.backgroundColor = [[UIColor colorWithRed:99.0f/255.0f green:33.0f/255.0f blue:40.0f/255.0f alpha:1.0f] CGColor];
+        
+    
+//    [[QBFlatButton appearance] setFaceColor:[UIColor colorWithWhite:0.75 alpha:1.0] forState:UIControlStateDisabled];
+//    [[QBFlatButton appearance] setSideColor:[UIColor colorWithWhite:0.55 alpha:1.0] forState:UIControlStateDisabled];
+//    
+//    QBFlatButton *btn = [QBFlatButton buttonWithType:UIButtonTypeCustom];
+//    btn.frame = CGRectMake( 10.0f, 300.0f, 200.0f, 80.0f );
+//    btn.faceColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+//    btn.sideColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.8f];
+//    
+//    btn.radius = 6.0;
+//    btn.margin = 4.0;
+//    btn.depth = 6.0;
+//
+//    btn.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+//    [btn setTitleColor:[UIColor colorWithRed:99.0f/255.0f green:33.0f/255.0f blue:40.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
+//    [btn setTitle:@"Read Poem" forState:UIControlStateNormal];
+//
+//    [btn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+//
+//    [self.view addSubview:btn];
     
     [self showPoemForDay:[NSDate charlottesvilleDate]];    
     
@@ -314,7 +394,7 @@
     [self.poemPublishedDateLabel addGestureRecognizer:swipeLeft];
     
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipePreviousDay:)];
-    swipeRight.direction = UISwipeGestureRecognizerDirectionLeft;
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     [self.poemPublishedDateLabel addGestureRecognizer:swipeRight];
 }
 
@@ -341,6 +421,9 @@
     [self setShowNextDayButton:nil];
     [self setTodaysPoemLabel:nil];
     [self setPoemInformationWebView:nil];
+    [self setIPadfeatureInformationWebView:nil];
+    [self setIPadVisitPublicationPageButton:nil];
+    
     [super viewDidUnload];
 }
 

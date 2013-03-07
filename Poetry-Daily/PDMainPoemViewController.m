@@ -89,6 +89,17 @@
 //            [SVProgressHUD dismiss];
 
             self.poemTitleLabel.text = poem.title;
+            
+            
+            if ( self.currentPoem.isFavorite.boolValue )
+            {
+                self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", self.currentPoem.title];
+            }
+            else
+            {
+                self.poemTitleLabel.text = [NSString stringWithFormat:@"%@", self.currentPoem.title];
+            }
+            
             self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
             
             if ( currentPoem.poemBody.length > 0 )
@@ -125,16 +136,16 @@
         else
         {
             if ([currentPoem.poemBody rangeOfString:@"<!--prose-->"].location == NSNotFound) {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 25px; white-space:normal; padding:30px; margin:8px; width:800px;}</style></head><body>";
+                style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:normal; padding:30px; margin:8px; width:800px;}</style></head><body>";
             }
             else {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 25px; white-space:normal; padding:30px; margin:8px;width:800px;}</style></head><body>";
+                style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:normal; padding:30px; margin:8px;width:800px;}</style></head><body>";
             }
             
             NSString *formatedHTML = [NSString stringWithFormat:@"%@%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""  , @"</body></html>"];
             [self.webView loadHTMLString:formatedHTML baseURL:nil];
             
-            NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = 25';"]; //  '%d%%';", 3000];
+            NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = 15';"]; //  '%d%%';", 3000];
             [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
         }
     
@@ -142,8 +153,15 @@
             [SVProgressHUD showWithStatus:NSLocalizedString( @"Loading", @"" )];
         
 
+        if ( self.currentPoem.isFavorite.boolValue )
+        {
+            self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", poem.title];
+        }
+        else
+        {
+            self.poemTitleLabel.text = poem.title;
+        }
         
-        self.poemTitleLabel.text = poem.title;
         self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
         
         if ( currentPoem.poemBody.length > 0 )
@@ -160,7 +178,7 @@
 
 - (void)action:(id)sender;
 {
-    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:self.currentPoem.title delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Share", (self.currentPoem.isFavorite) ? @"Unfavorite" : @"Favorite", nil];
+    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:self.currentPoem.title delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Share", (self.currentPoem.isFavorite.boolValue) ? @"Unfavorite" : @"★ Favorite", nil];
         
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
@@ -219,7 +237,25 @@
     if ( buttonIndex == 0 )
         [self share:nil];
     if ( buttonIndex == 1 )
-        return;
+    {
+        if ( self.currentPoem.isFavorite.boolValue )
+        {
+            self.currentPoem.isFavorite = [NSNumber numberWithBool:NO];
+        
+            [SVProgressHUD show];
+            [SVProgressHUD dismissWithError:NSLocalizedString( @"Unfavorited", @"" ) ];
+            
+            self.poemTitleLabel.text = [NSString stringWithFormat:@"%@", self.currentPoem.title];
+        }
+        else
+        {
+            self.currentPoem.isFavorite = [NSNumber numberWithBool:YES];
+        
+            [SVProgressHUD showSuccessWithStatus:NSLocalizedString( @"Favorited", @"" )];
+            
+            self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", self.currentPoem.title];
+        }
+    }
 }
 
 
@@ -237,7 +273,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
     self.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
     
@@ -250,19 +285,8 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action:)];
 }
 
-- (void)viewDidAppear:(BOOL)animated;
-{
-  //  [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-
-- (void)viewDidDisappear:(BOOL)animated;
-{
-  //  [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
 - (void)viewDidUnload
-{
-    
+{    
     [self setContainerScrollView:nil];
     [self setNavigationBar:nil];
     [self setWebView:nil];

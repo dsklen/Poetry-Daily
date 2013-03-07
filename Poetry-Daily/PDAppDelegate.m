@@ -76,8 +76,9 @@
         self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, viewController3, viewController4, nil];
         
     //    [self.tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:@"tab_bg"]];
-        [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor darkGrayColor]];
         
+        [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f]];
+
         self.window.rootViewController = self.tabBarController;
         [self.window makeKeyAndVisible];
         

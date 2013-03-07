@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString *author;
 @property (strong, nonatomic) NSString *authorImageURLString;
 @property (assign, nonatomic) BOOL hasAttemptedDownload;
+@property (assign, nonatomic) BOOL isJournalImage;
 @property (strong, nonatomic) NSData *authorImageData;
 @property (strong, nonatomic) UIImage *authorImage;
 @property (strong, nonatomic) NSNumber *isFavorite;

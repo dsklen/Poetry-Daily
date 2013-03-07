@@ -147,6 +147,16 @@
         poem.author = [NSString stringWithFormat:@"%@ %@", [poemAttributesDictionary objectForKey:@"poetFN"], [poemAttributesDictionary objectForKey:@"poetLN"]];;
         poem.journalTitle = [poemAttributesDictionary objectForKey:@"jName"];
         
+        NSString *imageAddress = [poemAttributesDictionary objectForKey:@"pImage"];
+        
+        if ( [imageAddress length] == 0 )
+        {
+            imageAddress = [poemAttributesDictionary objectForKey:@"jImage"];
+            poem.isJournalImage = YES;
+        }
+        
+        poem.authorImageURLString = imageAddress;
+        
         block( [NSArray arrayWithObject:poem] );
 
     }];
@@ -183,9 +193,15 @@
             
             poem.publishedDate = [server dateFromPoemID:poemID];
             poem.title = [poemAttributesDictionary objectForKey:@"title"];
-            poem.author = [poemAttributesDictionary objectForKey:@"poetname"];
+            poem.author = [NSString stringWithFormat:@"%@ %@", [poemAttributesDictionary objectForKey:@"poetFN"], [poemAttributesDictionary objectForKey:@"poetLN"], nil];
             
             NSString *imageAddress = [poemAttributesDictionary objectForKey:@"pImage"];
+            
+            if ( [imageAddress length] == 0 )
+            {
+                imageAddress = [poemAttributesDictionary objectForKey:@"jImage"];
+                poem.isJournalImage = YES;
+            }
             
             poem.authorImageURLString = imageAddress;
             

@@ -103,33 +103,33 @@
 - (void)loadView {
     [PayPal initializeWithAppID:@"APP-80W284485P519543T" forEnvironment:ENV_SANDBOX];
 	self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
-	self.view.autoresizesSubviews = FALSE;
+	self.view.autoresizesSubviews = YES;
 	UIColor *color = [UIColor groupTableViewBackgroundColor];
 	if (CGColorGetPattern(color.CGColor) == NULL) {
 		color = [UIColor lightGrayColor];
 	}
 	self.view.backgroundColor = color;
-	self.title = @"Simple Demo";
+	self.title = @"Donate";
 	
 	status = PAYMENTSTATUS_CANCELED;
 	
 	y = 2.;
 	
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	button.frame = CGRectMake((self.view.frame.size.width - 125), 2, 75, 25);
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//	button.frame = CGRectMake((self.view.frame.size.width - 125), 2, 75, 25);
+//    
+//	[button setTitle:@"Retry Init" forState:UIControlStateNormal];
+//	[button addTarget:self action:@selector(RetryInitialization) forControlEvents:UIControlEventTouchUpInside];
+//	[self.view addSubview:button];
     
-	[button setTitle:@"Retry Init" forState:UIControlStateNormal];
-	[button addTarget:self action:@selector(RetryInitialization) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:button];
-    
-	[self addLabelWithText:@"Simple Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(simplePayment)];
-	[self addLabelWithText:@"Parallel Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(parallelPayment)];
-	[self addLabelWithText:@"Chained Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(chainedPayment)];
-	[self addLabelWithText:@"Preapproval" andButtonWithType:BUTTON_294x43 withAction:@selector(preapproval)];
+	[self addLabelWithText:nil andButtonWithType:BUTTON_294x43 withAction:@selector(simplePayment)];
+//	[self addLabelWithText:@"Parallel Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(parallelPayment)];
+//	[self addLabelWithText:@"Chained Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(chainedPayment)];
+//	[self addLabelWithText:@"Preapproval" andButtonWithType:BUTTON_294x43 withAction:@selector(preapproval)];
 	
-	self.preapprovalField = [self addTextFieldWithPlaceholder:@"Preapproval Key"];
+//	self.preapprovalField = [self addTextFieldWithPlaceholder:@"Preapproval Key"];
 	
-	[self addAppInfoLabel];
+//	[self addAppInfoLabel];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -159,18 +159,19 @@
 	
 	//for a payment with a single recipient, use a PayPalPayment object
 	PayPalPayment *payment = [[PayPalPayment alloc] init];
-	payment.recipient = @"example-merchant-1@paypal.com";
+#warning add correct paypal info
+	payment.recipient = @"poetrydaily@paypal.com";
 	payment.paymentCurrency = @"USD";
-	payment.description = @"Teddy Bear";
-	payment.merchantName = @"Joe's Bear Emporium";
+	payment.description = @"PD Contribution";
+	payment.merchantName = @"The Daily Poetry Association (Poetry Daily)";
 	
 	//subtotal of all items, without tax and shipping
 	payment.subTotal = [NSDecimalNumber decimalNumberWithString:@"10"];
 	
 	//invoiceData is a PayPalInvoiceData object which contains tax, shipping, and a list of PayPalInvoiceItem objects
 	payment.invoiceData = [[PayPalInvoiceData alloc] init];
-	payment.invoiceData.totalShipping = [NSDecimalNumber decimalNumberWithString:@"2"];
-	payment.invoiceData.totalTax = [NSDecimalNumber decimalNumberWithString:@"0.35"];
+	payment.invoiceData.totalShipping = [NSDecimalNumber decimalNumberWithString:@"0"];
+	payment.invoiceData.totalTax = [NSDecimalNumber decimalNumberWithString:@"0"];
 	
 	//invoiceItems is a list of PayPalInvoiceItem objects
 	//NOTE: sum of totalPrice for all items must equal payment.subTotal
@@ -178,7 +179,7 @@
 	payment.invoiceData.invoiceItems = [NSMutableArray array];
 	PayPalInvoiceItem *item = [[PayPalInvoiceItem alloc] init];
 	item.totalPrice = payment.subTotal;
-	item.name = @"Teddy";
+	item.name = @"PD Contribution";
 	[payment.invoiceData.invoiceItems addObject:item];
 	
 	[[PayPal getPayPalInst] checkoutWithPayment:payment];

@@ -25,16 +25,36 @@
 
 @synthesize operationQueue = _operationQueue;
 @synthesize poemOperationQueue = _poemOperationQueue;
+@synthesize featureOperationQueue = _featureOperationQueue;
 @synthesize username = _username;
 @synthesize password = _password;
 
 
 #pragma mark - Public API
 
-/*
- * TO DO: Add methods to hit PD endpoints.
- * e.g.
- */
+- (void)fetchFeatureWithID:(NSString *)poemID block:(PDFetchBlock)block;
+{
+    NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
+        
+        NSError *error = nil;
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+        
+        [params setObject:poemID forKey:@"date"];
+        
+        NSDictionary *JSON = [self JSONForCommand:@"feature_mobile" parameters:params error:&error];
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            
+            if ( JSON == nil && error != nil )
+                block( nil, error );
+            else
+                block( [NSArray arrayWithObject:JSON], nil );
+        });
+    }];
+    
+    [self.poemOperationQueue cancelAllOperations];
+    [self.poemOperationQueue addOperation:fetch];
+}
 
 - (void)fetchPoemWithID:(NSString *)poemID block:(PDFetchBlock)block;
 {
@@ -45,7 +65,7 @@
          
     [params setObject:poemID forKey:@"date"];
           
-     NSDictionary *JSON = [self JSONForCommand:@"iphone" parameters:params error:&error];
+     NSDictionary *JSON = [self JSONForCommand:@"poem_mobile" parameters:params error:&error];
      
      dispatch_async( dispatch_get_main_queue(), ^{
      
@@ -81,7 +101,7 @@
     [self.operationQueue addOperation:fetch];
 }
 
-- (void)fetchPoetImagesWithStrings:(NSArray *)strings block:(PDFetchBlock)block;
+- (void)fetchPoetImagesWithStrings:(NSArray *)strings isJournalImage:(BOOL)isJournal block:(PDFetchBlock)block;
 {
     NSParameterAssert( strings != nil );
     NSParameterAssert( block != nil );
@@ -93,7 +113,16 @@
         
         for ( NSString *address in strings )
         {
-            NSURL *URL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://poems.com/images/_poets/%@", address]];
+            NSURL *URL = nil;
+            
+            if ( isJournal )
+            {
+                NSLog(@"Searching Journals!!!!");
+                
+                URL =[[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://poems.com/images/_books-journals/%@", address]];
+            }
+            else
+                URL =[[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://poems.com/images/_poets/%@", address]];
             
             NSLog(@"Fetching Image at URL: %@", [URL absoluteString] );
             NSError *error = nil;
@@ -228,6 +257,9 @@
         
         _poemOperationQueue = [[NSOperationQueue alloc] init];
         _poemOperationQueue.maxConcurrentOperationCount = 1;
+
+        _featureOperationQueue = [[NSOperationQueue alloc] init];
+        _featureOperationQueue.maxConcurrentOperationCount = 1;
 
         _username = [NSString stringWithFormat:@"poems"];
         _password = [NSString stringWithFormat:@"all_day"];

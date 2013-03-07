@@ -23,9 +23,14 @@
 @property (strong, nonatomic) IBOutlet UILabel *todaysPoemLabel;
 @property (strong, nonatomic) IBOutlet UIWebView *poemInformationWebView;
 
+@property (strong, nonatomic) IBOutlet UIWebView *iPadfeatureInformationWebView;
+@property (strong, nonatomic) IBOutlet UIButton *iPadVisitPublicationPageButton;
+
 - (IBAction)showMainPoemView:(id)sender;
 - (IBAction)fetchRandomPoem:(id)sender;
 - (IBAction)showPreviousDay:(id)sender;
 - (IBAction)showNextDay:(id)sender;
+- (IBAction)showPublicationSite:(id)sender;
+- (IBAction)showFeatureInformation:(id)sender;
 
 @end

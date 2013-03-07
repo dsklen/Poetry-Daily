@@ -8,6 +8,7 @@
 
 #import "PDMoreViewController.h"
 #import "PDDonationsViewController.h"
+#import "PDAboutPDViewController.h"
 
 @interface PDMoreViewController ()
 
@@ -21,7 +22,7 @@
     if (self) 
     {
         self.title = NSLocalizedString(@"More", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"more_info_tab_bg@2x"];
+        self.tabBarItem.image = [UIImage imageNamed:@"nav_icon_ios_more"];
         
         NSDictionary *titleTextAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                        [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
@@ -30,7 +31,7 @@
         
         NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
-                                                                  [UIColor blackColor], UITextAttributeTextColor,
+                                                                  [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f], UITextAttributeTextColor,
                                                                   nil];
         
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
@@ -133,6 +134,15 @@
             [self.navigationController pushViewController:donationsViewController animated:YES];
         }
     }
+    
+    if (indexPath.section == 2) {
+        if ( indexPath.row==0) {
+            PDAboutPDViewController *about = [[PDAboutPDViewController alloc] initWithNibName:@"PDAboutPDViewController" bundle:nil];
+            [self.navigationController pushViewController:about animated:YES];
+        }
+    }
+    
+    
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
