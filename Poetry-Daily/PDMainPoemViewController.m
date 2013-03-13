@@ -69,7 +69,7 @@
             NSString *style = nil;
             
             if ([currentPoem.poemBody rangeOfString:@"<!--prose-->"].location == NSNotFound) {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 44px; white-space:normal; padding:15px; margin:8px; width:700px;}</style></head><body>";
+                style = @"<html><head><style type=\"text/css\"> body {font-size: 44px; white-space:nowrap; padding:15px; margin:8px; width:700px;}</style></head><body>";
             }
             else {
                 style = @"<html><head><style type=\"text/css\"> body {font-size: 44px; white-space:normal; padding:15px; margin:8px;width:700px;}</style></head><body>";
