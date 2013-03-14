@@ -10,6 +10,8 @@
 #import "PDMediaServer.h"
 #import "PDConstants.h"
 #import "PDPoem.h"
+#import "PDSponsor.h"
+
 #import "SVProgressHUD.h"
 
 #define AUTOSAVE_BATCHING_INTERVAL 5.0
@@ -27,6 +29,10 @@
 
 - (void)updatePoemWithID:(NSString *)poemID completionBlock:(PDCacheUpdateBlock)block;
 - (void)updatePoemArchiveWithExistingObjects:(NSArray *)existingPoems completionBlock:(PDCacheUpdateBlock)block;
+
+- (void)updateSponsorsWithExistingItems:(NSArray *)existingSponsors completionBlock:(PDCacheUpdateBlock)block;
+
+- (void)returnNewsWithBlock:(PDCacheUpdateBlock)block;
 
 @end
 
@@ -118,11 +124,34 @@
              break;
          case PDServerCommandAllPoems:
              [self updatePoemArchiveWithExistingObjects:results completionBlock:block];
-             break;  
+             break;
+         case PDServerCommandSponsors:
+             [self updateSponsorsWithExistingItems:results completionBlock:block];
+             break;
+             
 //         ....etc.
      }
     
     return results;
+}
+
+- (void)returnNewsWithBlock:(PDCachedNewsUpdateBlock)block;
+{
+    NSError *error = nil;
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"News"];
+    
+    NSMutableDictionary *serverInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
+    
+    request.predicate = [NSPredicate predicateWithFormat:@"SELF.isCurrent == TRUE"];
+    request.fetchLimit = 1;
+    
+    NSArray *results = [self.context executeFetchRequest:request error:&error];
+
+    NSString *HTML = [results lastObject];
+    
+    if ( results && error == nil )
+        block( HTML, nil );
 }
 
 - (void)updatePoemWithID:(NSString *)poemID completionBlock:(PDCacheUpdateBlock)block;
@@ -147,11 +176,14 @@
         poem.author = [NSString stringWithFormat:@"%@ %@", [poemAttributesDictionary objectForKey:@"poetFN"], [poemAttributesDictionary objectForKey:@"poetLN"]];;
         poem.journalTitle = [poemAttributesDictionary objectForKey:@"jName"];
         
+        poem.publishedDate = [server dateFromPoemID:poemID];
+        
+        
         NSString *imageAddress = [poemAttributesDictionary objectForKey:@"pImage"];
         
         if ( [imageAddress length] == 0 )
         {
-            imageAddress = [poemAttributesDictionary objectForKey:@"jImage"];
+            imageAddress = [poemAttributesDictionary objectForKey:@"journalImage"];
             poem.isJournalImage = YES;
         }
         
@@ -240,6 +272,58 @@
 
     }];
 }
+
+- (void)updateSponsorsWithExistingItems:(NSArray *)existingSponsors completionBlock:(PDCacheUpdateBlock)block;
+{
+    PDMediaServer *server = [[PDMediaServer alloc] init];
+
+    [server fetchSponsorsWithBlock:^(NSArray *items, NSError *error) {
+    
+        if ( error != nil && items == nil )
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SetUpErrorHandlingNotificationHere" object:error];
+            return;
+        }
+        
+        NSArray *allSponsors = [items lastObject];
+        NSMutableArray *updatedSponsors = [[NSMutableArray alloc] init];
+        
+        for ( NSDictionary *sponsorDescriptionDictionary in allSponsors )
+        {
+            NSString *sponsorName = [sponsorDescriptionDictionary objectForKey:@"sponsorName"];
+         
+            PDSponsor *sponsor = [PDSponsor fetchOrCreateSponsorWithName:sponsorName];
+            
+            sponsor.name = sponsorName;
+            sponsor.text = [sponsorDescriptionDictionary objectForKey:@"sponsorText"];
+            sponsor.imageURL = [sponsorDescriptionDictionary objectForKey:@"sponsorImage"];
+            sponsor.siteURL = [sponsorDescriptionDictionary objectForKey:@"sponsorUrl"];
+
+            [updatedSponsors addObject:sponsor];
+        }
+        
+        block( updatedSponsors );
+        
+        for ( PDSponsor *sponsor in updatedSponsors )
+        {
+            if ( sponsor.imageData == nil )
+            {
+                [server fetchSponsorImagesWithStrings:@[sponsor.imageURL] block:^(NSArray *items, NSError *error) {
+                    
+                    if ( items && !error )
+                    {
+                        NSData *newImageData = items[0];
+                        sponsor.imageData = newImageData;
+                    
+                        block ( updatedSponsors );
+                    }
+                }];
+            }
+        }
+    }];
+    
+}
+
 
 #pragma mark Private API
 

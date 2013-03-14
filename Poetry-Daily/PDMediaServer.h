@@ -27,10 +27,13 @@ typedef void (^PDFetchBlock)(NSArray *items, NSError *error);
 /*
  * TO DO: Add methods to hit PD API endpoints.
  */
+- (void)fetchTheNewsWithBlock:(PDFetchBlock)block;
 - (void)fetchFeatureWithID:(NSString *)poemID block:(PDFetchBlock)block;
 - (void)fetchPoemWithID:(NSString *)poemID block:(PDFetchBlock)block;
 - (void)fetchPoemArchiveWithBlock:(PDFetchBlock)block;
+- (void)fetchSponsorsWithBlock:(PDFetchBlock)block;
 - (void)fetchPoetImagesWithStrings:(NSArray *)strings isJournalImage:(BOOL)isJournal block:(PDFetchBlock)block;
+- (void)fetchSponsorImagesWithStrings:(NSArray *)strings block:(PDFetchBlock)block;
 - (void)fetchArbitraryImagesWithURLs:(NSArray *)URLs block:(PDFetchBlock)block;
 
 - (NSString *)poemIDFromDate:(NSDate *)date;

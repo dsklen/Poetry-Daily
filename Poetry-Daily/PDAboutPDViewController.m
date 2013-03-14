@@ -29,7 +29,7 @@
     
     self.title = @"About";
     
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"light_honeycomb"]];
+    self.aboutPDWebView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"light_honeycomb"]];
 
     NSString *html = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
 	NSString *path = [[NSBundle mainBundle] bundlePath];

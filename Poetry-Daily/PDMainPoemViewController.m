@@ -69,36 +69,34 @@
             NSString *style = nil;
             
             if ([currentPoem.poemBody rangeOfString:@"<!--prose-->"].location == NSNotFound) {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 44px; white-space:normal; padding:15px; margin:8px; width:700px;}</style></head><body>";
+                style = @"<html><head><style type=\"text/css\"> body {font-size: 44px; white-space:nowrap; padding:15px; margin:8px; width:700px;}</style></head><body>";
             }
             else {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 44px; white-space:normal; padding:15px; margin:8px;width:700px;}</style></head><body>";
+                style = @"<html><head><style type=\"text/css\"> body {font-size: 44px; white-space:nowrap; padding:15px; margin:8px;width:700px;}</style></head><body>";
             }
-            
-            NSString *loadingStyle =  @"<html><head><style type=\"text/css\"> body {font-size: 484px; white-space:normal; padding:15px; margin:8px;width:100px;}</style></head><body>";
-            
+                    
             if ( currentPoem.poemBody.length > 0 )
                 [SVProgressHUD showWithStatus:NSLocalizedString( @"Loading...", @"" )];
+                        
             
-            NSString *formatedHTML = [NSString stringWithFormat:@"%@%@%@", ( currentPoem.poemBody.length > 0 ) ? style : loadingStyle, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""  , @"</body></html>"];
+            NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
+            [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""]];
+            [formattedHTML appendString:@"<a href=\"/\"><img src=\"lvl2_logo.gif\" alt=\"Poetry Daily\" border=\"0\" height=\"50\" width=\"62.5\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>"];
             
-            [self.webView loadHTMLString:formatedHTML baseURL:nil];
+            
+            [self.webView loadHTMLString:formattedHTML baseURL:nil];
             NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
             [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
             
-//            [SVProgressHUD dismiss];
+            //            [SVProgressHUD dismiss];
 
             self.poemTitleLabel.text = poem.title;
             
             
             if ( self.currentPoem.isFavorite.boolValue )
-            {
                 self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", self.currentPoem.title];
-            }
             else
-            {
                 self.poemTitleLabel.text = [NSString stringWithFormat:@"%@", self.currentPoem.title];
-            }
             
             self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
             
@@ -127,8 +125,13 @@
                 style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:normal; padding:5px; margin:8px;width:800px;}</style></head><body>";
             }
             
-            NSString *formatedHTML = [NSString stringWithFormat:@"%@%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""  , @"</body></html>"];
-            [self.webView loadHTMLString:formatedHTML baseURL:nil];
+            NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
+            [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""]];
+            [formattedHTML appendString:@"<a href=\"/\"><img src=\"lvl2_logo.gif\" alt=\"Poetry Daily\" border=\"0\" height=\"50\" width=\"62.5\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>"];
+            
+            NSLog(@"%@", formattedHTML);
+            
+            [self.webView loadHTMLString:formattedHTML baseURL:nil];
             
             NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
             [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
@@ -142,8 +145,14 @@
                 style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:normal; padding:30px; margin:8px;width:800px;}</style></head><body>";
             }
             
-            NSString *formatedHTML = [NSString stringWithFormat:@"%@%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""  , @"</body></html>"];
-            [self.webView loadHTMLString:formatedHTML baseURL:nil];
+            NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
+            [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""]];
+            [formattedHTML appendString:@"<a href=\"/\"><img src=\"lvl2_logo.gif\" alt=\"Poetry Daily\" border=\"0\" height=\"50\" width=\"62.5\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>"];
+            
+            NSLog(@"%@", formattedHTML);
+            
+            [self.webView loadHTMLString:formattedHTML baseURL:nil];
+
             
             NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = 15';"]; //  '%d%%';", 3000];
             [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
@@ -178,7 +187,7 @@
 
 - (void)action:(id)sender;
 {
-    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:self.currentPoem.title delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Share", (self.currentPoem.isFavorite.boolValue) ? @"Unfavorite" : @"★ Favorite", nil];
+    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:self.currentPoem.title delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Share", (self.currentPoem.isFavorite.boolValue) ? @"☆ Unfavorite" : @"★ Favorite", nil];
         
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
@@ -283,6 +292,11 @@
     self.navigationItem.titleView = self.titleView;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action:)];
+    
+    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+                                                                   nil] forState:UIControlStateNormal];
+
 }
 
 - (void)viewDidUnload

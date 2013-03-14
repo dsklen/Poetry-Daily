@@ -11,6 +11,7 @@
 
 typedef void (^PDCompletionBlock)(BOOL success, NSError *error);
 typedef void (^PDCacheUpdateBlock)(NSArray *newResults);
+typedef void (^PDCachedNewsUpdateBlock)(NSString *HTML, *error);
 
 /*
  * Handles cached media data through a Core Data store. All UI controllers 

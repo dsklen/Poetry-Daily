@@ -49,7 +49,7 @@
 	UIButton *button = [[PayPal getPayPalInst] getPayButtonWithTarget:self andAction:action andButtonType:type andButtonText:BUTTON_TEXT_DONATE];
 	CGRect frame = button.frame;
 	frame.origin.x = round((self.view.frame.size.width - button.frame.size.width) / 2.);
-	frame.origin.y = round(y + size.height);
+	frame.origin.y = 250.0f;// round(y + size.height);
 	button.frame = frame;
 	[self.view addSubview:button];
 	
@@ -99,38 +99,60 @@
 #pragma mark -
 #pragma mark View lifecycle methods
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
+- (void)viewDidLoad;
+{
+    self.title = @"Donate";
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+
     [PayPal initializeWithAppID:@"APP-80W284485P519543T" forEnvironment:ENV_SANDBOX];
-	self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
-	self.view.autoresizesSubviews = YES;
-	UIColor *color = [UIColor groupTableViewBackgroundColor];
-	if (CGColorGetPattern(color.CGColor) == NULL) {
-		color = [UIColor lightGrayColor];
-	}
-	self.view.backgroundColor = color;
-	self.title = @"Donate";
-	
-	status = PAYMENTSTATUS_CANCELED;
+
+    status = PAYMENTSTATUS_CANCELED;
 	
 	y = 2.;
 	
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//	button.frame = CGRectMake((self.view.frame.size.width - 125), 2, 75, 25);
-//    
-//	[button setTitle:@"Retry Init" forState:UIControlStateNormal];
-//	[button addTarget:self action:@selector(RetryInitialization) forControlEvents:UIControlEventTouchUpInside];
-//	[self.view addSubview:button];
+    //    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    //	button.frame = CGRectMake((self.view.frame.size.width - 125), 2, 75, 25);
+    //
+    //	[button setTitle:@"Retry Init" forState:UIControlStateNormal];
+    //	[button addTarget:self action:@selector(RetryInitialization) forControlEvents:UIControlEventTouchUpInside];
+    //	[self.view addSubview:button];
     
 	[self addLabelWithText:nil andButtonWithType:BUTTON_294x43 withAction:@selector(simplePayment)];
-//	[self addLabelWithText:@"Parallel Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(parallelPayment)];
-//	[self addLabelWithText:@"Chained Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(chainedPayment)];
-//	[self addLabelWithText:@"Preapproval" andButtonWithType:BUTTON_294x43 withAction:@selector(preapproval)];
-	
-//	self.preapprovalField = [self addTextFieldWithPlaceholder:@"Preapproval Key"];
-	
-//	[self addAppInfoLabel];
+
 }
+
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+//- (void)loadView {
+//    [PayPal initializeWithAppID:@"APP-80W284485P519543T" forEnvironment:ENV_SANDBOX];
+////	self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
+//	self.view.autoresizesSubviews = YES;
+//	UIColor *color = [UIColor groupTableViewBackgroundColor];
+//	if (CGColorGetPattern(color.CGColor) == NULL) {
+//		color = [UIColor lightGrayColor];
+//	}
+//	self.view.backgroundColor = color;
+//	self.title = @"Donate";
+//	
+//	status = PAYMENTSTATUS_CANCELED;
+//	
+//	y = 2.;
+//	
+////    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+////	button.frame = CGRectMake((self.view.frame.size.width - 125), 2, 75, 25);
+////    
+////	[button setTitle:@"Retry Init" forState:UIControlStateNormal];
+////	[button addTarget:self action:@selector(RetryInitialization) forControlEvents:UIControlEventTouchUpInside];
+////	[self.view addSubview:button];
+//    
+//	[self addLabelWithText:nil andButtonWithType:BUTTON_294x43 withAction:@selector(simplePayment)];
+////	[self addLabelWithText:@"Parallel Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(parallelPayment)];
+////	[self addLabelWithText:@"Chained Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(chainedPayment)];
+////	[self addLabelWithText:@"Preapproval" andButtonWithType:BUTTON_294x43 withAction:@selector(preapproval)];
+//	
+////	self.preapprovalField = [self addTextFieldWithPlaceholder:@"Preapproval Key"];
+//	
+////	[self addAppInfoLabel];
+//}
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

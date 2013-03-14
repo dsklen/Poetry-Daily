@@ -137,6 +137,11 @@
     [super viewDidUnload];
 }
 
+- (void)viewWillDisappear:(BOOL)animated;
+{
+    [SVProgressHUD dismiss];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -199,7 +204,7 @@
         }
         else
         {
-            [SVProgressHUD dismissWithError:@"Not found"];
+            [SVProgressHUD dismissWithError:@"Long URL not found"];
         }
     }];
 }
@@ -311,8 +316,10 @@
         [cell.contentView addSubview:retweetIcon];
         
         
-        cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper"]];
-        cell.accessoryView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper"]];
+        cell.contentView.backgroundColor = [UIColor clearColor];// [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper"]];
+        cell.accessoryView.backgroundColor = [UIColor clearColor]; // [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper"]];
+        
+        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper"]];
     }
     
     PDTweet *tweet = [self.tweetsArray objectAtIndex:indexPath.row];
@@ -386,6 +393,15 @@
 
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    cell.contentView.backgroundColor = [UIColor clearColor];// [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper"]];
+    cell.accessoryView.backgroundColor = [UIColor clearColor]; // [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper"]];
+    
+    cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper"]];
+
 }
 
 @end

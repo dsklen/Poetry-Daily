@@ -19,6 +19,8 @@
 #import "QBFlatButton.h"
 #import "SVWebViewController.h"
 
+#define REFRESH_HEADER_HEIGHT 52.0f
+
 @interface PDHomeViewController ()
 
 - (void)showPoemForDay:(NSDate *)date;
@@ -27,6 +29,29 @@
 - (void)updatePoemInformationForPoem:(PDPoem *)poem animated:(BOOL)animated;
 
 @property (strong, nonatomic) NSURL *publicationURL;
+
+@property (nonatomic, strong) UIView *readPoemNowContainerView;
+
+@property (nonatomic, strong) UIView *refreshHeaderView;
+@property (nonatomic, strong) UILabel *refreshLabel;
+@property (nonatomic, strong) UIImageView *refreshArrow;
+@property (nonatomic, strong) UIActivityIndicatorView *refreshSpinner;
+@property (nonatomic, strong) UILabel *refreshLogoActivityLabel;
+@property (nonatomic, strong) NSString *textPull;
+@property (nonatomic, strong) NSString *textRelease;
+@property (nonatomic, strong) NSString *textLoading;
+@property (nonatomic, readwrite) BOOL isDragging;
+@property (nonatomic, readwrite) BOOL isLoading;
+
+@property (nonatomic, strong) UIBarButtonItem *favoriteBarButtonItem;
+
+
+- (void)setupStrings;
+- (void)addPullToRefreshHeader;
+- (void)startLoading;
+- (void)stopLoading;
+- (void)refresh;
+
 
 @end
 
@@ -86,7 +111,6 @@
                                                                     
                 PDPoem *poem = [newResults lastObject];
         
-        
                 if ( poem && [poemID isEqualToString:poem.poemID] )
                 {
                     [self updatePoemInformationForPoem:poem animated:NO];
@@ -96,11 +120,34 @@
                     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
                     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
-                    self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
+                    
+                    [UIView animateWithDuration:0.15f animations:^{
+                        
+                        self.poemPublishedDateLabel.alpha = 0.0f;
+                        
+                    } completion:^(BOOL finished) {
+                        
+                        self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
+
+                        [UIView animateWithDuration:0.4f animations:^{
+                            
+                            self.poemPublishedDateLabel.alpha = 1.0f;
+
+                        } completion:NULL];
+                    }];
+                    
+                    UIImage *favoriteOrUnfavoriteImage;
+                    
+                    if ( self.currentPoem.isFavorite.boolValue )
+                        favoriteOrUnfavoriteImage = [UIImage imageNamed:@"favoriteStar"];
+                    else
+                        favoriteOrUnfavoriteImage =  [UIImage imageNamed:@"unfilledFavoriteStar"];
+                    
+                    [self.favoriteBarButtonItem setImage:favoriteOrUnfavoriteImage];
                     
                     NSLog(@"IMAGE URL: %@", poem.authorImageURLString);
                     
-                    if ( poem.authorImageURLString.length > 0)
+                    if ( poem.authorImageURLString.length > 0 && poem.authorImageData.length == 0 && !poem.hasAttemptedDownload)
                     {
                         PDMediaServer *server = [[PDMediaServer alloc] init];
                         
@@ -110,11 +157,40 @@
                             {
                                 NSLog(@"Found Image.");
                                 
-                                NSData *newImageData = items[0];
-                                poem.authorImageData  = newImageData;
-                                self.poemAuthorImageView.image = poem.authorImage;
                                 
-                                poem.hasAttemptedDownload = YES;
+                                dispatch_async( dispatch_get_main_queue(), ^{
+                                    
+                                    NSData *newImageData = items[0];
+                                    poem.authorImageData  = newImageData;
+                                    
+                                    [UIView animateWithDuration:0.0f animations:^{
+                                        
+                                        self.poemAuthorImageView.alpha = 0.0f;
+                                        
+                                    } completion:^(BOOL finished) {
+                                        
+                                        [self.poemAuthorImageActivityView stopAnimating];
+                                        
+                                        self.poemAuthorImageView.image = poem.authorImage;
+                                        
+                                        CGRect newFrame = self.poemAuthorImageView.frame;
+                                        newFrame.size.height = poem.authorImage.size.height;
+                                        self.poemAuthorImageView.frame = newFrame;
+                                        
+                                        [self.tableView beginUpdates];
+                                        [self.tableView endUpdates];
+                                        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+                                        
+                                        [UIView animateWithDuration:0.2f animations:^{
+                                            
+                                            self.poemAuthorImageView.alpha = 1.0f;
+                                            
+                                        } completion:NULL];
+                                    }];
+                                    
+                                    poem.hasAttemptedDownload = YES;
+                                });
+                                
                             }
                             else
                             {
@@ -142,10 +218,46 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
         [dateFormatter setDateStyle:NSDateFormatterLongStyle];
-        self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
 
-        self.poemAuthorImageView.image = poem.authorImage;
+//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 
+        
+        [UIView animateWithDuration:0.2f animations:^{
+            
+            self.poemPublishedDateLabel.alpha = 0.0f;
+            
+        } completion:^(BOOL finished) {
+            
+            self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
+            
+            [UIView animateWithDuration:0.5f animations:^{
+                
+//                self.poemPublishedDateLabel.alpha = 1.0f;
+                
+            } completion:NULL];
+        }];
+        
+        
+        if ( poem.authorImage )
+        {
+            self.poemAuthorImageView.image = poem.authorImage;
+                        
+            CGRect newFrame = self.poemAuthorImageView.frame;
+            newFrame.size.height = poem.authorImage.size.height;
+            self.poemAuthorImageView.frame = newFrame;
+            
+            [self.tableView beginUpdates];
+            [self.tableView endUpdates];
+
+        }
+        else
+            [UIView animateWithDuration:0.1 animations:^{
+                
+                [self.poemAuthorImageActivityView startAnimating];
+                
+                self.poemAuthorImageView.alpha = 0.0f;
+            }];
+        
         self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
         self.todaysPoemLabel.hidden = !( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
         
@@ -155,7 +267,7 @@
             [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
     }
 
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    if ( YES)     //    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         [server fetchFeatureWithID:poemID block:^(NSArray *items, NSError *error) {
            
@@ -166,15 +278,6 @@
                 NSString *poetInfo = [featureAttributesDictionary objectForKey:@"poetLT"];
                 NSString *journalInfo = [featureAttributesDictionary objectForKey:@"jText"];
 
-                NSMutableString *HTML = [[NSMutableString alloc] init];
-                
-                [HTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 20px;  white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
-                NSString *combinedInfo = [NSString stringWithFormat:@"%@<br><br>%@", poetInfo, journalInfo];
-                
-                [HTML appendString:combinedInfo];
-                [HTML appendString:@"</body></html>"];
-                
-                [self.iPadfeatureInformationWebView loadHTMLString:combinedInfo baseURL:nil];
                 
                 self.publicationURL = [NSURL URLWithString:[featureAttributesDictionary objectForKey:@"puburl"]];
                 
@@ -183,8 +286,49 @@
                 self.iPadVisitPublicationPageButton.hidden = ( [pubURLString length] == 0 );
                 
                 [self.iPadVisitPublicationPageButton setTitle:[NSString stringWithFormat:@"Visit %@ Site ⇗", ([publisherName length] == 0 ) ? @"Publisher" : publisherName] forState:UIControlStateNormal];
-//                [self.iPadVisitPublicationPageButton sizeToFit];
+
+                
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+                {                
+                    NSMutableString *HTML = [[NSMutableString alloc] init];
+                    
+                    [HTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 20px;  white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
+                    NSString *combinedInfo = [NSString stringWithFormat:@"%@<br><br>%@", poetInfo, journalInfo];
+                    
+                    [HTML appendString:combinedInfo];
+                    [HTML appendString:@"</body></html>"];
+                    
+                    [self.iPadfeatureInformationWebView loadHTMLString:combinedInfo baseURL:nil];
+
+                }
+                else
+                {
+                    NSMutableString *HTML = [[NSMutableString alloc] init];
+                    
+                    [HTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 16px;  white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
+                    NSString *combinedInfo = [NSString stringWithFormat:@"%@<br>", poetInfo];
+                    
+                    [HTML appendString:combinedInfo];
+                    [HTML appendString:@"</body></html>"];
+                    
+                    [self.poetInfoWebView loadHTMLString:HTML baseURL:nil];
+                    self.poetInfoWebView.scrollView.scrollEnabled = NO;
+                    
+                    NSMutableString *publicationHTML = [[NSMutableString alloc] init];
+                    
+                    [publicationHTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 16px;  white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
+                    NSString *combinedPublicationInfo = [NSString stringWithFormat:@"%@<br>", journalInfo];
+                    
+                    [publicationHTML appendString:combinedPublicationInfo];
+                    [publicationHTML appendString:@"</body></html>"];
+                    
+                    [self.publicationInfoWebView loadHTMLString:publicationHTML baseURL:nil];
+                    self.publicationInfoWebView.scrollView.scrollEnabled = NO;
+
+                }
             }
+            
+            [self stopLoading];
         }];
     }
 }
@@ -308,6 +452,30 @@
     [self.poemInformationWebView stringByEvaluatingJavaScriptFromString:resize];
 }
 
+- (IBAction)favoriteOrUnfavorite:(id)sender;
+{
+    if ( self.currentPoem.isFavorite.boolValue )
+    {
+        self.currentPoem.isFavorite = [NSNumber numberWithBool:NO];
+        
+        [SVProgressHUD show];
+        [SVProgressHUD dismissWithError:NSLocalizedString( @"Unfavorited", @"" ) ];
+        
+        self.favoriteBarButtonItem.image = [UIImage imageNamed:@"unfilledFavoriteStar"];
+
+    }
+    else
+    {
+        self.currentPoem.isFavorite = [NSNumber numberWithBool:YES];
+        
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString( @"Favorited", @"" )];
+
+        self.favoriteBarButtonItem.image = [UIImage imageNamed:@"favoriteStar"];
+
+    }
+}
+
+
 
 #pragma mark - View Lifecycle
 
@@ -339,22 +507,61 @@
 {
     [super viewDidLoad];
     
+    [self setupStrings];
+    [self addPullToRefreshHeader];
+    [self.refreshLabel setTextColor:[UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0]];
+    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Random" style:UIBarButtonItemStyleBordered target:self action:@selector(fetchRandomPoem:)];
     
+    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+                                              [UIColor whiteColor], UITextAttributeTextShadowColor,
+                                              [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                              [UIFont systemFontOfSize:12.0f], UITextAttributeFont,
+                                              nil] forState:UIControlStateNormal];
+    
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+
+    
+//    self.navigationItem.leftBarButtonItem.tintColor
+
+    
+    
+    UIImage *favoriteOrUnfavoriteImage;
+    
+    if ( self.currentPoem.isFavorite.boolValue )
+        favoriteOrUnfavoriteImage = [UIImage imageNamed:@"favoriteStar"];
+    else
+        favoriteOrUnfavoriteImage =  [UIImage imageNamed:@"unfilledFavoriteStar"];
+    
+    [self.favoriteBarButtonItem setImage:favoriteOrUnfavoriteImage];
+    
+    self.favoriteBarButtonItem = [[UIBarButtonItem alloc] initWithImage:favoriteOrUnfavoriteImage style:UIBarButtonItemStylePlain target:self action:@selector(favoriteOrUnfavorite:)];
+    
+    self.navigationItem.rightBarButtonItem =self.favoriteBarButtonItem;
+    
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PDLogo.png"]];
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    logoImageView.frame = CGRectMake(0.0f, 0.0f, self.navigationItem.titleView.frame.size.width, 42.0f);
-    self.navigationItem.titleView = logoImageView;    
+    logoImageView.frame = CGRectMake(100.0f, 39.0f, 120.0f, 33.0f);
+    self.navigationItem.titleView = logoImageView;
     
-    self.poemAuthorImageView.image = [UIImage imageNamed:@"plumlystanley.jpeg"];
+    self.poemAuthorImageView.image = [UIImage imageNamed:nil];
     self.poemAuthorImageView.layer.shadowColor = [UIColor blackColor].CGColor;
     self.poemAuthorImageView.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
     self.poemAuthorImageView.layer.shadowRadius = 2.0f;
-    self.poemAuthorImageView.layer.shadowOpacity = 0.5f;  
+    self.poemAuthorImageView.layer.shadowOpacity = 0.5f;
+    
+    
+    self.poemPublishedDateLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.poemPublishedDateLabel.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
+    self.poemPublishedDateLabel.layer.shadowRadius = 2.0f;
+    self.poemPublishedDateLabel.layer.shadowOpacity = 0.5f;
+
     
     self.readPoemButton.layer.borderColor = [[UIColor colorWithRed:99.0f/255.0f green:33.0f/255.0f blue:40.0f/255.0f alpha:0.9f] CGColor];
     self.readPoemButton.layer.cornerRadius = 6.0f;
@@ -396,6 +603,27 @@
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipePreviousDay:)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     [self.poemPublishedDateLabel addGestureRecognizer:swipeRight];
+        
+    self.mainPoemTableViewCell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+    self.readPoemButtonTableViewCell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+    self.poetInformationTableViewCell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+    self.publicationInformationTableViewCell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+
+    
+//    
+//    [UIView animateWithDuration:1.4f delay:0.0f options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionRepeat animations:^{
+//        [UIView setAnimationRepeatCount:10000];
+//
+////        self.refreshLogoActivityLabel.transform = CGAffineTransformRotate(self.refreshLogoActivityLabel.transform, 2 * M_PI);
+//        [self.refreshLogoActivityLabel layer].transform = CATransform3DMakeRotation(2 * M_PI, 0, 0, 1);
+//
+//    } completion:^(BOOL finished) {
+//        
+//        
+//    }];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated;
@@ -424,6 +652,9 @@
     [self setIPadfeatureInformationWebView:nil];
     [self setIPadVisitPublicationPageButton:nil];
     
+    [self setPoetInfoWebView:nil];
+    [self setPublicationInfoWebView:nil];
+    [self setPoemAuthorImageActivityView:nil];
     [super viewDidUnload];
 }
 
@@ -431,6 +662,317 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    static NSString *CellIdentifier = @"Cell";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    if ( indexPath.section == 0) return self.mainPoemTableViewCell;
+    if ( indexPath.section == 1) return self.poetInformationTableViewCell;
+    if ( indexPath.section == 2) return self.publicationInformationTableViewCell;
+    
+    return nil;
+//    return cell;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    if ( indexPath.section == 0)
+    {
+        return fmaxf( self.poemAuthorImageView.frame.size.height + 40.0f, 210.0f );
+    }
+    
+    if ( indexPath.section == 1) return self.poetInformationTableViewCell.frame.size.height;
+    if ( indexPath.section == 2) return self.publicationInformationTableViewCell.frame.size.height;
+
+    return 0.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
+{
+    if ( section == 0 )
+    {
+        return 0.0f;
+    }
+    if ( section == 1 )
+    {
+        return 63.0f;
+    }
+    
+    return 9.0f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section;
+{
+//    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, 320.0f, CGFloat height)]
+    
+    if ( section == 1 )
+    {
+        UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, 320.0f, 63.0f )];
+
+        containerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+
+        [containerView addSubview:self.readPoemButton];
+        
+        self.readPoemNowContainerView = containerView;
+        
+        self.readPoemButton.frame = CGRectMake( 11.0f, 11.0f, 298.0f, 44.0f );
+        return containerView;
+    }
+    else if ( section == 2)
+    {
+        UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, 320.0f, 9.0f )];
+        containerView.backgroundColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+        return containerView;
+    }
+    
+    
+    return nil;
+}
+
+/*
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
+
+/*
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
+
+/*
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
+
+/*
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     */
+}
+
+- (void)setupStrings{
+    self.textPull = @"Pull down to refresh poem...";
+    self.textRelease = @"Release to refresh poem...";
+    self.textLoading = [NSString stringWithFormat:@"Loading%@...",( [self.currentPoem.title length] > 0 ) ? self.currentPoem.title : @""];
+}
+
+- (void)addPullToRefreshHeader {
+    self.refreshHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 - REFRESH_HEADER_HEIGHT, 320, REFRESH_HEADER_HEIGHT)];
+    self.refreshHeaderView.backgroundColor = [UIColor clearColor];
+    
+    self.refreshLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, REFRESH_HEADER_HEIGHT)];
+    self.refreshLabel.backgroundColor = [UIColor clearColor];
+    self.refreshLabel.font = [UIFont boldSystemFontOfSize:12.0];
+    self.refreshLabel.textAlignment = NSTextAlignmentCenter;
+    
+    self.refreshArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow.png"]];
+    self.refreshArrow.frame = CGRectMake(floorf((REFRESH_HEADER_HEIGHT - 27) / 2),
+                                    (floorf(REFRESH_HEADER_HEIGHT - 44) / 2),
+                                    27, 44);
+    
+//    self.refreshSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//    self.refreshSpinner.frame = CGRectMake(floorf(floorf(REFRESH_HEADER_HEIGHT - 20) / 2), floorf((REFRESH_HEADER_HEIGHT - 20) / 2), 20, 20);
+//    self.refreshSpinner.hidesWhenStopped = YES;
+    
+    self.refreshLogoActivityLabel = [[UILabel alloc] initWithFrame:CGRectMake(floorf(floorf(REFRESH_HEADER_HEIGHT - 20) / 2), floorf((REFRESH_HEADER_HEIGHT - 20) / 2), 20, 20)];
+    self.refreshLogoActivityLabel.text = @"PD";
+    self.refreshLogoActivityLabel.textAlignment = UITextAlignmentCenter;
+    [self.refreshLogoActivityLabel setFont:[UIFont boldSystemFontOfSize:13.0f]];
+    self.refreshLogoActivityLabel.backgroundColor = [UIColor clearColor];
+    [self.refreshLogoActivityLabel setTextColor:[UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0]];
+    self.refreshLogoActivityLabel.alpha = 0.0f;
+    
+    
+    
+    [self.refreshHeaderView addSubview:self.refreshLabel];
+    [self.refreshHeaderView addSubview:self.refreshArrow];
+    [self.refreshHeaderView addSubview:self.refreshLogoActivityLabel];
+    [self.tableView addSubview:self.refreshHeaderView];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (self.isLoading) return;
+    self.isDragging = YES;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.isLoading) {
+        // Update the content inset, good for section headers
+        if (scrollView.contentOffset.y > 0)
+            self.tableView.contentInset = UIEdgeInsetsZero;
+        else if (scrollView.contentOffset.y >= -REFRESH_HEADER_HEIGHT)
+            self.tableView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    } else if (self.isDragging && scrollView.contentOffset.y < 0) {
+        // Update the arrow direction and label
+        [UIView animateWithDuration:0.25 animations:^{
+            if (scrollView.contentOffset.y < -REFRESH_HEADER_HEIGHT) {
+                // User is scrolling above the header
+                self.refreshLabel.text = self.textRelease;
+                [self.refreshArrow layer].transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
+            } else {
+                // User is scrolling somewhere within the header
+                self.refreshLabel.text = self.textPull;
+                [self.refreshArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
+            }
+        }];
+    }
+    
+    
+    if ( scrollView.contentOffset.y > self.mainPoemTableViewCell.frame.size.height + self.readPoemButtonTableViewCell.frame.size.height )
+    {
+        self.readPoemNowContainerView.backgroundColor = [UIColor clearColor];
+    }
+    else
+    {
+        self.readPoemNowContainerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+    }
+    
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (self.isLoading) return;
+   self.isDragging = NO;
+    if (scrollView.contentOffset.y <= -REFRESH_HEADER_HEIGHT) {
+        // Released above the header
+        [self startLoading];
+    }
+}
+
+- (void)startLoading {
+    self.isLoading = YES;
+    
+    // Show the header
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tableView.contentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
+        self.refreshLabel.text = self.textLoading;
+        self.refreshArrow.hidden = YES;
+        [self.refreshSpinner startAnimating];
+        
+        CABasicAnimation* rotationAnimation;
+        rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+        rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 /* full rotation*/ * 30 * 2.0f ];
+        rotationAnimation.duration = 2.0f * 30;
+        rotationAnimation.cumulative = YES;
+        rotationAnimation.repeatCount = 30;
+        
+        [self.refreshLogoActivityLabel.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+        
+        
+        [UIView animateWithDuration:1.6 animations:^{
+            
+            self.refreshLogoActivityLabel.alpha = 1.0f;
+        }];
+        
+//        [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionRepeat animations:^{
+//            
+//            [UIView setAnimationRepeatCount:10000];
+//            
+//            self.refreshLogoActivityLabel.transform = CGAffineTransformRotate(self.refreshLogoActivityLabel.transform, 2 * M_PI);
+//            
+//            
+//        } completion:^(BOOL finished) {
+//            
+//        }];
+    }];
+    
+    // Refresh action!
+    [self refresh];
+}
+
+- (void)stopLoading {
+    self.isLoading = NO;
+    
+    // Hide the header
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tableView.contentInset = UIEdgeInsetsZero;
+        [self.refreshArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
+    }
+                     completion:^(BOOL finished) {
+                         [self performSelector:@selector(stopLoadingComplete)];
+                     }];
+}
+
+- (void)stopLoadingComplete {
+    // Reset the header
+    self.refreshLabel.text = self.textPull;
+    self.refreshArrow.hidden = NO;
+    [self.refreshSpinner stopAnimating];
+    
+    [UIView animateWithDuration:0.8 animations:^{
+       
+        self.refreshLogoActivityLabel.alpha = 0.0f;
+    }];
+    
+    
+//    [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionRepeat animations:^{
+//        
+////        [self.refreshLogoActivityLabel layer].transform = CATransform3DMakeRotation(0, 0, 0, 1);
+//        
+////        self.refreshLogoActivityLabel.transform = CGAffineTransformRotate(self.refreshLogoActivityLabel.transform, 2 * M_PI);
+//
+//        
+//    } completion:^(BOOL finished) {
+//        
+//    }];
+}
+
+- (void)refresh {
+    // This is just a demo. Override this method with your custom reload action.
+    // Don't forget to call stopLoading at the end.    
+    NSDate *newDate = [self.currentPoem.publishedDate dateByAddingTimeInterval:0.0f];
+    
+    [self showPoemForDay:newDate];
+}
+
+
 
 
 @end

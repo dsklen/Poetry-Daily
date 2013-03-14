@@ -32,6 +32,30 @@
 
 #pragma mark - Public API
 
+- (void)fetchTheNewsWithBlock:(PDFetchBlock)block;
+{
+    NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
+        
+        NSError *error = nil;
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+        
+//        [params setObject:poemID forKey:@"date"];
+        
+        NSDictionary *JSON = [self JSONForCommand:@"news_mobile" parameters:params error:&error];
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            
+            if ( JSON == nil && error != nil )
+                block( nil, error );
+            else
+                block( [NSArray arrayWithObject:JSON], nil );
+        });
+    }];
+    
+    [self.operationQueue cancelAllOperations];
+    [self.operationQueue addOperation:fetch];
+}
+
 - (void)fetchFeatureWithID:(NSString *)poemID block:(PDFetchBlock)block;
 {
     NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
@@ -101,6 +125,27 @@
     [self.operationQueue addOperation:fetch];
 }
 
+- (void)fetchSponsorsWithBlock:(PDFetchBlock)block;
+{
+    NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
+        
+        NSError *error = nil;
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+        
+        NSDictionary *JSON = [self JSONForCommand:@"sponsors_mobile" parameters:params error:&error];
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            
+            if ( JSON == nil && error != nil )
+                block( nil, error );
+            else
+                block( @[JSON], nil );
+        });
+    }];
+    
+    [self.operationQueue addOperation:fetch];
+}
+
 - (void)fetchPoetImagesWithStrings:(NSArray *)strings isJournalImage:(BOOL)isJournal block:(PDFetchBlock)block;
 {
     NSParameterAssert( strings != nil );
@@ -116,9 +161,7 @@
             NSURL *URL = nil;
             
             if ( isJournal )
-            {
-                NSLog(@"Searching Journals!!!!");
-                
+            {                
                 URL =[[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://poems.com/images/_books-journals/%@", address]];
             }
             else
@@ -143,6 +186,46 @@
     }];
     
 //    [fetch setQueuePriority:NSOperationQueuePriorityLow];
+    
+    [self.operationQueue addOperation:fetch];
+}
+
+- (void)fetchSponsorImagesWithStrings:(NSArray *)strings block:(PDFetchBlock)block;
+{
+    NSParameterAssert( strings != nil );
+    NSParameterAssert( block != nil );
+    
+    NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
+        
+        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:[strings count]];
+        NSError *error = nil;
+        
+        for ( NSString *address in strings )
+        {
+            NSURL *URL = nil;
+            
+
+            URL =[[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://poems.com/images/_features-sponsors/%@", address]];
+            
+            NSLog(@"Fetching Image at URL: %@", [URL absoluteString] );
+            NSError *error = nil;
+            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+            NSHTTPURLResponse *response = nil;
+            
+            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            if ( data == nil )
+                data = (id)[NSNull null];
+            
+            [results addObject:data];
+        }
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            block( results, error );
+        });
+    }];
+    
+    //    [fetch setQueuePriority:NSOperationQueuePriorityLow];
     
     [self.operationQueue addOperation:fetch];
 }

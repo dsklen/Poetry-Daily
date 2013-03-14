@@ -11,10 +11,12 @@
 extern NSString *PDServerCommandKey;
 extern NSString *PDPoemKey;
 extern NSString *PDAllPoemsKey;
+extern NSString *PDSponsorsKey;
 
 typedef enum 
 {
     PDServerCommandNone = 0,
     PDServerCommandPoem,
-    PDServerCommandAllPoems
+    PDServerCommandAllPoems,
+    PDServerCommandSponsors
 } PDCacheServerCommand;

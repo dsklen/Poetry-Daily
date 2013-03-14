@@ -63,6 +63,9 @@
         
             [SVProgressHUD dismiss];
         }
+        else
+            [SVProgressHUD dismissWithError:@"Failed to load"];
+
     }];
 
 

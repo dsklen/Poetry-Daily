@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "iCarousel.h"
 
-@interface PDMoreViewController : UITableViewController
+@interface PDMoreViewController : UITableViewController<iCarouselDataSource, iCarouselDelegate>
+
+@property (nonatomic, strong) IBOutlet UITableViewCell *sponsorsTableViewCell;
+@property (nonatomic, strong) NSMutableArray *sponsors;
+@property (nonatomic, strong) IBOutlet iCarousel *carousel;
 
 @end

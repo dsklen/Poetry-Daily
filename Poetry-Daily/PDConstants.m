@@ -11,4 +11,5 @@
 NSString *PDServerCommandKey = @"PDServerCommandKey";
 NSString *PDPoemKey = @"PDPoemKey";
 NSString *PDAllPoemsKey = @"PDAllPoemsKey";
+NSString *PDSponsorsKey = @"PDSponsorsKey";
 

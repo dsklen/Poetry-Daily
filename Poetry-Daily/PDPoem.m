@@ -35,9 +35,11 @@
     
     // TODO: specify user avatar default.
     
-    if ( image == nil )
-        image = [UIImage imageNamed:@"plumlystanley.jpeg"];
     
+    if ( image == nil )
+    {
+        image = self.hasAttemptedDownload ? [UIImage imageNamed:@"plumlystanley.jpeg"] : nil;
+    }
     return image;
 }
 

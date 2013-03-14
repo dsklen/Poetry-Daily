@@ -13,6 +13,13 @@
 #import "PDCachedDataController.h"
 #import "PDMainPoemViewController.h"
 #import "PDMediaServer.h"
+#import "SVProgressHUD.h"
+
+#import "OHAttributedLabel.h"
+#import "OHASBasicHTMLParser.h"
+#import "NSTextCheckingResult+ExtendedURL.h"
+#import <CoreText/CoreText.h>
+#import "NSAttributedString+Attributes.h"
 
 @interface PDBrowseAllPoemsViewController ()
 - (void)orientationChanged:(NSNotification *)notification;
@@ -47,7 +54,7 @@
         [self.poemsArray sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
 
         [self.poemsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade]; 
-        [self.poemsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewRowAnimationTop animated:YES];
+        [self.poemsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     }
     else 
     {
@@ -56,7 +63,7 @@
         [self.poemsArray sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
 
         [self.poemsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-        [self.poemsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewRowAnimationTop animated:YES];
+        [self.poemsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     }
 }
 
@@ -79,7 +86,7 @@
 
         self.displayPoemsArray = self.poemsArray;
         
-        [senderButton setTitle:@"Favorites"];
+        [senderButton setTitle:@"★"];
     }
     
     if ( [self.poemsArray count] > 0 )
@@ -99,11 +106,17 @@
     {
         poem.isFavorite = [NSNumber numberWithBool:NO];
         [senderButton setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
+        
+        [SVProgressHUD show];
+        [SVProgressHUD dismissWithError:NSLocalizedString( @"Unfavorited", @"" ) ];
+
     }
     else
     {
         poem.isFavorite = [NSNumber numberWithBool:YES];
         [senderButton setImage:[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString( @"Favorited", @"" )];
+
     }
 }
 
@@ -145,7 +158,7 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
-    
+
     // Load all poems and update from server.
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Poem"];
@@ -175,7 +188,7 @@
     [self.poemsTableView reloadData];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setDateStyle:NSDateFormatterLongStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     self.dateFormatter = dateFormatter;
     
@@ -184,9 +197,12 @@
     
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
 											[NSArray arrayWithObjects:
-											 [NSString stringWithFormat:@"123"],
-											 [NSString stringWithFormat:@"AZ"],
+											 [NSString stringWithFormat:@""],
+											 [NSString stringWithFormat:@""],
 											 nil]];
+    
+    [segmentedControl setImage:[UIImage imageNamed:@"calendar_alt_fill_16x16"] forSegmentAtIndex:0];
+    [segmentedControl setImage:[UIImage imageNamed:@"list_16x14"] forSegmentAtIndex:1];
     
     segmentedControl.selectedSegmentIndex = 0;
     
@@ -196,13 +212,31 @@
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     segmentedControl.momentary = NO;
 	
+    segmentedControl.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+    
     UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
     self.navigationItem.rightBarButtonItem = segmentBarItem;
     
     // Add favorites toggle
     
-    UIBarButtonItem *favoritesBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Favorites" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleFavorites:)];
-    self.navigationItem.leftBarButtonItem = favoritesBarItem;
+    UIBarButtonItem *favoritesBarItem = [[UIBarButtonItem alloc] initWithTitle:@"★" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleFavorites:)];
+    
+    [favoritesBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+                                              [UIColor whiteColor], UITextAttributeTextShadowColor,
+                                              [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                              [UIFont boldSystemFontOfSize:16.0f], UITextAttributeFont,
+                                              nil] forState:UIControlStateNormal];
+
+    
+        self.navigationItem.leftBarButtonItem = favoritesBarItem;
+    
+    
+
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+    
+    
     
     self.isShowingLandscapeView = NO;
     
@@ -339,7 +373,7 @@
         thumbnailImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         [cell.contentView addSubview:thumbnailImageView];
         
-        UILabel *poemTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0f, 10.0f, 230.0f, 20.0f)];
+        OHAttributedLabel *poemTitleLabel = [[OHAttributedLabel alloc] initWithFrame:CGRectMake(80.0f, 10.0f, 230.0f, 20.0f)];
         poemTitleLabel.tag = 100;
         poemTitleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
         poemTitleLabel.textAlignment = UITextAlignmentLeft;
@@ -379,7 +413,10 @@
     else
         poem = [self.displayPoemsArray objectAtIndex:indexPath.row];
     
-    [(UILabel *)[cell.contentView viewWithTag:100] setText:poem.title];
+    OHAttributedLabel *label = (OHAttributedLabel *)[cell.contentView viewWithTag:100];
+    
+    label.attributedText = [OHASBasicHTMLParser attributedStringByProcessingMarkupInAttributedString:[NSAttributedString attributedStringWithString:poem.title]];
+    
     [(UILabel *)[cell.contentView viewWithTag:101] setText:poem.author];
     
     if ( poem.authorImageData.length > 0 && poem.hasAttemptedDownload )
@@ -401,6 +438,10 @@
                     NSData *newImageData = items[0];
                     
                     poem.authorImageData = newImageData;
+                    
+//                    if ( poem.poemID isEqualToString:<#(NSString *)#>) {
+//                        <#statements#>
+//                    }
                     [(UIImageView *)[cell.contentView viewWithTag:99] setImage:poem.authorImage];
                     
                     poem.hasAttemptedDownload = YES;

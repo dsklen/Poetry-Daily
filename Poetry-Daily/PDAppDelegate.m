@@ -15,6 +15,7 @@
 #import "PDTwitterViewController.h"
 #import "PDMoreViewController.h"
 #import "PayPal.h"
+#import "Appirater.h"
 //#import "FlurryAnalytics.h"
 
 @implementation PDAppDelegate
@@ -31,13 +32,24 @@
         if ( !success )
         {
             NSLog( @"Could not load cache, delete the Core Data store and try again. (%@)", [error localizedDescription] );
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not load local database. Delete app completely, and reinstall from TestFlight." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Okay", nil];
+            
+            [alert show];
+            
+            
             return;
         }
         
         self.window = [[PDWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
        
-        // Override point for customization after application launch.
-       
+        [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+          [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+          [UIColor whiteColor], UITextAttributeTextShadowColor,
+          [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+            [UIFont boldSystemFontOfSize:18.0f], UITextAttributeFont,
+          nil]];
+        
         UIViewController *viewController1, *viewController2, *viewController3, *viewController4;
        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
@@ -52,7 +64,7 @@
             PDTwitterViewController *twitter = [[PDTwitterViewController alloc] initWithNibName:@"PDTwitterViewController" bundle:nil];
             viewController3 = [[UINavigationController alloc] initWithRootViewController:twitter]; 
             
-            PDMoreViewController *more = [[PDMoreViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            PDMoreViewController *more = [[PDMoreViewController alloc] initWithNibName:@"PDMoreViewController" bundle:nil];
             viewController4 = [[UINavigationController alloc] initWithRootViewController:more];
         } 
         else 
@@ -84,6 +96,10 @@
         
 
     }];
+
+    
+    [Appirater setAppId:@"376587204"];
+    [Appirater appLaunched:YES];
     
 //    [FlurryAnalytics startSession:@"RCE71QKU7J9GWWHSN67D"];
     
@@ -114,6 +130,8 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    [Appirater appEnteredForeground:YES];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
