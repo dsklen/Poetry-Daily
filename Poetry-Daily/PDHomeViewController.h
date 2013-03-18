@@ -45,4 +45,7 @@
 - (IBAction)showPublicationSite:(id)sender;
 - (IBAction)showFeatureInformation:(id)sender;
 
+- (void)showPoemForDay:(NSDate *)date;
+
+
 @end
