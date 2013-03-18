@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PDTwitterViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface PDTwitterViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
 @property (nonatomic, retain) UIImage *pdLogoImage;
 @property (nonatomic, retain) NSArray *tweetsArray;

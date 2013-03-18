@@ -16,4 +16,9 @@
 
 @property (strong, nonatomic) UITabBarController *tabBarController;
 
+
+- (void)showPoemForDay:(NSNotification *)aNotification;
+- (void)showTodaysPoem:(NSNotification *)aNotification;
+
+
 @end

@@ -23,7 +23,6 @@
 
 @interface PDHomeViewController ()
 
-- (void)showPoemForDay:(NSDate *)date;
 - (void)swipePreviousDay:(UISwipeGestureRecognizer *)swipeGesture;
 - (void)swipeNextDay:(UISwipeGestureRecognizer *)swipeGesture;
 - (void)updatePoemInformationForPoem:(PDPoem *)poem animated:(BOOL)animated;
@@ -527,11 +526,6 @@
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
 
-    
-//    self.navigationItem.leftBarButtonItem.tintColor
-
-    
-    
     UIImage *favoriteOrUnfavoriteImage;
     
     if ( self.currentPoem.isFavorite.boolValue )

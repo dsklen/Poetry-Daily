@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef void (^PDFetchBlock)(NSArray *items, NSError *error);
+typedef void (^PDNewsFetchBlock)(NSString *HTML, NSError *error);
 
 /*
  * Represents a networked media server. Calls to get JSON objects directly from
@@ -27,7 +28,7 @@ typedef void (^PDFetchBlock)(NSArray *items, NSError *error);
 /*
  * TO DO: Add methods to hit PD API endpoints.
  */
-- (void)fetchTheNewsWithBlock:(PDFetchBlock)block;
+- (void)fetchNewsHTML:(PDNewsFetchBlock)block;
 - (void)fetchFeatureWithID:(NSString *)poemID block:(PDFetchBlock)block;
 - (void)fetchPoemWithID:(NSString *)poemID block:(PDFetchBlock)block;
 - (void)fetchPoemArchiveWithBlock:(PDFetchBlock)block;

@@ -32,27 +32,53 @@
 
 #pragma mark - Public API
 
-- (void)fetchTheNewsWithBlock:(PDFetchBlock)block;
+
+- (void)fetchNewsHTML:(PDNewsFetchBlock)block;
 {
     NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
         
         NSError *error = nil;
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
         
-//        [params setObject:poemID forKey:@"date"];
+        NSMutableString *URLString = [NSMutableString stringWithString:@"http://poems.com/news.php"];
+                
+        NSURL *URL = [NSURL URLWithString:URLString];
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0f];
+        NSHTTPURLResponse *response = nil;
+        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
-        NSDictionary *JSON = [self JSONForCommand:@"news_mobile" parameters:params error:&error];
+        if ( [data length] == 0 && error != NULL && error == nil )
+            error = [[NSError alloc] initWithDomain:@"Connect Error" code:1000 userInfo:nil];
         
+        NSString *HTML = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+//        NSString *HTML = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
+
+        if ( [HTML length] == 0 && error != NULL && error == nil )
+            error = [[NSError alloc] initWithDomain:@"Connect Error" code:1000 userInfo:nil];
+        
+        NSRange r_s = [HTML rangeOfString:@"<a name=\"breaking\" id=\"breaking\"></a><span class=\"page_subtitle\">In the News</span>:</p>"];                           // find where poem starts
+        NSUInteger f = r_s.location+r_s.length;                                             // 'from' index
+        
+        NSRange r_e = [[HTML substringFromIndex:f] rangeOfString:@"<p><strong><a name=\"recent\" id=\"recent\">"];               // find where poem ends
+        NSUInteger t = r_e.location;                                                        // 'to' index
+        
+        NSString *b = [[NSString alloc] initWithString:[HTML substringFromIndex:f]];
+        NSString *p_b = [[NSString alloc] initWithString:[b substringToIndex:t]];
+        
+        
+        NSString *style = @"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 50px;  white-space:normal; padding:20px; margin:0px;}</style><script></script></head><body><div>";
+        
+        NSString *p_b_style = [style stringByAppendingString:p_b];
+        NSString *final = [p_b_style stringByAppendingString:@"</div></body></html>"];
+
         dispatch_async( dispatch_get_main_queue(), ^{
             
-            if ( JSON == nil && error != nil )
+            if ( HTML == nil && error != nil )
                 block( nil, error );
             else
-                block( [NSArray arrayWithObject:JSON], nil );
+                block( final, nil );
         });
     }];
     
-    [self.operationQueue cancelAllOperations];
     [self.operationQueue addOperation:fetch];
 }
 

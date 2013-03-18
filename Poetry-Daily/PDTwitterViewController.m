@@ -21,6 +21,7 @@
 
 - (IBAction)tweetTapped:(id)sender;
 
+@property (strong, nonatomic) NSString *currentPoemID;
 @end
 
 @implementation PDTwitterViewController
@@ -186,20 +187,30 @@
             if ( [url.absoluteString isEqualToString:@"http://poems.com/today.php"])
             {
                 alert = [[UIAlertView alloc] initWithTitle:@"Open Poem" message:@"Would you like to see today's poem?" delegate:self cancelButtonTitle:@"Not now" otherButtonTitles:@"Yes", nil];
-                alert.tag = 1;
+                alert.tag = 201;
                 [alert show];
             }
             else if ( [url.absoluteString rangeOfString:@"poem.php?date"].location != NSNotFound )
             {
+                
+                NSString *poemID = [url.absoluteString substringFromIndex:[url.absoluteString rangeOfString:@"poem.php?date"].location + 14];
+                self.currentPoemID = poemID;
+                
+                
                 NSString *messageString = [NSString stringWithFormat:@"Would you like to see this poem?"];
                 alert = [[UIAlertView alloc] initWithTitle:@"Open Poem" message:messageString delegate:self cancelButtonTitle:@"Not now" otherButtonTitles:@"Yes", nil];
-                alert.tag = 2;
+                alert.tag = 200;
                 [alert show];
             }
             else
             {
                 SVWebViewController *webViewController = [[SVWebViewController alloc] initWithURL:url];
+                
+                webViewController.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+                webViewController.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:webViewController animated:YES];
+                webViewController.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+
             }
         }
         else
@@ -287,7 +298,6 @@
         retweetCountLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:retweetCountLabel];
         
-        
         if ( [TWTweetComposeViewController canSendTweet] ) 
         {
             UIButton *retweetButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -337,15 +347,12 @@
     CGRect newScreenNameFrame = tweeterScreenNameLabel.frame;
     newScreenNameFrame.origin.x = 75.0f + labelSize.width;
     tweeterScreenNameLabel.frame = newScreenNameFrame;
-    
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterShortStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     UILabel *tweetTimeLabel = (UILabel *)[cell.contentView viewWithTag:102];
-    tweetTimeLabel.text = [dateFormatter stringFromDate:tweet.createdAtDate];
-
-    
+    tweetTimeLabel.text = [dateFormatter stringFromDate:tweet.createdAtDate];    
     
     NSString *string = tweet.tweetTextString;
     CGSize maximumLabelSize = CGSizeMake( 200.0f, 9999.0f );
@@ -402,6 +409,24 @@
     
     cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper"]];
 
+}
+
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+{
+    if ( buttonIndex == 1 )
+    {
+        if ( alertView.tag == 200 )
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"PDOpenPoemFromTweetNotification" object:self.currentPoemID];
+        }
+        else if ( alertView.tag == 201 )
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"PDOpenTodaysPoemFromTweetNotification" object:self];
+        }
+    }
 }
 
 @end
