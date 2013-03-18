@@ -377,8 +377,13 @@
     NSMutableString *HTMLString = [[NSMutableString alloc] init];
     [HTMLString appendString:@""];
     
+    NSString *loadedHTML = [description stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
+
     
-    [description loadHTMLString:sponsor.text baseURL:nil];
+    if ( [loadedHTML rangeOfString:sponsor.text].location == NSNotFound  )
+    {
+        [description loadHTMLString:sponsor.text baseURL:nil];
+    }
 
     return view;
 }

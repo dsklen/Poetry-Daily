@@ -14,8 +14,11 @@
 #import "PDBrowseAllPoemsViewController.h"
 #import "PDTwitterViewController.h"
 #import "PDMoreViewController.h"
+#import "PDChooseNewsViewController.h"
 #import "PayPal.h"
 #import "Appirater.h"
+#import "NSDate+PDAdditions.h"
+#import "PDMediaServer.h"
 //#import "FlurryAnalytics.h"
 
 @implementation PDAppDelegate
@@ -37,7 +40,6 @@
             
             [alert show];
             
-            
             return;
         }
         
@@ -50,6 +52,13 @@
             [UIFont boldSystemFontOfSize:18.0f], UITextAttributeFont,
           nil]];
         
+        [[UIToolbar appearance] setTintColor:[UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0]];
+        
+        
+        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0]];
+        [[UIToolbar appearance] setTintColor:[UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0]];
+
+        
         UIViewController *viewController1, *viewController2, *viewController3, *viewController4;
        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
@@ -61,8 +70,8 @@
             viewController2 = [[UINavigationController alloc] initWithRootViewController:browse];
             
             
-            PDTwitterViewController *twitter = [[PDTwitterViewController alloc] initWithNibName:@"PDTwitterViewController" bundle:nil];
-            viewController3 = [[UINavigationController alloc] initWithRootViewController:twitter]; 
+            PDChooseNewsViewController *news = [[PDChooseNewsViewController alloc] initWithNibName:@"PDChooseNewsViewController" bundle:nil];
+            viewController3 = [[UINavigationController alloc] initWithRootViewController:news];
             
             PDMoreViewController *more = [[PDMoreViewController alloc] initWithNibName:@"PDMoreViewController" bundle:nil];
             viewController4 = [[UINavigationController alloc] initWithRootViewController:more];
@@ -76,8 +85,8 @@
             viewController2 = [[UINavigationController alloc] initWithRootViewController:browse];
             
             
-            PDTwitterViewController *twitter = [[PDTwitterViewController alloc] initWithNibName:@"PDTwitterViewController" bundle:nil];
-            viewController3 = [[UINavigationController alloc] initWithRootViewController:twitter];
+            PDChooseNewsViewController *news = [[PDChooseNewsViewController alloc] initWithNibName:@"PDChooseNewsViewController" bundle:nil];
+            viewController3 = [[UINavigationController alloc] initWithRootViewController:news];
             
             PDMoreViewController *more = [[PDMoreViewController alloc] initWithStyle:UITableViewStyleGrouped];
             viewController4 = [[UINavigationController alloc] initWithRootViewController:more];
@@ -96,6 +105,10 @@
         
 
     }];
+
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPoemForDay:) name:@"PDOpenPoemFromTweetNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showTodaysPoem:) name:@"PDOpenTodaysPoemFromTweetNotification" object:nil];
 
     
     [Appirater setAppId:@"376587204"];
@@ -144,18 +157,30 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+- (void)showPoemForDay:(NSNotification *)aNotification;
 {
-}
-*/
+    self.tabBarController.selectedIndex = 0;
+    
+    NSString *poemID = [aNotification object];
+    
+    
+    UINavigationController *nav = [[self.tabBarController viewControllers] objectAtIndex:0];
+    [nav popToRootViewControllerAnimated:NO];
+    PDHomeViewController *home = (PDHomeViewController *)[nav topViewController];
+    PDMediaServer *server = [[PDMediaServer alloc] init];
+    NSDate *poemDate = [server dateFromPoemID:poemID];
 
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed
-{
+    [home showPoemForDay:poemDate];
 }
-*/
+
+- (void)showTodaysPoem:(NSNotification *)aNotification;
+{
+    self.tabBarController.selectedIndex = 0;
+    
+    UINavigationController *nav = [[self.tabBarController viewControllers] objectAtIndex:0];
+    [nav popToRootViewControllerAnimated:NO];
+    PDHomeViewController *home = (PDHomeViewController *)[nav topViewController];
+    [home showPoemForDay:[NSDate charlottesvilleDate]];
+}
 
 @end
