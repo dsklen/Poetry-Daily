@@ -12,6 +12,7 @@
 #import "SVWebViewController.h"
 #import "PDMediaServer.h"
 #import "SVProgressHUD.h"
+#import "EmailSignUpViewController.h"
 
 @interface PDChooseNewsViewController ()
 
@@ -54,6 +55,12 @@
 {
     PDTwitterViewController *twitter = [[PDTwitterViewController alloc] initWithNibName:@"PDTwitterViewController" bundle:nil];
     [self.navigationController pushViewController:twitter animated:YES];
+}
+
+-(IBAction)emailSignUpPressed:(id)sender;
+{
+	EmailSignUpViewController *e_l = [[EmailSignUpViewController alloc] init];
+	[super.navigationController pushViewController:e_l animated:YES];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

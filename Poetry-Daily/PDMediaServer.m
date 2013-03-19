@@ -7,7 +7,7 @@
 //
 
 #import "PDMediaServer.h"
-
+#import "NSDate+PDAdditions.h"
 #define DEFAULT_TIMEOUT 60.0
 
 
@@ -352,7 +352,7 @@
 
 - (NSString *)poemIDForToday;
 {
-    return [self poemIDFromDate:[NSDate date]];
+    return [self poemIDFromDate:[NSDate charlottesvilleDate]];
 }
 
 #pragma mark NSObject

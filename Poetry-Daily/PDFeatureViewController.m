@@ -53,8 +53,8 @@
             
             [self.featureInformationWebView loadHTMLString:combinedInfo baseURL:nil];
                         
-            NSString *publisherName = [featureAttributesDictionary objectForKey:@"publisher"];
-            NSString *pubURLString = [featureAttributesDictionary objectForKey:@"puburl"];
+//            NSString *publisherName = [featureAttributesDictionary objectForKey:@"publisher"];
+//            NSString *pubURLString = [featureAttributesDictionary objectForKey:@"puburl"];
 //            self.iPadVisitPublicationPageButton.hidden = ( [pubURLString length] == 0 );
             
 //            [self.iPadVisitPublicationPageButton setTitle:[NSString stringWithFormat:@"Visit %@ Site ⇗", ([publisherName length] == 0 ) ? @"Publisher" : publisherName] forState:UIControlStateNormal];

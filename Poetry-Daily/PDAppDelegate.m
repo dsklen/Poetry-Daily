@@ -51,7 +51,8 @@
           [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
             [UIFont boldSystemFontOfSize:18.0f], UITextAttributeFont,
           nil]];
-        
+        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0]];
+
         
         [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                        [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
@@ -62,13 +63,9 @@
         
         [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
         
-        [[UIToolbar appearance] setTintColor:[UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0]];
-        
-        
-        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0]];
+        [[UIToolbar appearance] setTintColor:[UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0]];        
         [[UIToolbar appearance] setTintColor:[UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0]];
 
-        
         UIViewController *viewController1, *viewController2, *viewController3, *viewController4;
        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 

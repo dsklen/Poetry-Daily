@@ -229,13 +229,12 @@
                                               nil] forState:UIControlStateNormal];
 
     
-        self.navigationItem.leftBarButtonItem = favoritesBarItem;
+    self.navigationItem.leftBarButtonItem = favoritesBarItem;
     
     
 
-        self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
-        self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
-    
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
     
     
     self.isShowingLandscapeView = NO;

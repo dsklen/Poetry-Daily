@@ -10,8 +10,9 @@
 
 @interface PDTwitterViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
-@property (nonatomic, retain) UIImage *pdLogoImage;
-@property (nonatomic, retain) NSArray *tweetsArray;
+@property (strong, nonatomic) UIImage *pdLogoImage;
+@property (strong, nonatomic) NSArray *tweetsArray;
+
 @property (strong, nonatomic) IBOutlet UITableView *tweetsTableView;
 
 @end

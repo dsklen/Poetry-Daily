@@ -32,7 +32,7 @@
 
 - (void)updateSponsorsWithExistingItems:(NSArray *)existingSponsors completionBlock:(PDCacheUpdateBlock)block;
 
-- (void)returnNewsWithBlock:(PDCacheUpdateBlock)block;
+- (void)returnNewsWithBlock:(PDCachedNewsUpdateBlock)block;
 
 @end
 
@@ -140,9 +140,6 @@
     NSError *error = nil;
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"News"];
-    
-    NSMutableDictionary *serverInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
-    
     request.predicate = [NSPredicate predicateWithFormat:@"SELF.isCurrent == TRUE"];
     request.fetchLimit = 1;
     

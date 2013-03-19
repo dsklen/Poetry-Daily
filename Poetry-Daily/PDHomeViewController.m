@@ -26,6 +26,7 @@
 - (void)swipePreviousDay:(UISwipeGestureRecognizer *)swipeGesture;
 - (void)swipeNextDay:(UISwipeGestureRecognizer *)swipeGesture;
 - (void)updatePoemInformationForPoem:(PDPoem *)poem animated:(BOOL)animated;
+- (IBAction)showToday:(id)sender;
 
 @property (strong, nonatomic) NSURL *publicationURL;
 
@@ -366,6 +367,18 @@
     [self showPoemForDay:newDate];
 }
 
+- (IBAction)showToday:(id)sender;
+{
+    PDMediaServer *server = [[PDMediaServer alloc] init];
+    
+    NSString *todaysPoemID = [server poemIDFromDate:[NSDate charlottesvilleDate]];
+    
+    if ( [self.currentPoem.poemID isEqualToString:todaysPoemID] )
+        return;
+    else
+        [self showPoemForDay:[NSDate charlottesvilleDate]];
+}
+
 - (IBAction)showPublicationSite:(id)sender;
 {
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:self.publicationURL];
@@ -411,8 +424,7 @@
     [HTML appendString:@"</body></html>"];
     
     
-    NSString *oldHTML = [self.poemInformationWebView stringByEvaluatingJavaScriptFromString:
-                      @"document.body.innerHTML"];
+//    NSString *oldHTML = [self.poemInformationWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
     
     if ( poem.journalTitle.length == 0 )
     {
@@ -547,12 +559,25 @@
     
     self.favoriteBarButtonItem = [[UIBarButtonItem alloc] initWithImage:favoriteOrUnfavoriteImage style:UIBarButtonItemStylePlain target:self action:@selector(favoriteOrUnfavorite:)];
     
-    self.navigationItem.rightBarButtonItem =self.favoriteBarButtonItem;
+    self.navigationItem.rightBarButtonItem = self.favoriteBarButtonItem;
     
-    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PDLogo.png"]];
-    logoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    logoImageView.frame = CGRectMake(100.0f, 39.0f, 120.0f, 33.0f);
-    self.navigationItem.titleView = logoImageView;
+    UIButton *logoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [logoButton setImage:[UIImage imageNamed:@"PDLogo"] forState:UIControlStateNormal];
+    logoButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    CGRect newFrame = logoButton.frame;
+    newFrame.size.height = 39.0f;
+//    newFrame.origin.x -= 20.0f;
+    logoButton.frame = newFrame;
+    
+    [logoButton addTarget:self action:@selector(showToday:) forControlEvents:UIControlEventTouchUpInside];
+    
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showToday:)];
+//    tap.numberOfTapsRequired = 1;
+//    [logoButton addGestureRecognizer:tap];
+
+    self.navigationItem.titleView = logoButton;
+    
     
     self.poemAuthorImageView.image = [UIImage imageNamed:nil];
     self.poemAuthorImageView.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -560,13 +585,11 @@
     self.poemAuthorImageView.layer.shadowRadius = 2.0f;
     self.poemAuthorImageView.layer.shadowOpacity = 0.5f;
     
-    
     self.poemPublishedDateLabel.layer.shadowColor = [UIColor blackColor].CGColor;
     self.poemPublishedDateLabel.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
     self.poemPublishedDateLabel.layer.shadowRadius = 2.0f;
     self.poemPublishedDateLabel.layer.shadowOpacity = 0.5f;
 
-    
     self.readPoemButton.layer.borderColor = [[UIColor colorWithRed:99.0f/255.0f green:33.0f/255.0f blue:40.0f/255.0f alpha:0.9f] CGColor];
     self.readPoemButton.layer.cornerRadius = 6.0f;
     self.readPoemButton.layer.borderWidth = 2.0f;
@@ -593,7 +616,7 @@
 //
 //    [self.view addSubview:btn];
     
-    [self showPoemForDay:[NSDate charlottesvilleDate]];    
+    [self showPoemForDay:[NSDate charlottesvilleDate]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(fetchRandomPoem:) 
