@@ -178,7 +178,7 @@
                                         
                                         [self.tableView beginUpdates];
                                         [self.tableView endUpdates];
-                                        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+//                                        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
                                         
                                         [UIView animateWithDuration:0.2f animations:^{
                                             
@@ -285,7 +285,6 @@
                 self.iPadVisitPublicationPageButton.hidden = ( [pubURLString length] == 0 );
                 
                 [self.iPadVisitPublicationPageButton setTitle:[NSString stringWithFormat:@"Visit %@ Site ⇗", ([publisherName length] == 0 ) ? @"Publisher" : publisherName] forState:UIControlStateNormal];
-
                 
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
                 {                
@@ -296,9 +295,10 @@
                     
                     [HTML appendString:combinedInfo];
                     [HTML appendString:@"</body></html>"];
-                    
-                    [self.iPadfeatureInformationWebView loadHTMLString:combinedInfo baseURL:nil];
 
+                    [self.tableView beginUpdates];
+                    [self.iPadfeatureInformationWebView loadHTMLString:combinedInfo baseURL:nil];
+                    [self.tableView endUpdates];
                 }
                 else
                 {
@@ -310,6 +310,7 @@
                     [HTML appendString:combinedInfo];
                     [HTML appendString:@"</body></html>"];
                     
+                    [self.tableView beginUpdates];
                     [self.poetInfoWebView loadHTMLString:HTML baseURL:nil];
                     self.poetInfoWebView.scrollView.scrollEnabled = NO;
                     
@@ -323,6 +324,7 @@
                     
                     [self.publicationInfoWebView loadHTMLString:publicationHTML baseURL:nil];
                     self.publicationInfoWebView.scrollView.scrollEnabled = NO;
+                    [self.tableView endUpdates];
 
                 }
             }
@@ -520,8 +522,16 @@
                                               [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
                                               [UIColor whiteColor], UITextAttributeTextShadowColor,
                                               [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
-                                              [UIFont systemFontOfSize:12.0f], UITextAttributeFont,
+                                              [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
                                               nil] forState:UIControlStateNormal];
+    
+//    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+//                                                           [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+//                                                           [UIColor whiteColor], UITextAttributeTextShadowColor,
+//                                                           [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+//                                                           [UIFont boldSystemFontOfSize:18.0f], UITextAttributeFont,
+//                                                           nil]];
+
     
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
@@ -676,9 +686,14 @@
 //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     if ( indexPath.section == 0) return self.mainPoemTableViewCell;
-    if ( indexPath.section == 1) return self.poetInformationTableViewCell;
-    if ( indexPath.section == 2) return self.publicationInformationTableViewCell;
-    
+    if ( indexPath.section == 1)
+    {
+        return self.poetInformationTableViewCell;
+    }
+    if ( indexPath.section == 2)
+    {
+        return self.publicationInformationTableViewCell;
+    }
     return nil;
 //    return cell;
 }
@@ -691,8 +706,38 @@
         return fmaxf( self.poemAuthorImageView.frame.size.height + 40.0f, 210.0f );
     }
     
-    if ( indexPath.section == 1) return self.poetInformationTableViewCell.frame.size.height;
-    if ( indexPath.section == 2) return self.publicationInformationTableViewCell.frame.size.height;
+    if ( indexPath.section == 1)
+    {
+        self.poetInfoWebView.scrollView.scrollEnabled = NO;    // Property available in iOS 5.0 and later
+        CGRect frame = self.poetInfoWebView.frame;
+        
+//        frame.size.width = 300.0f;       // Your desired width here.
+        frame.size.height = 1.0f;        // Set the height to a small one.
+        
+        self.poetInfoWebView.frame = frame;       // Set webView's Frame, forcing the Layout of its embedded scrollView with current Frame's constraints (Width set above).
+        
+        frame.size.height = self.poetInfoWebView.scrollView.contentSize.height;  // Get the corresponding height from the webView's embedded scrollView.
+        
+        self.poetInfoWebView.frame = frame;
+        
+        return fmaxf( frame.size.height + 24.0f, 30.0f );
+    }
+    if ( indexPath.section == 2)
+    {
+        self.publicationInfoWebView.scrollView.scrollEnabled = NO;    // Property available in iOS 5.0 and later
+        CGRect frame = self.publicationInfoWebView.frame;
+        
+//        frame.size.width = 300;       // Your desired width here.
+        frame.size.height = 1;        // Set the height to a small one.
+        
+        self.publicationInfoWebView.frame = frame;       // Set webView's Frame, forcing the Layout of its embedded scrollView with current Frame's constraints (Width set above).
+        
+        frame.size.height = self.publicationInfoWebView.scrollView.contentSize.height;  // Get the corresponding height from the webView's embedded scrollView.
+        
+        self.publicationInfoWebView.frame = frame;
+        
+        return frame.size.height + 40.0f;
+    }
 
     return 0.0f;
 }
@@ -708,7 +753,7 @@
         return 63.0f;
     }
     
-    return 9.0f;
+    return 4.0f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section;

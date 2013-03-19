@@ -52,6 +52,16 @@
             [UIFont boldSystemFontOfSize:18.0f], UITextAttributeFont,
           nil]];
         
+        
+        [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                       [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+                                                                       [UIColor whiteColor], UITextAttributeTextShadowColor,
+                                                                       [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                                       [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
+                                                                       nil] forState:UIControlStateNormal];
+        
+        [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
+        
         [[UIToolbar appearance] setTintColor:[UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0]];
         
         
@@ -128,6 +138,21 @@
 	//[PayPal initializeWithAppID:@"anything" forEnvironment:ENV_NONE];
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;
+{
+    self.tabBarController.selectedIndex = 0;
+
+    UINavigationController *nav = [[self.tabBarController viewControllers] objectAtIndex:0];
+    [nav popToRootViewControllerAnimated:NO];
+    PDHomeViewController *home = (PDHomeViewController *)[nav topViewController];
+    PDMediaServer *server = [[PDMediaServer alloc] init];
+    NSDate *poemDate = [server dateFromPoemID:[[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [home showPoemForDay:poemDate];
+
+    return YES;
+}
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -162,7 +187,6 @@
     self.tabBarController.selectedIndex = 0;
     
     NSString *poemID = [aNotification object];
-    
     
     UINavigationController *nav = [[self.tabBarController viewControllers] objectAtIndex:0];
     [nav popToRootViewControllerAnimated:NO];

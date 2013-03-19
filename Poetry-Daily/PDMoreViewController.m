@@ -41,7 +41,13 @@
     
     webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
     webViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    webViewController.navigationBar.tintColor =  [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
+
     [self presentModalViewController:webViewController animated:YES];
+    
+    webViewController.navigationBar.tintColor =  [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
+    webViewController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -156,6 +162,9 @@
     
     
     [self.carousel reloadData];
+    
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+    ;
 }
 
 - (void)viewDidUnload
@@ -218,7 +227,8 @@
     }
     
     cell.textLabel.backgroundColor= [UIColor clearColor];
-    cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+    cell.contentView.backgroundColor = [UIColor clearColor];
+    cell.accessoryView.backgroundColor = [UIColor clearColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
@@ -231,6 +241,10 @@
     return 44.0f;
 }
 
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+}
 
 #pragma mark - Table view delegate
 
@@ -392,14 +406,11 @@
 {
     if (option == iCarouselOptionSpacing)
     {
-        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             return value * 1.05f;
         else
             return value * 1.25f;
-        
     }
-
     
     return value;
 }

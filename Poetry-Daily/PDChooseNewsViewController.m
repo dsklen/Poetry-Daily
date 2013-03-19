@@ -23,12 +23,14 @@
 {
 //    PDNewsViewController *news = [[PDNewsViewController alloc] init];
     
-    SVWebViewController *web = [[SVWebViewController alloc] initWithAddress:@"http://www.poems.com/news.php#breaking"];
+    SVWebViewController *web = [[SVWebViewController alloc] initWithAddress:@"http://poems.com/news_mobile.php"];
 
     web.hidesBottomBarWhenPushed = YES;
     web.title = @"News";
+//    web.mainWebView.scalesPageToFit = YES;
     [self.navigationController pushViewController:web animated:YES];
-    
+    web.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+
     
 //    [SVProgressHUD showWithStatus:@"Loading News..."];
 //    

@@ -26,6 +26,10 @@
 		B61A537916F3D69E009BD664 /* PDChooseNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B61A537716F3D69D009BD664 /* PDChooseNewsViewController.m */; };
 		B61A537A16F3D69E009BD664 /* PDChooseNewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B61A537816F3D69E009BD664 /* PDChooseNewsViewController.xib */; };
 		B61A537D16F3DCD2009BD664 /* PDNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B61A537C16F3DCD2009BD664 /* PDNewsViewController.m */; };
+		B61A538016F79E5D009BD664 /* news.png in Resources */ = {isa = PBXBuildFile; fileRef = B61A537E16F79E5D009BD664 /* news.png */; };
+		B61A538116F79E5D009BD664 /* news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B61A537F16F79E5D009BD664 /* news@2x.png */; };
+		B61A538416F79F32009BD664 /* twitter-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B61A538216F79F32009BD664 /* twitter-icon@2x.png */; };
+		B61A538516F79F32009BD664 /* twitter-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B61A538316F79F32009BD664 /* twitter-icon.png */; };
 		B62A65A41599393B007EB20D /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62A65A31599393B007EB20D /* AssetsLibrary.framework */; };
 		B631765A1578235B00B12331 /* PDPoem.m in Sources */ = {isa = PBXBuildFile; fileRef = B63176591578235B00B12331 /* PDPoem.m */; };
 		B631765C157824F700B12331 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B631765B157824F700B12331 /* CoreData.framework */; };
@@ -190,6 +194,10 @@
 		B61A537816F3D69E009BD664 /* PDChooseNewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDChooseNewsViewController.xib; sourceTree = "<group>"; };
 		B61A537B16F3DCD2009BD664 /* PDNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDNewsViewController.h; sourceTree = "<group>"; };
 		B61A537C16F3DCD2009BD664 /* PDNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDNewsViewController.m; sourceTree = "<group>"; };
+		B61A537E16F79E5D009BD664 /* news.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = news.png; sourceTree = "<group>"; };
+		B61A537F16F79E5D009BD664 /* news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news@2x.png"; sourceTree = "<group>"; };
+		B61A538216F79F32009BD664 /* twitter-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter-icon@2x.png"; sourceTree = "<group>"; };
+		B61A538316F79F32009BD664 /* twitter-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter-icon.png"; sourceTree = "<group>"; };
 		B62A65A31599393B007EB20D /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		B63176581578235B00B12331 /* PDPoem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDPoem.h; sourceTree = "<group>"; };
 		B63176591578235B00B12331 /* PDPoem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDPoem.m; sourceTree = "<group>"; };
@@ -632,6 +640,10 @@
 			children = (
 				B6AF26BD16E8752D009E18BB /* arrow.png */,
 				B6AF272B16EA9710009E18BB /* black-Linen@2X.png */,
+				B61A538216F79F32009BD664 /* twitter-icon@2x.png */,
+				B61A538316F79F32009BD664 /* twitter-icon.png */,
+				B61A537E16F79E5D009BD664 /* news.png */,
+				B61A537F16F79E5D009BD664 /* news@2x.png */,
 				B64C28CA16EAB50000AD34D5 /* mfa.gif */,
 				B6AF272C16EA9711009E18BB /* black-Linen.png */,
 				B6AF272D16EA9712009E18BB /* lannan.gif */,
@@ -969,6 +981,10 @@
 				B64C28C916EAB37300AD34D5 /* fullscreen_alt_16x16@2x.png in Resources */,
 				B64C28CB16EAB50000AD34D5 /* mfa.gif in Resources */,
 				B61A537A16F3D69E009BD664 /* PDChooseNewsViewController.xib in Resources */,
+				B61A538016F79E5D009BD664 /* news.png in Resources */,
+				B61A538116F79E5D009BD664 /* news@2x.png in Resources */,
+				B61A538416F79F32009BD664 /* twitter-icon@2x.png in Resources */,
+				B61A538516F79F32009BD664 /* twitter-icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

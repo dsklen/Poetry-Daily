@@ -30,9 +30,7 @@
 {
     [super viewDidLoad];
 
-    
     [SVProgressHUD showWithStatus:@"Loading..."];
-
     
     PDMediaServer *server = [[PDMediaServer alloc] init];
     

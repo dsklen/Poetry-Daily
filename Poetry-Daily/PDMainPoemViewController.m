@@ -205,8 +205,19 @@
     {
         NSString *textToShare = [NSString stringWithFormat:@"Poetry Daily: %@", self.currentPoem.title];
         UIImage *imageToShare = [UIImage imageNamed:@"logo@2x"];
-        NSURL *urlToShare = [NSURL URLWithString:[NSString stringWithFormat:@"http://poems.com/poem.php?date=%@", self.currentPoem.poemID]];
-        NSArray *activityItems = @[textToShare, imageToShare, urlToShare];
+        
+        NSString *poemID = self.currentPoem.poemID;
+        NSString *urlString = [NSString stringWithFormat:@"http://poems.com/poem.php?date=%@", poemID, nil];
+        NSURL *urlToShare = [NSURL URLWithString:urlString];
+        
+        NSString *textPlaceHolderToShare = [NSString stringWithFormat:@"Have the app? Tap Here:"];
+        NSString *textPlaceHolder2ToShare = [NSString stringWithFormat:@"Have the app? Tap Here:"];
+
+        
+        NSString *urlSchemeString = [NSString stringWithFormat:@"poem://%@", poemID, nil];
+        NSURL *urlSchemeToShare = [NSURL URLWithString:urlSchemeString];
+
+        NSArray *activityItems = @[textToShare, imageToShare, urlToShare,textPlaceHolderToShare, textPlaceHolder2ToShare, urlSchemeToShare];
         
         UIActivityViewController *share = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
         
@@ -220,7 +231,7 @@
         
         controller.mailComposeDelegate = self;
         [controller setSubject:[NSString stringWithFormat:@"Poetry Daily: %@", self.currentPoem.title]];
-        [controller setMessageBody:[NSString stringWithFormat:@"http://poems.com/poem.php?date=%@", self.currentPoem.poemID] isHTML:YES];
+        [controller setMessageBody:[NSString stringWithFormat:@"http://poems.com/poem.php?date=%@ <br> <br> Have the app? Open here: poem://%@ <br> <br> Sent from Poetry Daily for iPhone and iPad", self.currentPoem.poemID, self.currentPoem.poemID, nil] isHTML:YES];
         
         if ( controller )
             [self presentModalViewController:controller animated:YES];
