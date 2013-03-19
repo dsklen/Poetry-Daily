@@ -17,12 +17,12 @@ typedef enum PaymentStatuses {
 
 @interface PDDonationsViewController : UIViewController <PayPalPaymentDelegate, UITextFieldDelegate> {
 @private
-	UITextField *preapprovalField;
+	IBOutlet UITextField *amount;
 	CGFloat y;
 	BOOL resetScrollView;
 	PaymentStatus status;
 }
 
-@property (nonatomic, retain) UITextField *preapprovalField;
+@property (nonatomic, retain) IBOutlet UITextField *amount;
 
 @end
