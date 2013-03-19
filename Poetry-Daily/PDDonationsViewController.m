@@ -24,13 +24,13 @@
 
 @implementation PDDonationsViewController
 
-@synthesize preapprovalField;
+@synthesize amount;
 
 #pragma mark -
 #pragma mark Utility methods
 
 - (void)addLabelWithText:(NSString *)text andButtonWithType:(PayPalButtonType)type withAction:(SEL)action {
-	UIFont *font = [UIFont boldSystemFontOfSize:14.];
+	UIFont *font = [UIFont boldSystemFontOfSize:10.];
 	CGSize size = [text sizeWithFont:font];
 	
 	//you should call getPayButton to have the library generate a button for you.
@@ -49,7 +49,7 @@
 	UIButton *button = [[PayPal getPayPalInst] getPayButtonWithTarget:self andAction:action andButtonType:type andButtonText:BUTTON_TEXT_DONATE];
 	CGRect frame = button.frame;
 	frame.origin.x = round((self.view.frame.size.width - button.frame.size.width) / 2.);
-	frame.origin.y = 250.0f;// round(y + size.height);
+	frame.origin.y = 375.0f;// round(y + size.height);
 	button.frame = frame;
 	[self.view addSubview:button];
 	
@@ -166,193 +166,56 @@
 
 - (void)simplePayment {
 	//dismiss any native keyboards
-	[preapprovalField resignFirstResponder];
+	[amount resignFirstResponder];
 	
 	//optional, set shippingEnabled to TRUE if you want to display shipping
 	//options to the user, default: TRUE
-	[PayPal getPayPalInst].shippingEnabled = TRUE;
+	[PayPal getPayPalInst].shippingEnabled = FALSE;
 	
 	//optional, set dynamicAmountUpdateEnabled to TRUE if you want to compute
 	//shipping and tax based on the user's address choice, default: FALSE
-	[PayPal getPayPalInst].dynamicAmountUpdateEnabled = TRUE;
+	[PayPal getPayPalInst].dynamicAmountUpdateEnabled = FALSE;
 	
 	//optional, choose who pays the fee, default: FEEPAYER_EACHRECEIVER
 	[PayPal getPayPalInst].feePayer = FEEPAYER_EACHRECEIVER;
 	
 	//for a payment with a single recipient, use a PayPalPayment object
 	PayPalPayment *payment = [[PayPalPayment alloc] init];
-#warning add correct paypal info
-	payment.recipient = @"poetrydaily@paypal.com";
+	payment.recipient = @"staff@poems.com";
 	payment.paymentCurrency = @"USD";
 	payment.description = @"PD Contribution";
 	payment.merchantName = @"The Daily Poetry Association (Poetry Daily)";
 	
 	//subtotal of all items, without tax and shipping
-	payment.subTotal = [NSDecimalNumber decimalNumberWithString:@"10"];
-	
-	//invoiceData is a PayPalInvoiceData object which contains tax, shipping, and a list of PayPalInvoiceItem objects
-	payment.invoiceData = [[PayPalInvoiceData alloc] init];
-	payment.invoiceData.totalShipping = [NSDecimalNumber decimalNumberWithString:@"0"];
-	payment.invoiceData.totalTax = [NSDecimalNumber decimalNumberWithString:@"0"];
-	
-	//invoiceItems is a list of PayPalInvoiceItem objects
-	//NOTE: sum of totalPrice for all items must equal payment.subTotal
-	//NOTE: example only shows a single item, but you can have more than one
-	payment.invoiceData.invoiceItems = [NSMutableArray array];
-	PayPalInvoiceItem *item = [[PayPalInvoiceItem alloc] init];
-	item.totalPrice = payment.subTotal;
-	item.name = @"PD Contribution";
-	[payment.invoiceData.invoiceItems addObject:item];
-	
-	[[PayPal getPayPalInst] checkoutWithPayment:payment];
-}
-
-- (void)parallelPayment {
-	//dismiss any native keyboards
-	[preapprovalField resignFirstResponder];
-	
-	//optional, set shippingEnabled to TRUE if you want to display shipping
-	//options to the user, default: TRUE
-	[PayPal getPayPalInst].shippingEnabled = TRUE;
-	
-	//optional, set dynamicAmountUpdateEnabled to TRUE if you want to compute
-	//shipping and tax based on the user's address choice, default: FALSE
-	[PayPal getPayPalInst].dynamicAmountUpdateEnabled = TRUE;
-	
-	//optional, choose who pays the fee, default: FEEPAYER_EACHRECEIVER
-	[PayPal getPayPalInst].feePayer = FEEPAYER_EACHRECEIVER;
-	
-	//for a payment with multiple recipients, use a PayPalAdvancedPayment object
-	PayPalAdvancedPayment *payment = [[PayPalAdvancedPayment alloc] init];
-	payment.paymentCurrency = @"USD";
-	
-    // A payment note applied to all recipients.
-    payment.memo = @"A Note applied to all recipients";
+    if (amount.text) {
+        payment.subTotal = [NSDecimalNumber decimalNumberWithString:amount.text];
+        
+        //invoiceData is a PayPalInvoiceData object which contains tax, shipping, and a list of PayPalInvoiceItem objects
+        payment.invoiceData = [[PayPalInvoiceData alloc] init];
+        payment.invoiceData.totalShipping = [NSDecimalNumber decimalNumberWithString:@"0"];
+        payment.invoiceData.totalTax = [NSDecimalNumber decimalNumberWithString:@"0"];
+        
+        //invoiceItems is a list of PayPalInvoiceItem objects
+        //NOTE: sum of totalPrice for all items must equal payment.subTotal
+        //NOTE: example only shows a single item, but you can have more than one
+        payment.invoiceData.invoiceItems = [NSMutableArray array];
+        PayPalInvoiceItem *item = [[PayPalInvoiceItem alloc] init];
+        item.totalPrice = payment.subTotal;
+        item.name = @"PD Contribution";
+        [payment.invoiceData.invoiceItems addObject:item];
+        
+        [[PayPal getPayPalInst] checkoutWithPayment:payment];
+    }
     
-	//receiverPaymentDetails is a list of PPReceiverPaymentDetails objects
-	payment.receiverPaymentDetails = [NSMutableArray array];
-	
-	//Frank's Robert's Julie's Bear Parts;
-	NSArray *nameArray = [NSArray arrayWithObjects:@"Frank's", @"Robert's", @"Julie's",nil];
-	
-	for (int i = 1; i <= 3; i++) {
-		PayPalReceiverPaymentDetails *details = [[PayPalReceiverPaymentDetails alloc] init];
-		
-        // Customize the payment notes for one of the three recipient.
-        if (i == 2) {
-            details.description = [NSString stringWithFormat:@"Bear Component %d", i];
-        }
+    else{
+        //Prompt user to enter in a donation amount
+        UIAlertView *alert;
+        alert = [[UIAlertView alloc] initWithTitle:@"Donation" message:@"Please enter a Donation Amount" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        alert.tag = 1;
+        [alert show];
         
-        details.recipient = [NSString stringWithFormat:@"example-merchant-%d@paypal.com", 4 - i];
-		details.merchantName = [NSString stringWithFormat:@"%@ Bear Parts",[nameArray objectAtIndex:i-1]];
-        
-		unsigned long long order, tax, shipping;
-		order = i * 100;
-		tax = i * 7;
-		shipping = i * 14;
-		
-		//subtotal of all items for this recipient, without tax and shipping
-		details.subTotal = [NSDecimalNumber decimalNumberWithMantissa:order exponent:-2 isNegative:FALSE];
-		
-		//invoiceData is a PayPalInvoiceData object which contains tax, shipping, and a list of PayPalInvoiceItem objects
-		details.invoiceData = [[PayPalInvoiceData alloc] init];
-		details.invoiceData.totalShipping = [NSDecimalNumber decimalNumberWithMantissa:shipping exponent:-2 isNegative:FALSE];
-		details.invoiceData.totalTax = [NSDecimalNumber decimalNumberWithMantissa:tax exponent:-2 isNegative:FALSE];
-		
-		//invoiceItems is a list of PayPalInvoiceItem objects
-		//NOTE: sum of totalPrice for all items must equal details.subTotal
-		//NOTE: example only shows a single item, but you can have more than one
-		details.invoiceData.invoiceItems = [NSMutableArray array];
-		PayPalInvoiceItem *item = [[PayPalInvoiceItem alloc] init];
-		item.totalPrice = details.subTotal;
-		item.name = @"Bear Stuffing";
-		[details.invoiceData.invoiceItems addObject:item];
-		
-		[payment.receiverPaymentDetails addObject:details];
-	}
-	
-	[[PayPal getPayPalInst] advancedCheckoutWithPayment:payment];
+    }
 }
-
-- (void)chainedPayment {
-	//dismiss any native keyboards
-	[preapprovalField resignFirstResponder];
-	
-	//optional, set shippingEnabled to TRUE if you want to display shipping
-	//options to the user, default: TRUE
-	[PayPal getPayPalInst].shippingEnabled = TRUE;
-	
-	//optional, set dynamicAmountUpdateEnabled to TRUE if you want to compute
-	//shipping and tax based on the user's address choice, default: FALSE
-	[PayPal getPayPalInst].dynamicAmountUpdateEnabled = TRUE;
-	
-	//optional, choose who pays the fee, default: FEEPAYER_EACHRECEIVER
-	[PayPal getPayPalInst].feePayer = FEEPAYER_EACHRECEIVER;
-	
-	//for a payment with multiple recipients, use a PayPalAdvancedPayment object
-	PayPalAdvancedPayment *payment = [[PayPalAdvancedPayment alloc] init];
-	payment.paymentCurrency = @"USD";
-	
-	//receiverPaymentDetails is a list of PPReceiverPaymentDetails objects
-	payment.receiverPaymentDetails = [NSMutableArray array];
-	
-	NSArray *nameArray = [NSArray arrayWithObjects:@"Frank's", @"Robert's", @"Julie's",nil];
-	
-	for (int i = 1; i <= 3; i++) {
-		PayPalReceiverPaymentDetails *details = [[PayPalReceiverPaymentDetails alloc] init];
-		
-		details.description = @"Bear Components";
-		details.recipient = [NSString stringWithFormat:@"example-merchant-%d@paypal.com", 4 - i];
-		details.merchantName = [NSString stringWithFormat:@"%@ Bear Parts",[nameArray objectAtIndex:i-1]];
-		
-		unsigned long long order, tax, shipping;
-		order = i * 100;
-		tax = i * 7;
-		shipping = i * 14;
-		
-		//subtotal of all items for this recipient, without tax and shipping
-		details.subTotal = [NSDecimalNumber decimalNumberWithMantissa:order exponent:-2 isNegative:FALSE];
-		
-		//invoiceData is a PayPalInvoiceData object which contains tax, shipping, and a list of PayPalInvoiceItem objects
-		details.invoiceData = [PayPalInvoiceData alloc];
-		details.invoiceData.totalShipping = [NSDecimalNumber decimalNumberWithMantissa:shipping exponent:-2 isNegative:FALSE];
-		details.invoiceData.totalTax = [NSDecimalNumber decimalNumberWithMantissa:tax exponent:-2 isNegative:FALSE];
-		
-		//invoiceItems is a list of PayPalInvoiceItem objects
-		//NOTE: sum of totalPrice for all items must equal details.subTotal
-		//NOTE: example only shows a single item, but you can have more than one
-		details.invoiceData.invoiceItems = [NSMutableArray array];
-		PayPalInvoiceItem *item = [PayPalInvoiceItem alloc];
-		item.totalPrice = details.subTotal;
-		item.name = @"Bear Stuffing";
-		[details.invoiceData.invoiceItems addObject:item];
-		
-		//the only difference between setting up a chained payment and setting
-		//up a parallel payment is that the chained payment must have a single
-		//primary receiver.  the subTotal + totalTax + totalShipping of the
-		//primary receiver must be greater than or equal to the sum of
-		//payments being made to all other receivers, because the payment is
-		//being made to the primary receiver, then the secondary receivers are
-		//paid by the primary receiver.
-		if (i == 3) {
-			details.isPrimary = TRUE;
-		}
-		
-		[payment.receiverPaymentDetails addObject:details];
-	}
-	
-	[[PayPal getPayPalInst] advancedCheckoutWithPayment:payment];
-}
-
-- (void)preapproval {
-	//dismiss any native keyboards
-	[preapprovalField resignFirstResponder];
-	
-	//the preapproval flow is kicked off by a single line of code which takes
-	//the preapproval key and merchant name as parameters.
-	[[PayPal getPayPalInst] preapprovalWithKey:preapprovalField.text andMerchantName:@"Joe's Bear Emporium"];
-}
-
 
 #pragma mark -
 #pragma mark PayPalPaymentDelegate methods
@@ -431,59 +294,6 @@
 	[alert show];
 }
 
-//adjustAmountsForAddress:andCurrency:andAmount:andTax:andShipping:andErrorCode: is optional. you only need to
-//provide this method if you wish to recompute tax or shipping when the user changes his/her shipping address.
-//for this method to be called, you must enable shipping and dynamic amount calculation on the PayPal object.
-//the library will try to use the advanced version first, but will use this one if that one is not implemented.
-- (PayPalAmounts *)adjustAmountsForAddress:(PayPalAddress const *)inAddress andCurrency:(NSString const *)inCurrency andAmount:(NSDecimalNumber const *)inAmount
-									andTax:(NSDecimalNumber const *)inTax andShipping:(NSDecimalNumber const *)inShipping andErrorCode:(PayPalAmountErrorCode *)outErrorCode {
-	//do any logic here that would adjust the amount based on the shipping address
-	PayPalAmounts *newAmounts = [PayPalAmounts alloc];
-	newAmounts.currency = @"USD";
-	newAmounts.payment_amount = (NSDecimalNumber *)inAmount;
-	
-	//change tax based on the address
-	if ([inAddress.state isEqualToString:@"CA"]) {
-		newAmounts.tax = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",[inAmount floatValue] * .1]];
-	} else {
-		newAmounts.tax = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",[inAmount floatValue] * .08]];
-	}
-	newAmounts.shipping = (NSDecimalNumber *)inShipping;
-	
-	//if you need to notify the library of an error condition, do one of the following
-	//*outErrorCode = AMOUNT_ERROR_SERVER;
-	//*outErrorCode = AMOUNT_CANCEL_TXN;
-	//*outErrorCode = AMOUNT_ERROR_OTHER;
-    
-	return newAmounts;
-}
-
-//adjustAmountsAdvancedForAddress:andCurrency:andReceiverAmounts:andErrorCode: is optional. you only need to
-//provide this method if you wish to recompute tax or shipping when the user changes his/her shipping address.
-//for this method to be called, you must enable shipping and dynamic amount calculation on the PayPal object.
-//the library will try to use this version first, but will use the simple one if this one is not implemented.
-- (NSMutableArray *)adjustAmountsAdvancedForAddress:(PayPalAddress const *)inAddress andCurrency:(NSString const *)inCurrency
-								 andReceiverAmounts:(NSMutableArray *)receiverAmounts andErrorCode:(PayPalAmountErrorCode *)outErrorCode {
-	NSMutableArray *returnArray = [NSMutableArray arrayWithCapacity:[receiverAmounts count]];
-	for (PayPalReceiverAmounts *amounts in receiverAmounts) {
-		//leave the shipping the same, change the tax based on the state
-		if ([inAddress.state isEqualToString:@"CA"]) {
-			amounts.amounts.tax = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",[amounts.amounts.payment_amount floatValue] * .1]];
-		} else {
-			amounts.amounts.tax = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",[amounts.amounts.payment_amount floatValue] * .08]];
-		}
-		[returnArray addObject:amounts];
-	}
-	
-	//if you need to notify the library of an error condition, do one of the following
-	//*outErrorCode = AMOUNT_ERROR_SERVER;
-	//*outErrorCode = AMOUNT_CANCEL_TXN;
-	//*outErrorCode = AMOUNT_ERROR_OTHER;
-	
-	return returnArray;
-}
-
-
 #pragma mark -
 #pragma mark UITextFieldDelegate methods
 
@@ -522,6 +332,7 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	return TRUE;
 }
+
 
 
 @end
