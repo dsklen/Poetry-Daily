@@ -87,6 +87,7 @@
             [self.webView loadHTMLString:formattedHTML baseURL:nil];
             NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = '300'; document.body.style.width = 1300"]; //  '%d%%';", 3000];
             [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
+            self.webView.scalesPageToFit = NO;
             
             //            [SVProgressHUD dismiss];
 
@@ -119,10 +120,10 @@
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {        
             if ([currentPoem.poemBody rangeOfString:@"<!--prose-->"].location == NSNotFound) {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:normal; padding:5px; margin:8px; width:800px;}</style></head><body>";
+                style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:pre; padding:5px; margin:8px; width:800px;}</style></head><body>";
             }
             else {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:nowrap; padding:5px; margin:8px;width:800px;}</style></head><body>";
+                style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:pre; padding:5px; margin:8px;width:800px;}</style></head><body>";
             }
             
             NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
@@ -139,10 +140,10 @@
         else
         {
             if ([currentPoem.poemBody rangeOfString:@"<!--prose-->"].location == NSNotFound) {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:normal; padding:30px; margin:8px; width:800px;}</style></head><body>";
+                style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:pre; padding:30px; margin:8px; width:800px;}</style></head><body>";
             }
             else {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:normal; padding:30px; margin:8px;width:800px;}</style></head><body>";
+                style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:pre; padding:30px; margin:8px;width:800px;}</style></head><body>";
             }
             
             NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
