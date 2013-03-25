@@ -186,7 +186,14 @@
         
         poem.authorImageURLString = imageAddress;
         
-        block( [NSArray arrayWithObject:poem] );
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            
+            if ( poem == nil )
+                block( nil );
+            else
+                block( [NSArray arrayWithObject:poem] );
+        });
 
     }];
 }
@@ -209,6 +216,13 @@
         NSMutableArray *imagesToFetch = [[NSMutableArray alloc] init];
         NSMutableDictionary *poemsToFetchImages = [[NSMutableDictionary alloc] init];
 
+        if ( [allPoems count] > 0 )
+        {
+//            dispatch_async( dispatch_get_main_queue(), ^{
+            
+//                [SVProgressHUD showWithStatus:@"Archiving..."]; });
+        }
+        
         for ( NSDictionary *poemDescriptionDictionary in allPoems )
         {
             NSString *poemID = [[poemDescriptionDictionary allKeys] lastObject];
@@ -243,7 +257,18 @@
             [updatedPoems addObject:poem];
         }
         
-        block( updatedPoems );
+
+        
+//        dispatch_async( dispatch_get_main_queue(), ^{ [SVProgressHUD dismiss]; });
+
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            
+            if ( updatedPoems == nil )
+                block( nil );
+            else
+                block( updatedPoems );
+        });
 
 //        [server fetchPoetImagesWithStrings:imagesToFetch block:^(NSArray *items, NSError *error) {
 //            

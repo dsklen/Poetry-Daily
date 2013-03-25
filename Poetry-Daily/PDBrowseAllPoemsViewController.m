@@ -21,12 +21,18 @@
 #import <CoreText/CoreText.h>
 #import "NSAttributedString+Attributes.h"
 
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+
 @interface PDBrowseAllPoemsViewController ()
 - (void)orientationChanged:(NSNotification *)notification;
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope;
 - (IBAction)sortPoems:(id)sender;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
+
+@property (readwrite, nonatomic) BOOL isIOS6;
 
 @end
 
@@ -102,10 +108,10 @@
     
     PDPoem *poem = [self.displayPoemsArray objectAtIndex:indexPath.row];
 
-    if (senderButton.imageView.image == [UIImage imageNamed:@"favoriteStar"])
+    if ([senderButton.titleLabel.text isEqualToString:@"★"])
     {
         poem.isFavorite = [NSNumber numberWithBool:NO];
-        [senderButton setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
+        [senderButton setTitle:@"☆" forState:UIControlStateNormal];
         
         [SVProgressHUD show];
         [SVProgressHUD dismissWithError:NSLocalizedString( @"Unfavorited", @"" ) ];
@@ -114,10 +120,19 @@
     else
     {
         poem.isFavorite = [NSNumber numberWithBool:YES];
-        [senderButton setImage:[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];
+        [senderButton setTitle:@"★" forState:UIControlStateNormal];
         [SVProgressHUD showSuccessWithStatus:NSLocalizedString( @"Favorited", @"" )];
 
     }
+    
+    
+//    if ( poem.isFavorite.boolValue )
+//        [(UIButton *)[cell.contentView viewWithTag:104] setTitle:@"☆" forState:UIControlStateNormal];
+//    else
+//        [(UIButton *)[cell.contentView viewWithTag:104] setTitle:@"★" forState:UIControlStateNormal];
+
+    
+    
 }
 
 
@@ -139,11 +154,15 @@
         
         NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
-                                                                  [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f], UITextAttributeTextColor,
+                                                                  [UIColor whiteColor], UITextAttributeTextColor,
                                                                   nil];
         
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
         [self.tabBarItem setTitleTextAttributes:titleTextHighlightedAttributesDictionary forState:UIControlStateSelected];
+        
+        
+        
+        _isIOS6 = NO;// ([[[UIDevice currentDevice] systemVersion] compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending) ;
         
         _poemsArray = [NSMutableArray array];
         _filteredPoemsArray = [NSMutableArray array];
@@ -310,7 +329,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    return 100.0f;
+    return 104.0f;
 }
 
 
@@ -372,13 +391,28 @@
         thumbnailImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         [cell.contentView addSubview:thumbnailImageView];
         
-        OHAttributedLabel *poemTitleLabel = [[OHAttributedLabel alloc] initWithFrame:CGRectMake(80.0f, 10.0f, 230.0f, 20.0f)];
-        poemTitleLabel.tag = 100;
-        poemTitleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-        poemTitleLabel.textAlignment = UITextAlignmentLeft;
-        poemTitleLabel.textColor = [UIColor darkGrayColor];
-        poemTitleLabel.backgroundColor = [UIColor clearColor];
-        [cell.contentView addSubview:poemTitleLabel];
+        
+        
+        if ( self.isIOS6 )
+        {        
+            OHAttributedLabel *poemTitleLabel = [[OHAttributedLabel alloc] initWithFrame:CGRectMake(80.0f, 10.0f, 230.0f, 20.0f)];
+            poemTitleLabel.tag = 100;
+            poemTitleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+            poemTitleLabel.textAlignment = UITextAlignmentLeft;
+            poemTitleLabel.textColor = [UIColor darkGrayColor];
+            poemTitleLabel.backgroundColor = [UIColor clearColor];
+            [cell.contentView addSubview:poemTitleLabel];
+        }
+        else
+        {
+            UILabel *poemTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0f, 10.0f, 230.0f, 20.0f)];
+            poemTitleLabel.tag = 100;
+            poemTitleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+            poemTitleLabel.textAlignment = UITextAlignmentLeft;
+            poemTitleLabel.textColor = [UIColor darkGrayColor];
+            poemTitleLabel.backgroundColor = [UIColor clearColor];
+            [cell.contentView addSubview:poemTitleLabel];
+        }
         
         UILabel *authorNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0f, 30.0f, 230.0f, 20.0f)];
         authorNameLabel.tag = 101;
@@ -400,7 +434,14 @@
         favoriteUnfavoriteButton.tag = 104;
         favoriteUnfavoriteButton.frame = CGRectMake(70.0f, 60.0f, 40.0f, 40.0f);
         favoriteUnfavoriteButton.imageView.contentMode = UIViewContentModeCenter;
-        [favoriteUnfavoriteButton setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
+        [favoriteUnfavoriteButton setTitleColor: [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0] forState:UIControlStateNormal];
+//        [favoriteUnfavoriteButton setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
+        
+//        favoriteUnfavoriteButton.layer.shadowColor = [UIColor blackColor].CGColor;
+//        favoriteUnfavoriteButton.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
+//        favoriteUnfavoriteButton.layer.shadowRadius = 2.0f;
+//        favoriteUnfavoriteButton.layer.shadowOpacity = 0.5f;
+
         [favoriteUnfavoriteButton addTarget:self action:@selector(favoriteOrUnfavoritePoem:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:favoriteUnfavoriteButton];
     }
@@ -412,9 +453,32 @@
     else
         poem = [self.displayPoemsArray objectAtIndex:indexPath.row];
     
-    OHAttributedLabel *label = (OHAttributedLabel *)[cell.contentView viewWithTag:100];
     
-    label.attributedText = [OHASBasicHTMLParser attributedStringByProcessingMarkupInAttributedString:[NSAttributedString attributedStringWithString:poem.title]];
+    
+    if ( self.isIOS6 )
+    {
+        OHAttributedLabel *label = (OHAttributedLabel *)[cell.contentView viewWithTag:100];
+        NSMutableAttributedString *poemTitle = [OHASBasicHTMLParser attributedStringByProcessingMarkupInAttributedString:[NSAttributedString attributedStringWithString:poem.title]];
+
+        
+        if ( poem.title.length > 0)
+        {
+            [poemTitle setAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14.0f], NSForegroundColorAttributeName : [UIColor darkGrayColor]} range:NSMakeRange(0, poem.title.length)];
+        }
+        
+        label.attributedText = poemTitle;
+
+    }
+    else
+    {
+        UILabel *label = (UILabel *)[cell.contentView viewWithTag:100];
+ 
+        label.font = [UIFont boldSystemFontOfSize:14.0f];
+        label.textColor = [UIColor darkGrayColor];
+        
+        label.text = poem.title;
+    }
+
     
     [(UILabel *)[cell.contentView viewWithTag:101] setText:poem.author];
     
@@ -437,10 +501,7 @@
                     NSData *newImageData = items[0];
                     
                     poem.authorImageData = newImageData;
-                    
-//                    if ( poem.poemID isEqualToString:<#(NSString *)#>) {
-//                        <#statements#>
-//                    }
+
                     [(UIImageView *)[cell.contentView viewWithTag:99] setImage:poem.authorImage];
                     
                     poem.hasAttemptedDownload = YES;
@@ -457,24 +518,31 @@
 
     [(UILabel *)[cell.contentView viewWithTag:102] setText:[self.dateFormatter stringFromDate:poem.publishedDate]];
 
+//    if ( poem.isFavorite.boolValue )
+//        [(UIButton *)[cell.contentView viewWithTag:104] setImage:[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];
+//    else
+//        [(UIButton *)[cell.contentView viewWithTag:104]  setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
+    
     if ( poem.isFavorite.boolValue )
-        [(UIButton *)[cell.contentView viewWithTag:104] setImage:[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];
+        [(UIButton *)[cell.contentView viewWithTag:104] setTitle:@"★" forState:UIControlStateNormal];
     else
-        [(UIButton *)[cell.contentView viewWithTag:104]  setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
+        [(UIButton *)[cell.contentView viewWithTag:104] setTitle:@"☆" forState:UIControlStateNormal];
     
     
     if (indexPath.row % 2 == 0 )
     {
-		cell.contentView.backgroundColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
-        cell.backgroundColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+//        [(UILabel *)[cell.contentView viewWithTag:101] setBackgroundColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
+//        [(UILabel *)[cell.contentView viewWithTag:102] setBackgroundColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
 	}
-    else 
+    else
 	{
-        cell.contentView.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
-        cell.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
-    }    
+//        [(UILabel *)[cell.contentView viewWithTag:101] setBackgroundColor:[UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f]];
+//        [(UILabel *)[cell.contentView viewWithTag:102] setBackgroundColor:[UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f]];
+    }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryView.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
@@ -483,13 +551,19 @@
 {
     if (indexPath.row % 2 == 0 )
     {
-		cell.contentView.backgroundColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.8f];
+		cell.contentView.backgroundColor = [UIColor clearColor];// colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.8f];
+        cell.accessoryView.backgroundColor = [UIColor clearColor];//  colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.8f];
+
         cell.backgroundColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
 	}
     else 
 	{
-        cell.contentView.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
+        cell.contentView.backgroundColor = [UIColor clearColor];// colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
+        cell.accessoryView.backgroundColor = [UIColor clearColor];// colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
+
+        
         cell.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.8f];
+        
     }  
 }
 

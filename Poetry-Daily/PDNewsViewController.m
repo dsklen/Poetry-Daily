@@ -28,15 +28,26 @@
 
 - (void)viewDidLoad
 {
+
+}
+
+- (void)viewDidAppear:(BOOL)animated;
+{
     [super viewDidLoad];
     
     self.title = @"News";
     
-    SVWebViewController *web = [[SVWebViewController alloc] init];
-    web.view.frame = self.view.frame;
-
-    [self.view addSubview:web.view];
+    SVWebViewController *web = [[SVWebViewController alloc] initWithAddress:@"http://poems.com/news_mobile.php"];
     
+    web.view.frame = self.view.frame;
+    
+    web.hidesBottomBarWhenPushed = YES;
+    web.title = @"News";
+    //    web.mainWebView.scalesPageToFit = YES;
+    [self.view addSubview:web.view];
+    web.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+    
+    [web.navigationController setToolbarHidden:YES animated:YES];
 }
 
 @end

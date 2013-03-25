@@ -43,9 +43,6 @@
 @property (nonatomic, readwrite) BOOL isDragging;
 @property (nonatomic, readwrite) BOOL isLoading;
 
-@property (nonatomic, strong) UIBarButtonItem *favoriteBarButtonItem;
-
-
 - (void)setupStrings;
 - (void)addPullToRefreshHeader;
 - (void)startLoading;
@@ -135,17 +132,13 @@
 
                         } completion:NULL];
                     }];
-                    
-                    UIImage *favoriteOrUnfavoriteImage;
+                
                     
                     if ( self.currentPoem.isFavorite.boolValue )
-                        favoriteOrUnfavoriteImage = [UIImage imageNamed:@"favoriteStar"];
+                        [self.favoriteBarButtonItem setTitle:@"★"];
                     else
-                        favoriteOrUnfavoriteImage =  [UIImage imageNamed:@"unfilledFavoriteStar"];
-                    
-                    [self.favoriteBarButtonItem setImage:favoriteOrUnfavoriteImage];
-                    
-                    NSLog(@"IMAGE URL: %@", poem.authorImageURLString);
+                        [self.favoriteBarButtonItem setTitle:@"☆"];
+
                     
                     if ( poem.authorImageURLString.length > 0 && poem.authorImageData.length == 0 && !poem.hasAttemptedDownload)
                     {
@@ -218,8 +211,6 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
         [dateFormatter setDateStyle:NSDateFormatterLongStyle];
-
-//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 
         
         [UIView animateWithDuration:0.2f animations:^{
@@ -326,7 +317,6 @@
                     [self.publicationInfoWebView loadHTMLString:publicationHTML baseURL:nil];
                     self.publicationInfoWebView.scrollView.scrollEnabled = NO;
                     [self.tableView endUpdates];
-
                 }
             }
             
@@ -383,11 +373,16 @@
 {
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:self.publicationURL];
     
+    webViewController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
+    
     NSLog(@"Visiting external site at %@", [self.publicationURL absoluteString]);
     
     webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
     webViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:webViewController animated:YES];
+    
+    webViewController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
+
 }
 
 - (void)swipeNextDay:(UISwipeGestureRecognizer *)swipeGesture;
@@ -474,7 +469,7 @@
         [SVProgressHUD show];
         [SVProgressHUD dismissWithError:NSLocalizedString( @"Unfavorited", @"" ) ];
         
-        self.favoriteBarButtonItem.image = [UIImage imageNamed:@"unfilledFavoriteStar"];
+        [self.favoriteBarButtonItem setTitle:@"☆"];
 
     }
     else
@@ -483,8 +478,7 @@
         
         [SVProgressHUD showSuccessWithStatus:NSLocalizedString( @"Favorited", @"" )];
 
-        self.favoriteBarButtonItem.image = [UIImage imageNamed:@"favoriteStar"];
-
+        [self.favoriteBarButtonItem setTitle:@"★"];
     }
 }
 
@@ -507,7 +501,7 @@
         
         NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
-                                                                  [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f], UITextAttributeTextColor,
+                                                                  [UIColor whiteColor], UITextAttributeTextColor,
                                                                   nil];
         
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
@@ -537,44 +531,48 @@
                                               [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
                                               nil] forState:UIControlStateNormal];
     
-//    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-//                                                           [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
-//                                                           [UIColor whiteColor], UITextAttributeTextShadowColor,
-//                                                           [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
-//                                                           [UIFont boldSystemFontOfSize:18.0f], UITextAttributeFont,
-//                                                           nil]];
+
 
     
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+    
 
-    UIImage *favoriteOrUnfavoriteImage;
+
     
-    if ( self.currentPoem.isFavorite.boolValue )
-        favoriteOrUnfavoriteImage = [UIImage imageNamed:@"favoriteStar"];
-    else
-        favoriteOrUnfavoriteImage =  [UIImage imageNamed:@"unfilledFavoriteStar"];
     
-    [self.favoriteBarButtonItem setImage:favoriteOrUnfavoriteImage];
     
-    self.favoriteBarButtonItem = [[UIBarButtonItem alloc] initWithImage:favoriteOrUnfavoriteImage style:UIBarButtonItemStylePlain target:self action:@selector(favoriteOrUnfavorite:)];
+    
+    self.favoriteBarButtonItem = [[UIBarButtonItem alloc] initWithImage:nil style:UIBarButtonItemStyleBordered target:self action:@selector(favoriteOrUnfavorite:)];
     
     self.navigationItem.rightBarButtonItem = self.favoriteBarButtonItem;
+
+    
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                    [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+                                                                    [UIColor clearColor], UITextAttributeTextShadowColor,
+                                                                    [NSValue valueWithUIOffset:UIOffsetMake(0, 0)], UITextAttributeTextShadowOffset,
+                                                                    [UIFont boldSystemFontOfSize:16.0f], UITextAttributeFont,
+                                                                    nil] forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+
+    if ( self.currentPoem.isFavorite.boolValue )
+        [self.favoriteBarButtonItem setTitle:@"★"];
+    else
+        [self.favoriteBarButtonItem setTitle:@"☆"];
+
     
     UIButton *logoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [logoButton setImage:[UIImage imageNamed:@"PDLogo"] forState:UIControlStateNormal];
+    [logoButton setImage:[UIImage imageNamed:@"title"] forState:UIControlStateNormal];
     logoButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    logoButton.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     
     CGRect newFrame = logoButton.frame;
     newFrame.size.height = 39.0f;
-//    newFrame.origin.x -= 20.0f;
     logoButton.frame = newFrame;
     
     [logoButton addTarget:self action:@selector(showToday:) forControlEvents:UIControlEventTouchUpInside];
-    
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showToday:)];
-//    tap.numberOfTapsRequired = 1;
-//    [logoButton addGestureRecognizer:tap];
+
 
     self.navigationItem.titleView = logoButton;
     
@@ -584,38 +582,33 @@
     self.poemAuthorImageView.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
     self.poemAuthorImageView.layer.shadowRadius = 2.0f;
     self.poemAuthorImageView.layer.shadowOpacity = 0.5f;
-    
     self.poemPublishedDateLabel.layer.shadowColor = [UIColor blackColor].CGColor;
     self.poemPublishedDateLabel.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
     self.poemPublishedDateLabel.layer.shadowRadius = 2.0f;
     self.poemPublishedDateLabel.layer.shadowOpacity = 0.5f;
-
-    self.readPoemButton.layer.borderColor = [[UIColor colorWithRed:99.0f/255.0f green:33.0f/255.0f blue:40.0f/255.0f alpha:0.9f] CGColor];
-    self.readPoemButton.layer.cornerRadius = 6.0f;
-    self.readPoemButton.layer.borderWidth = 2.0f;
-    self.readPoemButton.layer.backgroundColor = [[UIColor colorWithRed:99.0f/255.0f green:33.0f/255.0f blue:40.0f/255.0f alpha:1.0f] CGColor];
+    
+    self.readPoemButton.backgroundColor = [UIColor clearColor];
+    
+    self.readPoemButton.layer.shadowColor = [[UIColor blackColor] CGColor];
+    self.readPoemButton.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
+    self.readPoemButton.layer.shadowOpacity = 0.5;
+    self.readPoemButton.layer.shadowRadius = 2.0f;
+    
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+        ([UIScreen mainScreen].scale == 2.0)) {
         
+        [self.readPoemButton setBackgroundImage:[[UIImage imageNamed:@"red-read"] resizableImageWithCapInsets:UIEdgeInsetsMake( 22.0f, 8.0f, 22.0f, 8.0f)] forState:UIControlStateNormal];
+        
+        [self.readPoemButton setBackgroundImage:[[UIImage imageNamed:@"dark-read"] resizableImageWithCapInsets:UIEdgeInsetsMake( 21.0f, 8.0f, 22.0f, 8.0f)] forState:UIControlStateSelected];
     
-//    [[QBFlatButton appearance] setFaceColor:[UIColor colorWithWhite:0.75 alpha:1.0] forState:UIControlStateDisabled];
-//    [[QBFlatButton appearance] setSideColor:[UIColor colorWithWhite:0.55 alpha:1.0] forState:UIControlStateDisabled];
-//    
-//    QBFlatButton *btn = [QBFlatButton buttonWithType:UIButtonTypeCustom];
-//    btn.frame = CGRectMake( 10.0f, 300.0f, 200.0f, 80.0f );
-//    btn.faceColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
-//    btn.sideColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.8f];
-//    
-//    btn.radius = 6.0;
-//    btn.margin = 4.0;
-//    btn.depth = 6.0;
-//
-//    btn.titleLabel.font = [UIFont boldSystemFontOfSize:16];
-//    [btn setTitleColor:[UIColor colorWithRed:99.0f/255.0f green:33.0f/255.0f blue:40.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
-//    [btn setTitle:@"Read Poem" forState:UIControlStateNormal];
-//
-//    [btn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-//
-//    [self.view addSubview:btn];
+    } else {
+        
+        [self.readPoemButton setBackgroundImage:[[UIImage imageNamed:@"red-read"] resizableImageWithCapInsets:UIEdgeInsetsMake( 23.0f, 12.0f, 23.0f, 12.0f)] forState:UIControlStateNormal];
+        
+        [self.readPoemButton setBackgroundImage:[[UIImage imageNamed:@"dark-read"] resizableImageWithCapInsets:UIEdgeInsetsMake( 30.0f, 18.0f, 30.0f, 18.0f)] forState:UIControlStateSelected];
+    }
     
+
     [self showPoemForDay:[NSDate charlottesvilleDate]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -637,20 +630,6 @@
     self.publicationInformationTableViewCell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
 
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
-
-    
-//    
-//    [UIView animateWithDuration:1.4f delay:0.0f options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionRepeat animations:^{
-//        [UIView setAnimationRepeatCount:10000];
-//
-////        self.refreshLogoActivityLabel.transform = CGAffineTransformRotate(self.refreshLogoActivityLabel.transform, 2 * M_PI);
-//        [self.refreshLogoActivityLabel layer].transform = CATransform3DMakeRotation(2 * M_PI, 0, 0, 1);
-//
-//    } completion:^(BOOL finished) {
-//        
-//        
-//    }];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated;

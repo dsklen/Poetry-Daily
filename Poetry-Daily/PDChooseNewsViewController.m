@@ -16,6 +16,10 @@
 
 @interface PDChooseNewsViewController ()
 
+- (IBAction)changeNewsView:(id)sender;
+- (IBAction)signUp:(id)sender;
+@property (strong, nonatomic) UISegmentedControl *newsSegmentedControl;
+
 @end
 
 @implementation PDChooseNewsViewController
@@ -25,42 +29,80 @@
 //    PDNewsViewController *news = [[PDNewsViewController alloc] init];
     
     SVWebViewController *web = [[SVWebViewController alloc] initWithAddress:@"http://poems.com/news_mobile.php"];
+    web.navigationItem.hidesBackButton = YES;
+    
+    
+    UISegmentedControl *newsSegmentedControler = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"News", @"Twitter", nil]];
+    newsSegmentedControler.segmentedControlStyle = UISegmentedControlStyleBar;
+    newsSegmentedControler.selectedSegmentIndex = 0;
+    [newsSegmentedControler addTarget:self
+                         action:@selector(newsViewShouldChange:)
+               forControlEvents:UIControlEventValueChanged];
+    web.navigationItem.titleView = newsSegmentedControler;
+    self.newsSegmentedControl = newsSegmentedControler;
+    
+    
+    [newsSegmentedControler setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                             [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+                                                             [UIColor whiteColor ], UITextAttributeTextShadowColor,
+                                                             [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                             [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
+                                                             nil] forState:UIControlStateNormal];
+//    [newsSegmentedControler setTintColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
 
-    web.hidesBottomBarWhenPushed = YES;
+    
+
+//    [newsSegmentedControler setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]]]; //[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
+    
+    
+    UIBarButtonItem *showSignUp = [[UIBarButtonItem alloc] initWithTitle:@"Sign-up" style:UIBarButtonItemStyleBordered target:self action:@selector(signUp:)];
+    web.navigationItem.rightBarButtonItem = showSignUp;
+
+    
+//    web.hidesBottomBarWhenPushed = YES;
     web.title = @"News";
-//    web.mainWebView.scalesPageToFit = YES;
+    [web.navigationController setToolbarHidden:YES animated:YES];
     [self.navigationController pushViewController:web animated:YES];
     web.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
 
+}
+
+- (IBAction)signUp:(id)sender;
+{
+    EmailSignUpViewController *e_l = [[EmailSignUpViewController alloc] init];
+    self.navigationController.navigationItem.hidesBackButton = NO;
+	[super.navigationController pushViewController:e_l animated:YES];
+    self.navigationController.navigationItem.hidesBackButton = NO;
+
+}
+
+- (IBAction)newsViewShouldChange:(id)sender;
+{
+    UISegmentedControl *seg = (UISegmentedControl *)sender;
     
-//    [SVProgressHUD showWithStatus:@"Loading News..."];
-//    
-//    PDMediaServer *server = [[PDMediaServer alloc] init];
-//
-//    [server fetchNewsHTML:^(NSString *HTML, NSError *error) {
-//       
-//        if ( HTML && !error )
-//        {
-//            [web.mainWebView loadHTMLString:HTML baseURL:nil];
-//            
-//            [SVProgressHUD dismiss];
-//        }
-//        else
-//            [SVProgressHUD dismissWithError:@"Failed"];
-//        
-//    }];
+    if ( seg.selectedSegmentIndex == 0 )
+    {
+//        [self.navigationController popViewControllerAnimated:NO];
+    }
+    else
+    {
+        [self twitter:nil];
+        
+        seg.selectedSegmentIndex = 0;
+    }
+    
 }
 
 - (IBAction)twitter:(id)sender;
 {
     PDTwitterViewController *twitter = [[PDTwitterViewController alloc] initWithNibName:@"PDTwitterViewController" bundle:nil];
-    [self.navigationController pushViewController:twitter animated:YES];
+    [self.navigationController pushViewController:twitter animated:NO];
 }
 
 -(IBAction)emailSignUpPressed:(id)sender;
 {
-	EmailSignUpViewController *e_l = [[EmailSignUpViewController alloc] init];
-	[super.navigationController pushViewController:e_l animated:YES];
+//	EmailSignUpViewController *e_l = [[EmailSignUpViewController alloc] init];
+//	[super.navigationController pushViewController:e_l animated:YES];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -77,7 +119,7 @@
         
         NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
-                                                                  [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f], UITextAttributeTextColor,
+                                                                  [UIColor whiteColor], UITextAttributeTextColor,
                                                                   nil];
         
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
@@ -90,6 +132,14 @@
 {
     [super viewDidLoad];
     
+    [self news:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated;
+{
+    self.newsSegmentedControl.selectedSegmentIndex = 0;
+
+    NSLog(@"VIEW DID APPEAR : CHOOSE");
 
 }
 

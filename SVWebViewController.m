@@ -23,7 +23,7 @@
 - (id)initWithURL:(NSURL*)URL;
 - (void)loadURL:(NSURL*)URL;
 
-- (void)updateToolbarItems;
+- (void)updateToolbarItemsOnLoad:(BOOL)onLoad;
 
 - (void)goBackClicked:(UIBarButtonItem *)sender;
 - (void)goForwardClicked:(UIBarButtonItem *)sender;
@@ -149,7 +149,7 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-    [self updateToolbarItems];
+	[self updateToolbarItemsOnLoad:YES];
 }
 
 - (void)viewDidUnload {
@@ -202,7 +202,11 @@
 
 #pragma mark - Toolbar
 
-- (void)updateToolbarItems {
+- (void)updateToolbarItemsOnLoad:(BOOL)onLoad {
+    
+    [self.navigationController setToolbarHidden:!self.mainWebView.canGoBack animated:!onLoad];
+
+    
     self.backBarButtonItem.enabled = self.mainWebView.canGoBack;
     self.forwardBarButtonItem.enabled = self.mainWebView.canGoForward;
     self.actionBarButtonItem.enabled = !self.mainWebView.isLoading;
@@ -287,7 +291,7 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    [self updateToolbarItems];
+	[self updateToolbarItemsOnLoad:NO];
 }
 
 
@@ -295,12 +299,12 @@
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
     self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    [self updateToolbarItems];
+	[self updateToolbarItemsOnLoad:NO];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    [self updateToolbarItems];
+	[self updateToolbarItemsOnLoad:NO];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -324,7 +328,7 @@
 
 - (void)stopClicked:(UIBarButtonItem *)sender {
     [mainWebView stopLoading];
-	[self updateToolbarItems];
+	[self updateToolbarItemsOnLoad:NO];
 }
 
 - (void)actionButtonClicked:(id)sender {

@@ -108,7 +108,7 @@
 
 - (void)fetchPoemWithID:(NSString *)poemID block:(PDFetchBlock)block;
 {
-     NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
+    NSBlockOperation *fetch = [NSBlockOperation blockOperationWithBlock:^{
      
      NSError *error = nil;
      NSMutableDictionary *params = [[NSMutableDictionary alloc] init];

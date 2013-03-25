@@ -19,6 +19,8 @@
 #import "Appirater.h"
 #import "NSDate+PDAdditions.h"
 #import "PDMediaServer.h"
+#import "PDNewsViewController.h"
+#import "PDTwitterViewController.h"
 //#import "FlurryAnalytics.h"
 
 @implementation PDAppDelegate
@@ -60,6 +62,15 @@
                                                                        [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
                                                                        [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
                                                                        nil] forState:UIControlStateNormal];
+        
+        [[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                              [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+                                                              [UIColor whiteColor ], UITextAttributeTextShadowColor,
+                                                              [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                              [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
+                                                              nil] forState:UIControlStateNormal];
+        [[UISegmentedControl appearanceWhenContainedIn:[PDTwitterViewController class], [UINavigationBar class], [PDChooseNewsViewController class], nil] setTintColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
+
         
         [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
         

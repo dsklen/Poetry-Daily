@@ -22,6 +22,8 @@
 - (IBAction)tweetTapped:(id)sender;
 
 @property (strong, nonatomic) NSString *currentPoemID;
+@property (strong, nonatomic) UISegmentedControl *newsSegmentedControl;
+
 @end
 
 @implementation PDTwitterViewController
@@ -58,6 +60,27 @@
     }
 }
 
+- (IBAction)newsViewShouldChange:(id)sender;
+{
+    UISegmentedControl *seg = (UISegmentedControl *)sender;
+    
+    if ( seg.selectedSegmentIndex == 0 )
+    {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+    else
+    {
+//        [self twitter:nil];
+    }
+    
+}
+
+//- (IBAction)twitter:(id)sender;
+//{
+//    PDTwitterViewController *twitter = [[PDTwitterViewController alloc] initWithNibName:@"PDTwitterViewController" bundle:nil];
+//    [self.navigationController pushViewController:twitter animated:NO];
+//}
+
 #pragma mark - View Lifecycle
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -87,9 +110,19 @@
     return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated;
+{
+    self.newsSegmentedControl.selectedSegmentIndex = 1;
+    
+    NSLog(@"VIEW DID APPEAR : TWITTER");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.hidesBackButton = YES;
+
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
     self.tweetsTableView.alpha = 0.0f;
@@ -127,9 +160,29 @@
     }];
     
     
-    UIBarButtonItem *atPDBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(tweetAtPD:)];
+    UIBarButtonItem *atPDBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"compose"] landscapeImagePhone:[UIImage imageNamed:@"compose-landscape"] style:UIBarButtonItemStyleBordered target:self action:@selector(tweetAtPD:)];
+
+    
     self.navigationItem.rightBarButtonItem = atPDBarButtonItem;
     atPDBarButtonItem.enabled = [TWTweetComposeViewController canSendTweet];
+    
+    UISegmentedControl *newsSegmentedControler = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"News", @"Twitter", nil]];
+    newsSegmentedControler.segmentedControlStyle = UISegmentedControlStyleBar;
+    newsSegmentedControler.selectedSegmentIndex = 1;
+    [newsSegmentedControler addTarget:self
+                               action:@selector(newsViewShouldChange:)
+                     forControlEvents:UIControlEventValueChanged];
+    
+    
+//    [newsSegmentedControler setTintColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
+    
+//    [newsSegmentedControler setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]]]; //[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
+
+    self.navigationItem.titleView = newsSegmentedControler;
+    
+    self.newsSegmentedControl = newsSegmentedControler;
+    
+    self.title = @"Twitter";
 }
 
 - (void)viewDidUnload
@@ -260,6 +313,7 @@
         UILabel *tweeterNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(70.0f, 5.0f, 200.0f, 20.0f)];
         tweeterNameLabel.tag = 100;
         tweeterNameLabel.font = [UIFont boldSystemFontOfSize:12.0f];
+        tweeterNameLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         tweeterNameLabel.textAlignment = UITextAlignmentLeft;
         tweeterNameLabel.textColor = [UIColor blackColor];
         tweeterNameLabel.backgroundColor = [UIColor clearColor];
@@ -273,21 +327,23 @@
         tweeterScreennameLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:tweeterScreennameLabel];
         
-        UILabel *publishedDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(265.0f, 5.0f, 50.0f, 20.0f)];
+        UILabel *publishedDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width - 55.0f, 5.0f, 50.0f, 20.0f)];
         publishedDateLabel.tag = 102;
+        publishedDateLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         publishedDateLabel.textAlignment = UITextAlignmentLeft;
         publishedDateLabel.font = [UIFont systemFontOfSize:12.0f];
         publishedDateLabel.textColor = [UIColor grayColor];
         publishedDateLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:publishedDateLabel];   
         
-        UILabel *tweetTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(70.0f, 25.0f, 200.0f, 20.0f)];
+        UILabel *tweetTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(70.0f, 25.0f, cell.frame.size.width - 120.0f, 20.0f)];
         tweetTextLabel.tag = 103;
         tweetTextLabel.numberOfLines = 0;
         tweetTextLabel.font = [UIFont systemFontOfSize:12.0f];
         tweetTextLabel.textAlignment = UITextAlignmentLeft;
         tweetTextLabel.textColor = [UIColor darkGrayColor];
         tweetTextLabel.backgroundColor = [UIColor clearColor];
+        tweetTextLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         [cell.contentView addSubview:tweetTextLabel];
         
         UILabel *retweetCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(132.0f, 30.0f, 200.0f, 20.0f)];
@@ -296,19 +352,21 @@
         retweetCountLabel.font = [UIFont systemFontOfSize:11.0f];
         retweetCountLabel.textColor = [UIColor grayColor];
         retweetCountLabel.backgroundColor = [UIColor clearColor];
+        retweetCountLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         [cell.contentView addSubview:retweetCountLabel];
         
         if ( [TWTweetComposeViewController canSendTweet] ) 
         {
             UIButton *retweetButton = [UIButton buttonWithType:UIButtonTypeCustom];
             retweetButton.tag = 105;
-            retweetButton.frame = CGRectMake(170.0f, 0.0f, 60.0f, 20.0f);
+            retweetButton.frame = CGRectMake(cell.frame.size.width - 40.0f, 0.0f, 60.0f, 20.0f);
             retweetButton.alpha = 0.6f;
             [retweetButton setTitle:@"RT" forState:UIControlStateNormal];
             [retweetButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
             [retweetButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
             retweetButton.titleLabel.font = [UIFont boldSystemFontOfSize:12.0f];
-            
+            retweetButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+
             [retweetButton addTarget:self action:@selector(tweetTapped:) forControlEvents:UIControlEventTouchUpInside];
             
             [cell.contentView addSubview:retweetButton];
@@ -318,11 +376,13 @@
         retweetIcon.image = [UIImage imageNamed:@"spechbubble_sq_line_black"];
         retweetIcon.alpha = 0.4;
         retweetIcon.tag = 106;
-        retweetIcon.contentMode = UIViewContentModeScaleAspectFill;
+        retweetIcon.contentMode = UIViewContentModeScaleAspectFit;
         retweetIcon.clipsToBounds = YES;
         retweetIcon.backgroundColor = [UIColor clearColor];
         retweetIcon.layer.shouldRasterize = YES;
         retweetIcon.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        
+        retweetIcon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         [cell.contentView addSubview:retweetIcon];
         
         

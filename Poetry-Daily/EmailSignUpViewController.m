@@ -86,6 +86,10 @@ BOOL shown = NO;
 	self.failure.text = @"Sorry, but you have not entered a valid email address. Please try again.";
 	[self.webView setDelegate:self];
 	
+    self.navigationController.navigationItem.hidesBackButton = NO;
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self.navigationController action:@selector(popViewControllerAnimated:)];
+    
 //	self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.3189 green:.1378 blue:.1063 alpha:1.0];
 }
 

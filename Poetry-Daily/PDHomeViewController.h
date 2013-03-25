@@ -33,6 +33,8 @@
 @property (strong, nonatomic) IBOutlet UIWebView *poetInfoWebView;
 @property (strong, nonatomic) IBOutlet UIWebView *publicationInfoWebView;
 
+@property (nonatomic, strong) UIBarButtonItem *favoriteBarButtonItem;
+
 @property (strong, nonatomic) IBOutlet UIWebView *iPadfeatureInformationWebView;
 @property (strong, nonatomic) IBOutlet UIButton *iPadVisitPublicationPageButton;
 

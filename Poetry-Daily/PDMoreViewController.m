@@ -55,7 +55,8 @@
     self = [super initWithStyle:style];
     if (self) 
     {
-        self.title = NSLocalizedString(@"More", @"");
+        self.title = NSLocalizedString(@"Sponsors", @"");
+        
         self.tabBarItem.image = [UIImage imageNamed:@"nav_icon_ios_more"];
         
         NSDictionary *titleTextAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -65,7 +66,7 @@
         
         NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
-                                                                  [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f], UITextAttributeTextColor,
+                                                                  [UIColor whiteColor], UITextAttributeTextColor,
                                                                   nil];
         
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
@@ -80,7 +81,7 @@
 
     if ( self )
     {
-        self.title = NSLocalizedString(@"More", @"");
+        self.title = NSLocalizedString(@"Sponsors", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"nav_icon_ios_more"];
         
         NSDictionary *titleTextAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -90,7 +91,7 @@
         
         NSDictionary *titleTextHighlightedAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
-                                                                  [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f], UITextAttributeTextColor,
+                                                                  [UIColor whiteColor], UITextAttributeTextColor,
                                                                   nil];
         
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
