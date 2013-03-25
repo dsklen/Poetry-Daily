@@ -15,7 +15,6 @@
 #import "PDTwitterViewController.h"
 #import "PDMoreViewController.h"
 #import "PDChooseNewsViewController.h"
-#import "PayPal.h"
 #import "Appirater.h"
 #import "NSDate+PDAdditions.h"
 #import "PDMediaServer.h"
@@ -135,15 +134,6 @@
 //    [FlurryAnalytics startSession:@"RCE71QKU7J9GWWHSN67D"];
     
     return YES;
-    
-    //You must call initializeWithAppID:forEnvironment: or initializeWithAppID: before performing any other
-	//action with the library. You must supply your application ID, and you may specify the environment
-	//by passing in ENV_LIVE (default), ENV_SANDBOX, or ENV_NONE (offline demo mode).
-    [PayPal initializeWithAppID:@"APP-80W284485P519543T" forEnvironment:ENV_SANDBOX];
-    
-	
-    //	[PayPal initializeWithAppID:@"your live app id" forEnvironment:ENV_LIVE];
-	//[PayPal initializeWithAppID:@"anything" forEnvironment:ENV_NONE];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;

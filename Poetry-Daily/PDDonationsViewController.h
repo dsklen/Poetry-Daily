@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PayPal.h"
+#import "PayPalMobile.h"
 
 typedef enum PaymentStatuses {
 	PAYMENTSTATUS_SUCCESS,
@@ -20,9 +20,13 @@ typedef enum PaymentStatuses {
 	IBOutlet UITextField *amount;
 	CGFloat y;
 	BOOL resetScrollView;
-	PaymentStatus status;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *amount;
+@property(nonatomic, strong, readwrite) NSString *environment;
+@property(nonatomic, assign, readwrite) BOOL acceptCreditCards;
+@property(nonatomic, strong, readwrite) PayPalPayment *completedPayment;
+@property(nonatomic, strong, readwrite) IBOutlet UIButton *payButton;
+@property(nonatomic, strong, readwrite) IBOutlet UIView *successView;
 
 @end
