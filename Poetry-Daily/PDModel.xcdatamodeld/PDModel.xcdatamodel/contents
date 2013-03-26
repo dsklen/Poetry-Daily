@@ -7,6 +7,7 @@
         <attribute name="hasAttemptedDownload" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="isJournalImage" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isProse" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="journalTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poemBody" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poemID" optional="YES" attributeType="String" syncable="YES"/>
@@ -21,7 +22,7 @@
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Poem" positionX="160" positionY="192" width="128" height="210"/>
+        <element name="Poem" positionX="160" positionY="192" width="128" height="225"/>
         <element name="Sponsor" positionX="160" positionY="192" width="128" height="120"/>
     </elements>
 </model>

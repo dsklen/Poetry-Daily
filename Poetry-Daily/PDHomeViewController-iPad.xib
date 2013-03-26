@@ -286,8 +286,7 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
-						<bool key="IBUIAdjustsImageWhenHighlighted">NO</bool>
+						<bool key="IBUIReversesTitleShadowWhenHighlighted">YES</bool>
 						<bool key="IBUIAdjustsImageWhenDisabled">NO</bool>
 						<string key="IBUINormalTitle">Read Poem</string>
 						<reference key="IBUIHighlightedTitleColor" ref="238608522"/>
@@ -309,7 +308,6 @@
 						<string key="NSFrame">{{252, 847}, {265, 50}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -629,7 +627,6 @@
 					<string key="className">PDHomeViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="favoriteOrUnfavorite:">id</string>
 						<string key="fetchRandomPoem:">id</string>
 						<string key="showFeatureInformation:">id</string>
 						<string key="showMainPoemView:">id</string>
@@ -639,10 +636,6 @@
 						<string key="showToday:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="favoriteOrUnfavorite:">
-							<string key="name">favoriteOrUnfavorite:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="fetchRandomPoem:">
 							<string key="name">fetchRandomPoem:</string>
 							<string key="candidateClassName">id</string>

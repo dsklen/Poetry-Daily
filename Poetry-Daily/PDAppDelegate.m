@@ -68,6 +68,7 @@
                                                               [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
                                                               [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
                                                               nil] forState:UIControlStateNormal];
+        
         [[UISegmentedControl appearanceWhenContainedIn:[PDTwitterViewController class], [UINavigationBar class], [PDChooseNewsViewController class], nil] setTintColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
 
         
@@ -105,7 +106,7 @@
             PDChooseNewsViewController *news = [[PDChooseNewsViewController alloc] initWithNibName:@"PDChooseNewsViewController" bundle:nil];
             viewController3 = [[UINavigationController alloc] initWithRootViewController:news];
             
-            PDMoreViewController *more = [[PDMoreViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            PDMoreViewController *more = [[PDMoreViewController alloc] initWithNibName:@"PDMoreViewController" bundle:nil];
             viewController4 = [[UINavigationController alloc] initWithRootViewController:more];
         }
         

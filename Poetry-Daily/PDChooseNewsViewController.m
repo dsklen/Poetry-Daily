@@ -16,7 +16,7 @@
 
 @interface PDChooseNewsViewController ()
 
-- (IBAction)changeNewsView:(id)sender;
+//- (IBAction)changeNewsView:(id)sender;
 - (IBAction)signUp:(id)sender;
 @property (strong, nonatomic) UISegmentedControl *newsSegmentedControl;
 

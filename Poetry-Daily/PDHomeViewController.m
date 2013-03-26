@@ -104,8 +104,17 @@
     request.predicate = [NSPredicate predicateWithFormat:@"SELF.poemID == %@", poemID];
     request.fetchLimit = 1;
     
-    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults) {
-                                                                    
+    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults, NSError *error) {
+        
+        
+        if ( !newResults && error )
+        {
+            [SVProgressHUD show];
+            [SVProgressHUD dismissWithError:@"Failed To Load"];
+            [self.poemAuthorImageActivityView stopAnimating];
+            self.readPoemButton.enabled = ( self.currentPoem != nil) ;
+            return;
+        }
                 PDPoem *poem = [newResults lastObject];
         
                 if ( poem && [poemID isEqualToString:poem.poemID] )
@@ -113,6 +122,8 @@
                     [self updatePoemInformationForPoem:poem animated:NO];
                     
                     _currentPoem = poem;
+                    
+                    self.readPoemButton.enabled = YES;
                     
                     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
@@ -126,11 +137,7 @@
                         
                         self.poemPublishedDateLabel.text = [dateFormatter stringFromDate:poem.publishedDate];
 
-                        [UIView animateWithDuration:0.4f animations:^{
-                            
-                            self.poemPublishedDateLabel.alpha = 1.0f;
-
-                        } completion:NULL];
+                        [UIView animateWithDuration:0.4f animations:^{ self.poemPublishedDateLabel.alpha = 1.0f; } completion:NULL];
                     }];
                 
                     
@@ -207,6 +214,8 @@
         [self updatePoemInformationForPoem:poem animated:YES];
 
         _currentPoem = poem;
+        
+        self.readPoemButton.enabled = YES;
 
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
@@ -257,6 +266,10 @@
         else
             [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
     }
+    else
+    {
+        self.readPoemButton.enabled = NO;
+    }
 
     if ( YES)     //    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
@@ -290,6 +303,8 @@
 
                     [self.tableView beginUpdates];
                     [self.iPadfeatureInformationWebView loadHTMLString:combinedInfo baseURL:nil];
+                    
+                    [self.iPadfeatureInformationWebView sizeToFit];
                     [self.tableView endUpdates];
                 }
                 else
@@ -305,6 +320,7 @@
                     [self.tableView beginUpdates];
                     [self.poetInfoWebView loadHTMLString:HTML baseURL:nil];
                     self.poetInfoWebView.scrollView.scrollEnabled = NO;
+                    [self.poetInfoWebView sizeToFit];
                     
                     NSMutableString *publicationHTML = [[NSMutableString alloc] init];
                     
@@ -316,6 +332,8 @@
                     
                     [self.publicationInfoWebView loadHTMLString:publicationHTML baseURL:nil];
                     self.publicationInfoWebView.scrollView.scrollEnabled = NO;
+                    [self.publicationInfoWebView sizeToFit];
+
                     [self.tableView endUpdates];
                 }
             }
@@ -562,6 +580,7 @@
 
     
     UIButton *logoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    logoButton.frame = CGRectZero;
     [logoButton setImage:[UIImage imageNamed:@"title"] forState:UIControlStateNormal];
     logoButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -572,7 +591,6 @@
     logoButton.frame = newFrame;
     
     [logoButton addTarget:self action:@selector(showToday:) forControlEvents:UIControlEventTouchUpInside];
-
 
     self.navigationItem.titleView = logoButton;
     
@@ -593,6 +611,7 @@
     self.readPoemButton.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
     self.readPoemButton.layer.shadowOpacity = 0.5;
     self.readPoemButton.layer.shadowRadius = 2.0f;
+    self.readPoemButton.enabled = NO;
     
     if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
         ([UIScreen mainScreen].scale == 2.0)) {
@@ -605,7 +624,7 @@
         
         [self.readPoemButton setBackgroundImage:[[UIImage imageNamed:@"red-read"] resizableImageWithCapInsets:UIEdgeInsetsMake( 23.0f, 12.0f, 23.0f, 12.0f)] forState:UIControlStateNormal];
         
-        [self.readPoemButton setBackgroundImage:[[UIImage imageNamed:@"dark-read"] resizableImageWithCapInsets:UIEdgeInsetsMake( 30.0f, 18.0f, 30.0f, 18.0f)] forState:UIControlStateSelected];
+        [self.readPoemButton setBackgroundImage:[[UIImage imageNamed:@"dark-read"] resizableImageWithCapInsets:UIEdgeInsetsMake( 8.0f, 8.0f, 8.0f, 8.0f)] forState:UIControlStateSelected];
     }
     
 
@@ -738,7 +757,7 @@
         
         self.publicationInfoWebView.frame = frame;
         
-        return frame.size.height + 40.0f;
+        return frame.size.height + 60.0f;
     }
 
     return 0.0f;
@@ -853,10 +872,12 @@
     self.refreshLabel.font = [UIFont boldSystemFontOfSize:12.0];
     self.refreshLabel.textAlignment = NSTextAlignmentCenter;
     
-    self.refreshArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow.png"]];
+    self.refreshArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"03-arrow-south"]];
     self.refreshArrow.frame = CGRectMake(floorf((REFRESH_HEADER_HEIGHT - 27) / 2),
                                     (floorf(REFRESH_HEADER_HEIGHT - 44) / 2),
                                     27, 44);
+    
+    self.refreshArrow.contentMode = UIViewContentModeCenter;
     
 //    self.refreshSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 //    self.refreshSpinner.frame = CGRectMake(floorf(floorf(REFRESH_HEADER_HEIGHT - 20) / 2), floorf((REFRESH_HEADER_HEIGHT - 20) / 2), 20, 20);

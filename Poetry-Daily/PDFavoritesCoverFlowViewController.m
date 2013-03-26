@@ -92,7 +92,7 @@
     NSMutableDictionary *serverInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
     [serverInfo setObject:[NSNumber numberWithInteger:PDServerCommandAllPoems] forKey:PDServerCommandKey];
     
-    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults) {
+    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults, NSError *error) {
         
         self.poems = [newResults mutableCopy];
         

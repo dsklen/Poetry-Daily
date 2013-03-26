@@ -22,6 +22,7 @@
 @interface PDMainPoemViewController ()
 
 - (void)share:(id)sender;
+- (void)updateMainPoemHTML;
 
 @end
 
@@ -44,11 +45,7 @@
     [serverInfo setObject:poemID forKey:PDPoemKey];
     
     if ( currentPoem.poemBody.length == 0 )
-    {
-//        [SVProgressHUD showWithStatus:NSLocalizedString(@"Fetching Poem...", @"Fetching Poem...")];
-
         [serverInfo setObject:[NSNumber numberWithInteger:PDServerCommandPoem] forKey:PDServerCommandKey];
-    }
     else
         [serverInfo setObject:[NSNumber numberWithInteger:PDServerCommandNone] forKey:PDServerCommandKey];
     
@@ -56,58 +53,35 @@
     request.predicate = [NSPredicate predicateWithFormat:@"SELF.poemID == %@", currentPoem.poemID];
     request.fetchLimit = 1;
     
-    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults) {
+    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults, NSError *error) {
         
         PDPoem *poem = [newResults lastObject];
         
-        if ( poem )
+        if ( poem && !error )
         {
             self.title = poem.title;
          
             _currentPoem = poem;
             
-            NSString *style = nil;
-            
-            if ([currentPoem.poemBody rangeOfString:@"<!--prose-->"].location == NSNotFound) {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 44px; white-space:nowrap; padding:15px; margin:8px; width:1300;}</style></head><body>";
-            }
-            else {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 44px; white-space:nowrap; padding:15px; margin:8px;width:1300;}</style></head><body>";
-            }
-                    
-            if ( currentPoem.poemBody.length > 0 )
-                [SVProgressHUD showWithStatus:NSLocalizedString( @"Loading...", @"" )];
-                        
-            
-            NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
-            [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""]];
-            
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"lvl2_logo" ofType:@"gif"];
+            [self updateMainPoemHTML];
 
-            if ( currentPoem.poemBody.length > 0 )
-                [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>", path]];
-            
-            
-            [self.webView loadHTMLString:formattedHTML baseURL:nil];
-            NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = '300'; document.body.style.width = 1300"]; //  '%d%%';", 3000];
-            [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
-            self.webView.scalesPageToFit = NO;
-            
-            //            [SVProgressHUD dismiss];
-
-            self.poemTitleLabel.text = poem.title;
-            
+            NSMutableString *titleAttributedString = [NSMutableString stringWithString:poem.title];
+            titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"<i>" withString:@""] mutableCopy];
+            titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"</i>" withString:@""] mutableCopy];
+            self.poemTitleLabel.text = titleAttributedString;
             
             if ( self.currentPoem.isFavorite.boolValue )
-                self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", self.currentPoem.title];
+                self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", titleAttributedString];
             else
-                self.poemTitleLabel.text = [NSString stringWithFormat:@"%@", self.currentPoem.title];
+                self.poemTitleLabel.text = [NSString stringWithFormat:@"%@", titleAttributedString];
             
             self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
             
             if ( currentPoem.poemBody.length > 0 )
                 [SVProgressHUD dismiss];
         }
+        else
+            [SVProgressHUD dismissWithError:@"Failed To Load"];
     }];
     
     PDPoem *poem = [items lastObject];
@@ -118,85 +92,85 @@
 
         _currentPoem = poem;
 
-        NSString *style = nil;
+        // Load main poem HTML;
         
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {        
-            if ([currentPoem.poemBody rangeOfString:@"<!--prose-->"].location == NSNotFound) {
-<<<<<<< HEAD
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:nowrap; padding:5px; margin:8px; width:800px;}</style></head><body>";
-            }
-            else {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:normal; padding:5px; margin:8px;width:800px;}</style></head><body>";
-=======
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:pre; padding:5px; margin:8px; width:800px;}</style></head><body>";
-            }
-            else {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:pre; padding:5px; margin:8px;width:800px;}</style></head><body>";
->>>>>>> 254f430001e9aa3300972f104b0c15eca794a87d
-            }
-            
-            NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
-            [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""]];
-            
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"lvl2_logo" ofType:@"gif"];
-            
-            [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>", path]];
-            
-            NSLog(@"%@", formattedHTML);
-            
-            [self.webView loadHTMLString:formattedHTML baseURL:nil];
-            
-            NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
-            [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
-        }
-        else
-        {
-            if ([currentPoem.poemBody rangeOfString:@"<!--prose-->"].location == NSNotFound) {
-<<<<<<< HEAD
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:nowrap; padding:30px; margin:8px; width:800px;}</style></head><body>";
-=======
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:pre; padding:30px; margin:8px; width:800px;}</style></head><body>";
->>>>>>> 254f430001e9aa3300972f104b0c15eca794a87d
-            }
-            else {
-                style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:pre; padding:30px; margin:8px;width:800px;}</style></head><body>";
-            }
-            
-            NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
-            [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( currentPoem.poemBody.length > 0 ) ? currentPoem.poemBody : @""]];
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"lvl2_logo" ofType:@"gif"];
-            
-            [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>", path]];
-            
-            NSLog(@"%@", formattedHTML);
-            
-            [self.webView loadHTMLString:formattedHTML baseURL:nil];
-
-            
-            NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = '%d%%';", 3000];
-            [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
-        }
-    
         if ( currentPoem.poemBody.length == 0 )
             [SVProgressHUD showWithStatus:NSLocalizedString( @"Loading", @"" )];
-        
-
-        if ( self.currentPoem.isFavorite.boolValue )
-        {
-            self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", poem.title];
-        }
         else
-        {
-            self.poemTitleLabel.text = poem.title;
-        }
+            [self updateMainPoemHTML];
+        
+        NSMutableString *titleAttributedString = [NSMutableString stringWithString:poem.title];
+        titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"<i>" withString:@""] mutableCopy];
+        titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"</i>" withString:@""] mutableCopy];
+        self.poemTitleLabel.text = titleAttributedString;
+        
+        if ( self.currentPoem.isFavorite.boolValue )
+            self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", titleAttributedString];
+        else
+            self.poemTitleLabel.text = [NSString stringWithFormat:@"%@", titleAttributedString];
         
         self.poemAuthorLabel.text = [NSString stringWithFormat:@"By %@", poem.author];
         
         if ( currentPoem.poemBody.length > 0 )
             [SVProgressHUD dismiss];
     }
+}
+
+- (void)updateMainPoemHTML;
+{
+    NSString *style = nil;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        if ( self.currentPoem.isProse )
+        {
+            style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:normal; padding:5px; margin:12px; width:800px;}</style></head><body>";
+//            self.webView.scalesPageToFit = YES;
+        }
+        else
+        {
+            style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:nowrap; padding:5px; margin:8px;width:800px;}</style></head><body>";
+//            self.webView.scalesPageToFit = YES;
+        }
+        
+        NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
+        [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( self.currentPoem.poemBody.length > 0 ) ? self.currentPoem.poemBody : @""]];
+        
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"lvl2_logo" ofType:@"gif"];
+        
+        [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>", path]];
+        
+        [self.webView loadHTMLString:formattedHTML baseURL:nil];
+        
+        NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
+        [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
+        
+    }
+    else
+    {
+        if ( self.currentPoem.isProse )
+        {
+            style = @"<html><head><style type=\"text/css\"> body {font-size: 15px; white-space:normal; padding:30px; margin:8px; width:800px;}</style></head><body>";
+        }
+        else
+        {
+            style = @"<html><head><style type=\"text/css\"> body {font-size: 25px; white-space:nowrap; padding:30px; margin:8px;width:800px;}</style></head><body>";
+        }
+        
+        NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
+        [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( self.currentPoem.poemBody.length > 0 ) ? self.currentPoem.poemBody : @""]];
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"lvl2_logo" ofType:@"gif"];
+        
+        [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>", path]];
+                
+        [self.webView loadHTMLString:formattedHTML baseURL:nil];
+        
+        
+        NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = '%d%%';", 6000];
+        [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
+    }
+
 }
 
 #pragma mark - API
@@ -286,7 +260,12 @@
             [SVProgressHUD show];
             [SVProgressHUD dismissWithError:NSLocalizedString( @"Unfavorited", @"" ) ];
             
-            self.poemTitleLabel.text = [NSString stringWithFormat:@"%@", self.currentPoem.title];
+            
+            NSMutableString *titleAttributedString = [NSMutableString stringWithString:self.currentPoem.title];
+            titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"<i>" withString:@""] mutableCopy];
+            titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"</i>" withString:@""] mutableCopy];
+
+            self.poemTitleLabel.text = [NSString stringWithFormat:@"%@", titleAttributedString];
         }
         else
         {
@@ -294,7 +273,11 @@
         
             [SVProgressHUD showSuccessWithStatus:NSLocalizedString( @"Favorited", @"" )];
             
-            self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", self.currentPoem.title];
+            NSMutableString *titleAttributedString = [NSMutableString stringWithString:self.currentPoem.title];
+            titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"<i>" withString:@""] mutableCopy];
+            titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"</i>" withString:@""] mutableCopy];
+            
+            self.poemTitleLabel.text = [NSString stringWithFormat:@"★ %@", titleAttributedString];
         }
     }
     if ( buttonIndex == 2 )

@@ -7,16 +7,20 @@
 //
 
 #import "PDDonationsViewController.h"
+#import "NWPickerField.h"
 
 #define SPACING 3.
 
 @interface PDDonationsViewController ()
 
+@property (strong, nonatomic) NSArray *donationAmountsArray;
+- (IBAction)tappedView:(id)sender;
+
 @end
 
 @implementation PDDonationsViewController
 
-@synthesize amount;
+@synthesize amount = _amount;
 
 
 #define kPayPalClientId @"AcXlqhDvy2jNcHDI7T5-Rug67gzPB1yqFR4wxmMFBLYS3qRrbKy-2qKMDSz9"
@@ -25,7 +29,8 @@
 #pragma mark -
 #pragma mark Utility methods
 
-- (UITextField *)addTextFieldWithPlaceholder:(NSString *)placeholder {
+- (UITextField *)addTextFieldWithPlaceholder:(NSString *)placeholder;
+{
 	CGFloat width = 294.;
 	CGFloat x = round((self.view.frame.size.width - width) / 2.);
 	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(x, y, width, 30.)];
@@ -44,8 +49,7 @@
 	return textField;
 }
 
-#pragma mark -
-#pragma mark View lifecycle methods
+#pragma mark - View lifecycle methods
 
 - (void)viewDidLoad;
 {
@@ -56,21 +60,25 @@
 
     self.acceptCreditCards = YES;
     self.environment = PayPalEnvironmentSandbox;
-    // Do any additional setup after loading the view, typically from a nib.
-    
-    NSLog(@"PayPal iOS SDK version: %@", [PayPalPaymentViewController libraryVersion]);
 
+    self.donationAmountsArray = @[@"$20.00", @"$5.00", @"$10.00", @"$25.00", @"$50.00", @"$100.00", @"$200.00", @"$500.00"];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedView:)];
+    [self.view addGestureRecognizer:tap];
+    
+    [self.amount selectRow:3 inComponent:0 animated:NO];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated;
+{
     [super viewWillAppear:YES];
     
-    UIEdgeInsets insets = UIEdgeInsetsMake(0, 15.0f, 0, 14.0f);
+    UIEdgeInsets insets = UIEdgeInsetsMake( 0.0f, 15.0f, 0, 14.0f );
     UIImage *payBackgroundImage = [[UIImage imageNamed:@"button_secondary.png"] resizableImageWithCapInsets:insets];
     UIImage *payBackgroundImageHighlighted = [[UIImage imageNamed:@"button_secondary_selected.png"] resizableImageWithCapInsets:insets];
     [self.payButton setBackgroundImage:payBackgroundImage forState:UIControlStateNormal];
     [self.payButton setBackgroundImage:payBackgroundImageHighlighted forState:UIControlStateHighlighted];
-    [self.payButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+//    [self.payButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.payButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
     
     // Optimization: Prepare for display of the payment UI by getting network work done early
@@ -78,13 +86,40 @@
     [PayPalPaymentViewController prepareForPaymentUsingClientId:kPayPalClientId];
 }
 
-- (IBAction)pay {
-    
+- (void)viewWillDisappear:(BOOL)animated;
+{
+    [self.amount hide];
+}
+
+- (IBAction)tappedView:(id)sender;
+{
+    if ( [self.amount isFirstResponder] )
+        [self.amount resignFirstResponder];
+    else
+    {
+        [self.amount becomeFirstResponder];
+        [self.amount resignFirstResponder];
+    }
+}
+
+
+- (IBAction)pay;
+{    
     // Remove our last completed payment, just for demo purposes.
     self.completedPayment = nil;
     
+    NSMutableString *amountString = [NSMutableString stringWithString:self.amount.text];
+    
+    if ( amountString.length == 0 )
+        return;
+
+    [amountString replaceOccurrencesOfString:@"$" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, amountString.length)];
+    
+    if ( amountString.length == 0 )
+        return;
+    
     PayPalPayment *payment = [[PayPalPayment alloc] init];
-    payment.amount = [[NSDecimalNumber alloc] initWithString:amount.text];
+    payment.amount = [[NSDecimalNumber alloc] initWithString:amountString];
     payment.currencyCode = @"USD";
     payment.shortDescription = @"Donation Amount";
     
@@ -122,23 +157,24 @@
     NSLog(@"Here is your proof of payment:\n\n%@\n\nSend this to your server for confirmation and fulfillment.", completedPayment.confirmation);
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - PayPalPaymentDelegate methods
 
-- (void)payPalPaymentDidComplete:(PayPalPayment *)completedPayment {
+- (void)payPalPaymentDidComplete:(PayPalPayment *)completedPayment;
+{
     NSLog(@"PayPal Payment Success!");
     self.completedPayment = completedPayment;
     self.successView.hidden = NO;
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Your Support" message:@"Thank you for supporting Poetry Daily!" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Okay", nil];
+    [alert show];
     
     [self sendCompletedPaymentToServer:completedPayment]; // Payment was processed successfully; send to server for verification and fulfillment
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)payPalPaymentDidCancel {
+- (void)payPalPaymentDidCancel;
+{
     NSLog(@"PayPal Payment Canceled");
     self.completedPayment = nil;
     self.successView.hidden = YES;
@@ -146,53 +182,22 @@
 }
 
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-//- (void)loadView {
-//    [PayPal initializeWithAppID:@"APP-80W284485P519543T" forEnvironment:ENV_SANDBOX];
-////	self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
-//	self.view.autoresizesSubviews = YES;
-//	UIColor *color = [UIColor groupTableViewBackgroundColor];
-//	if (CGColorGetPattern(color.CGColor) == NULL) {
-//		color = [UIColor lightGrayColor];
-//	}
-//	self.view.backgroundColor = color;
-//	self.title = @"Donate";
-//	
-//	status = PAYMENTSTATUS_CANCELED;
-//	
-//	y = 2.;
-//	
-////    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-////	button.frame = CGRectMake((self.view.frame.size.width - 125), 2, 75, 25);
-////    
-////	[button setTitle:@"Retry Init" forState:UIControlStateNormal];
-////	[button addTarget:self action:@selector(RetryInitialization) forControlEvents:UIControlEventTouchUpInside];
-////	[self.view addSubview:button];
-//    
-//	[self addLabelWithText:nil andButtonWithType:BUTTON_294x43 withAction:@selector(simplePayment)];
-////	[self addLabelWithText:@"Parallel Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(parallelPayment)];
-////	[self addLabelWithText:@"Chained Payment" andButtonWithType:BUTTON_294x43 withAction:@selector(chainedPayment)];
-////	[self addLabelWithText:@"Preapproval" andButtonWithType:BUTTON_294x43 withAction:@selector(preapproval)];
-//	
-////	self.preapprovalField = [self addTextFieldWithPlaceholder:@"Preapproval Key"];
-//	
-////	[self addAppInfoLabel];
-//}
+#pragma mark - UITextFieldDelegate methods
 
-#pragma mark -
-#pragma mark UITextFieldDelegate methods
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField;
+{
 	[textField resignFirstResponder];
 	return TRUE;
 }
 
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;
+{
 	resetScrollView = FALSE;
 	return TRUE;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
+- (void)textFieldDidBeginEditing:(UITextField *)textField;
+{
 	resetScrollView = TRUE;
 	
 	[UIView beginAnimations:nil context:nil];
@@ -202,7 +207,8 @@
 	[UIView commitAnimations];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+- (void)textFieldDidEndEditing:(UITextField *)textField;
+{
 	if (resetScrollView) {
 		resetScrollView = FALSE;
 		
@@ -218,6 +224,39 @@
 	return TRUE;
 }
 
+#pragma mark - Picker
 
+- (NSInteger)numberOfComponentsInPickerField:(NWPickerField *)pickerField;
+{
+    return 1;
+}
+
+- (NSInteger)pickerField:(NWPickerField *)pickerField numberOfRowsInComponent:(NSInteger)component;
+{
+    return [self.donationAmountsArray count];
+}
+
+- (NSString *)pickerField:(NWPickerField *)pickerField titleForRow:(NSInteger)row forComponent:(NSInteger)component;
+{    
+//    if ( row == 0 )
+//    {
+//        return [NSString stringWithFormat:@"%@ - recommended", [self.donationAmountsArray objectAtIndex:row]];
+//    }
+    
+    return [self.donationAmountsArray objectAtIndex:row];
+}
+
+
+#pragma mark - Orientation
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return UIInterfaceOrientationIsPortrait(toInterfaceOrientation);
+}
+
+-(NSUInteger)supportedInterfaceOrientations;
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 @end

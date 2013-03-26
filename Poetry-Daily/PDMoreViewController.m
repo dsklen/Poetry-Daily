@@ -141,16 +141,24 @@
     NSMutableDictionary *serverInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
     [serverInfo setObject:[NSNumber numberWithInteger:PDServerCommandSponsors] forKey:PDServerCommandKey];
     
-    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults) {
+    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults, NSError *error) {
         
-        self.sponsors = [newResults mutableCopy];
+        if ( newResults && !error )
+        {
+            self.sponsors = [newResults mutableCopy];
+            
+            NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
+            [self.sponsors sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+            
+            [self.carousel reloadData];
+            
+            [SVProgressHUD dismiss];
+        }
+        else
+        {
+            [SVProgressHUD dismissWithError:@"Failed To Load"];
+        }
         
-        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
-        [self.sponsors sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
-        
-        [self.carousel reloadData];
-        
-        [SVProgressHUD dismiss];
     }];
     
     self.sponsors = [items mutableCopy];

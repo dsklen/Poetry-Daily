@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 typedef void (^PDCompletionBlock)(BOOL success, NSError *error);
-typedef void (^PDCacheUpdateBlock)(NSArray *newResults);
+typedef void (^PDCacheUpdateBlock)(NSArray *newResults, NSError *error);
 typedef void (^PDCachedNewsUpdateBlock)(NSString *HTML, NSError *error);
 
 /*

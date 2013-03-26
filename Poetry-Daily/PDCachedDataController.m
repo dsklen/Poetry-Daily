@@ -159,7 +159,7 @@
         
         if ( error != nil && items == nil )
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"SetUpErrorHandlingNotificationHere" object:error];
+            block( nil, error );
             return;
         }
     
@@ -168,13 +168,18 @@
         NSDictionary *poemAttributesDictionary = [items lastObject];
 
         poem.poemID = poemID;
-        poem.title = [poemAttributesDictionary objectForKey:@"title"];
+        
+        NSMutableString *titleWithAttributes = [[poemAttributesDictionary objectForKey:@"title"] mutableCopy];
+        titleWithAttributes = [[titleWithAttributes stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"] mutableCopy];
+        poem.title = titleWithAttributes;
+        
         poem.poemBody = [poemAttributesDictionary objectForKey:@"text"];
         poem.author = [NSString stringWithFormat:@"%@ %@", [poemAttributesDictionary objectForKey:@"poetFN"], [poemAttributesDictionary objectForKey:@"poetLN"]];;
         poem.journalTitle = [poemAttributesDictionary objectForKey:@"jName"];
         
         poem.publishedDate = [server dateFromPoemID:poemID];
         
+        poem.isProse = [[poemAttributesDictionary objectForKey:@"fixed"] boolValue];
         
         NSString *imageAddress = [poemAttributesDictionary objectForKey:@"pImage"];
         
@@ -189,10 +194,10 @@
         
         dispatch_async( dispatch_get_main_queue(), ^{
             
-            if ( poem == nil )
-                block( nil );
+            if ( poem == nil && error )
+                block( nil, error );
             else
-                block( [NSArray arrayWithObject:poem] );
+                block( [NSArray arrayWithObject:poem], nil );
         });
 
     }];
@@ -207,9 +212,9 @@
        
         if ( error != nil && items == nil )
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"SetUpErrorHandlingNotificationHere" object:error];
+            block( nil, error );
             return;
-        }
+        }      
         
         NSArray *allPoems = [items lastObject];
         NSMutableArray *updatedPoems = [[NSMutableArray alloc] init];
@@ -235,7 +240,11 @@
             PDMediaServer *server = [[PDMediaServer alloc] init];
             
             poem.publishedDate = [server dateFromPoemID:poemID];
-            poem.title = [poemAttributesDictionary objectForKey:@"title"];
+            
+            NSMutableString *titleWithAttributes = [[poemAttributesDictionary objectForKey:@"title"] mutableCopy];
+            titleWithAttributes = [[titleWithAttributes stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"] mutableCopy];            
+            poem.title = titleWithAttributes;
+            
             poem.author = [NSString stringWithFormat:@"%@ %@", [poemAttributesDictionary objectForKey:@"poetFN"], [poemAttributesDictionary objectForKey:@"poetLN"], nil];
             
             NSString *imageAddress = [poemAttributesDictionary objectForKey:@"pImage"];
@@ -264,10 +273,10 @@
         
         dispatch_async( dispatch_get_main_queue(), ^{
             
-            if ( updatedPoems == nil )
-                block( nil );
+            if ( updatedPoems == nil && error )
+                block( nil, error );
             else
-                block( updatedPoems );
+                block( updatedPoems, nil );
         });
 
 //        [server fetchPoetImagesWithStrings:imagesToFetch block:^(NSArray *items, NSError *error) {
@@ -304,6 +313,8 @@
         if ( error != nil && items == nil )
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SetUpErrorHandlingNotificationHere" object:error];
+            block ( nil, error );
+
             return;
         }
         
@@ -324,7 +335,10 @@
             [updatedSponsors addObject:sponsor];
         }
         
-        block( updatedSponsors );
+        if ( updatedSponsors && !error )
+            block( updatedSponsors, nil );
+        else
+            block ( nil, error );
         
         for ( PDSponsor *sponsor in updatedSponsors )
         {
@@ -337,8 +351,9 @@
                         NSData *newImageData = items[0];
                         sponsor.imageData = newImageData;
                     
-                        block ( updatedSponsors );
+                        block ( updatedSponsors, nil );
                     }
+                    
                 }];
             }
         }

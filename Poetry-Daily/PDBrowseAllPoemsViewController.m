@@ -21,22 +21,22 @@
 #import <CoreText/CoreText.h>
 #import "NSAttributedString+Attributes.h"
 
-
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
-
 @interface PDBrowseAllPoemsViewController ()
+
 - (void)orientationChanged:(NSNotification *)notification;
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope;
 - (IBAction)sortPoems:(id)sender;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
-
 @property (readwrite, nonatomic) BOOL isIOS6;
 
 @end
 
+
 @implementation PDBrowseAllPoemsViewController
+
 
 #pragma mark - Properties
 
@@ -115,24 +115,13 @@
         
         [SVProgressHUD show];
         [SVProgressHUD dismissWithError:NSLocalizedString( @"Unfavorited", @"" ) ];
-
     }
     else
     {
         poem.isFavorite = [NSNumber numberWithBool:YES];
         [senderButton setTitle:@"★" forState:UIControlStateNormal];
         [SVProgressHUD showSuccessWithStatus:NSLocalizedString( @"Favorited", @"" )];
-
     }
-    
-    
-//    if ( poem.isFavorite.boolValue )
-//        [(UIButton *)[cell.contentView viewWithTag:104] setTitle:@"☆" forState:UIControlStateNormal];
-//    else
-//        [(UIButton *)[cell.contentView viewWithTag:104] setTitle:@"★" forState:UIControlStateNormal];
-
-    
-    
 }
 
 
@@ -160,9 +149,7 @@
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
         [self.tabBarItem setTitleTextAttributes:titleTextHighlightedAttributesDictionary forState:UIControlStateSelected];
         
-        
-        
-        _isIOS6 = NO;// ([[[UIDevice currentDevice] systemVersion] compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending) ;
+        _isIOS6 = NO;
         
         _poemsArray = [NSMutableArray array];
         _filteredPoemsArray = [NSMutableArray array];
@@ -180,38 +167,55 @@
 
     // Load all poems and update from server.
     
+//    [SVProgressHUD showWithStatus:@"Updating Archive..."];
+
+    
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Poem"];
     
     NSMutableDictionary *serverInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
     [serverInfo setObject:[NSNumber numberWithInteger:PDServerCommandAllPoems] forKey:PDServerCommandKey];
     
-    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults) {
+    NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults, NSError *error) {
         
-        self.poemsArray = [newResults mutableCopy];
+        if ( newResults && !error )
+        {
+            self.poemsArray = [newResults mutableCopy];
+            
+            NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"publishedDate" ascending:NO];
+            [self.poemsArray sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+            
+            self.displayPoemsArray = self.poemsArray;
+            
+            [self.poemsTableView reloadData];
+            
+            [SVProgressHUD dismiss];
+        }
+        else
+            [SVProgressHUD dismissWithError:@"Failed To Load"];
+        
+    }];
+
+    if ( [items count] > 0 )
+    {
+        self.poemsArray = [items mutableCopy];
         
         NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"publishedDate" ascending:NO];
         [self.poemsArray sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
         
         self.displayPoemsArray = self.poemsArray;
-
+        
         [self.poemsTableView reloadData];
-    }];
 
-    self.poemsArray = [items mutableCopy];
+        [SVProgressHUD dismiss];
+    }
     
-    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"publishedDate" ascending:NO];
-    [self.poemsArray sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
-    
-    self.displayPoemsArray = self.poemsArray;
-
-    [self.poemsTableView reloadData];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     self.dateFormatter = dateFormatter;
     
-    
+
     // Add sorting segmented control.
     
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
@@ -329,7 +333,21 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    return 104.0f;
+    
+    PDPoem *poem;
+    
+    if ( tableView == self.searchDisplayController.searchResultsTableView )
+        poem = [self.filteredPoemsArray objectAtIndex:indexPath.row];
+    else
+        poem = [self.displayPoemsArray objectAtIndex:indexPath.row];
+
+    NSString *string = poem.title;
+    CGSize maximumLabelSize = CGSizeMake( 230.0f, 9999.0f );
+    CGSize expectedLabelSize = [string sizeWithFont:[UIFont boldSystemFontOfSize:14.0f] constrainedToSize:maximumLabelSize lineBreakMode:UILineBreakModeWordWrap];
+
+    return 86.0f + expectedLabelSize.height;
+
+    return 124.0f;
 }
 
 
@@ -379,7 +397,7 @@
         UIImageView *thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 60.0f, 80.0f)];
         thumbnailImageView.tag = 99;
         thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
-        thumbnailImageView.image = [UIImage imageNamed:@"plumlystanley.jpeg"];;
+//        thumbnailImageView.image = [UIImage imageNamsed:@"plumlystanley.jpeg"];;
         thumbnailImageView.clipsToBounds = YES;
         thumbnailImageView.backgroundColor = [UIColor lightGrayColor];
         thumbnailImageView.clipsToBounds = NO;
@@ -390,8 +408,6 @@
         thumbnailImageView.layer.shouldRasterize = YES;
         thumbnailImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         [cell.contentView addSubview:thumbnailImageView];
-        
-        
         
         if ( self.isIOS6 )
         {        
@@ -405,8 +421,9 @@
         }
         else
         {
-            UILabel *poemTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0f, 10.0f, 230.0f, 20.0f)];
+            UILabel *poemTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0f, 8.0f, 230.0f, 20.0f)];
             poemTitleLabel.tag = 100;
+            poemTitleLabel.numberOfLines = 0;
             poemTitleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
             poemTitleLabel.textAlignment = UITextAlignmentLeft;
             poemTitleLabel.textColor = [UIColor darkGrayColor];
@@ -435,13 +452,6 @@
         favoriteUnfavoriteButton.frame = CGRectMake(70.0f, 60.0f, 40.0f, 40.0f);
         favoriteUnfavoriteButton.imageView.contentMode = UIViewContentModeCenter;
         [favoriteUnfavoriteButton setTitleColor: [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0] forState:UIControlStateNormal];
-//        [favoriteUnfavoriteButton setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
-        
-//        favoriteUnfavoriteButton.layer.shadowColor = [UIColor blackColor].CGColor;
-//        favoriteUnfavoriteButton.layer.shadowOffset = CGSizeMake( 0.0f, 1.0f );
-//        favoriteUnfavoriteButton.layer.shadowRadius = 2.0f;
-//        favoriteUnfavoriteButton.layer.shadowOpacity = 0.5f;
-
         [favoriteUnfavoriteButton addTarget:self action:@selector(favoriteOrUnfavoritePoem:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:favoriteUnfavoriteButton];
     }
@@ -453,32 +463,56 @@
     else
         poem = [self.displayPoemsArray objectAtIndex:indexPath.row];
     
-    
-    
     if ( self.isIOS6 )
     {
         OHAttributedLabel *label = (OHAttributedLabel *)[cell.contentView viewWithTag:100];
         NSMutableAttributedString *poemTitle = [OHASBasicHTMLParser attributedStringByProcessingMarkupInAttributedString:[NSAttributedString attributedStringWithString:poem.title]];
 
-        
         if ( poem.title.length > 0)
         {
             [poemTitle setAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14.0f], NSForegroundColorAttributeName : [UIColor darkGrayColor]} range:NSMakeRange(0, poem.title.length)];
         }
         
         label.attributedText = poemTitle;
-
     }
     else
     {
-        UILabel *label = (UILabel *)[cell.contentView viewWithTag:100];
- 
+        UILabel *label = (UILabel *)[cell.contentView viewWithTag:100]; 
         label.font = [UIFont boldSystemFontOfSize:14.0f];
         label.textColor = [UIColor darkGrayColor];
         
-        label.text = poem.title;
-    }
+        
+        NSMutableString *titleAttributedString = [NSMutableString stringWithString:poem.title];
+        titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"<i>" withString:@""] mutableCopy];
+        titleAttributedString = [[titleAttributedString stringByReplacingOccurrencesOfString:@"</i>" withString:@""] mutableCopy];
 
+        label.text = titleAttributedString;
+        
+        CGSize maximumLabelSize = CGSizeMake( 230.0f, 9999.0f );
+        CGSize expectedLabelSize = [titleAttributedString sizeWithFont:[UIFont boldSystemFontOfSize:14.0f] constrainedToSize:maximumLabelSize lineBreakMode:UILineBreakModeWordWrap];
+        
+        CGRect newFrame = label.frame;
+        newFrame.size = expectedLabelSize;
+        label.frame = newFrame;
+        
+        
+        UILabel *authorLabel = (UILabel *)[cell.contentView viewWithTag:101];        
+        CGRect newAuthorFrame = authorLabel.frame;
+        newAuthorFrame.origin.y = expectedLabelSize.height + 10.0f;
+        authorLabel.frame = newAuthorFrame;
+
+        UILabel *dateLabel = (UILabel *)[cell.contentView viewWithTag:102];
+        CGRect newDateFrame = dateLabel.frame;
+        newDateFrame.origin.y = expectedLabelSize.height + 30.0f;
+        dateLabel.frame = newDateFrame;
+
+        UIButton *favoriteButton = (UIButton *)[cell.contentView viewWithTag:104];
+        CGRect newFavoriteFrame = favoriteButton.frame;
+        newFavoriteFrame.origin.y = expectedLabelSize.height + 45.0f;
+        favoriteButton.frame = newFavoriteFrame;
+
+        
+    }
     
     [(UILabel *)[cell.contentView viewWithTag:101] setText:poem.author];
     
@@ -498,13 +532,17 @@
                 
                 if ( items && !error )
                 {
-                    NSData *newImageData = items[0];
+                    NSData *newImageData = [items lastObject];
                     
-                    poem.authorImageData = newImageData;
-
-                    [(UIImageView *)[cell.contentView viewWithTag:99] setImage:poem.authorImage];
+                    if ( newImageData )
+                        if ( [newImageData isKindOfClass:[NSData class]])
+                        {
+                            poem.authorImageData = newImageData;
+                            [(UIImageView *)[cell.contentView viewWithTag:99] setImage:poem.authorImage];
+                            poem.hasAttemptedDownload = YES;
+                        }
                     
-                    poem.hasAttemptedDownload = YES;
+                    
                 }
                 else
                 {
@@ -515,30 +553,12 @@
         }
     }
     
-
     [(UILabel *)[cell.contentView viewWithTag:102] setText:[self.dateFormatter stringFromDate:poem.publishedDate]];
-
-//    if ( poem.isFavorite.boolValue )
-//        [(UIButton *)[cell.contentView viewWithTag:104] setImage:[UIImage imageNamed:@"favoriteStar"] forState:UIControlStateNormal];
-//    else
-//        [(UIButton *)[cell.contentView viewWithTag:104]  setImage:[UIImage imageNamed:@"unfilledFavoriteStar"] forState:UIControlStateNormal];
     
     if ( poem.isFavorite.boolValue )
         [(UIButton *)[cell.contentView viewWithTag:104] setTitle:@"★" forState:UIControlStateNormal];
     else
         [(UIButton *)[cell.contentView viewWithTag:104] setTitle:@"☆" forState:UIControlStateNormal];
-    
-    
-    if (indexPath.row % 2 == 0 )
-    {
-//        [(UILabel *)[cell.contentView viewWithTag:101] setBackgroundColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
-//        [(UILabel *)[cell.contentView viewWithTag:102] setBackgroundColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
-	}
-    else
-	{
-//        [(UILabel *)[cell.contentView viewWithTag:101] setBackgroundColor:[UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f]];
-//        [(UILabel *)[cell.contentView viewWithTag:102] setBackgroundColor:[UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f]];
-    }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.accessoryView.backgroundColor = [UIColor clearColor];
@@ -560,11 +580,9 @@
 	{
         cell.contentView.backgroundColor = [UIColor clearColor];// colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
         cell.accessoryView.backgroundColor = [UIColor clearColor];// colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.6f];
-
         
         cell.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:0.8f];
-        
-    }  
+    }
 }
 
 

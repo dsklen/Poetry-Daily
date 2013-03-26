@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "PayPalMobile.h"
 
+@class NWPickerField;
+
 typedef enum PaymentStatuses {
 	PAYMENTSTATUS_SUCCESS,
 	PAYMENTSTATUS_FAILED,
@@ -22,11 +24,11 @@ typedef enum PaymentStatuses {
 	BOOL resetScrollView;
 }
 
-@property (nonatomic, retain) IBOutlet UITextField *amount;
-@property(nonatomic, strong, readwrite) NSString *environment;
-@property(nonatomic, assign, readwrite) BOOL acceptCreditCards;
-@property(nonatomic, strong, readwrite) PayPalPayment *completedPayment;
-@property(nonatomic, strong, readwrite) IBOutlet UIButton *payButton;
-@property(nonatomic, strong, readwrite) IBOutlet UIView *successView;
+@property (nonatomic, strong) IBOutlet NWPickerField *amount;
+@property (nonatomic, strong) NSString *environment;
+@property (nonatomic, assign, readwrite) BOOL acceptCreditCards;
+@property (nonatomic, strong, readwrite) PayPalPayment *completedPayment;
+@property (nonatomic, strong) IBOutlet UIButton *payButton;
+@property (nonatomic, strong) IBOutlet UIView *successView;
 
 @end

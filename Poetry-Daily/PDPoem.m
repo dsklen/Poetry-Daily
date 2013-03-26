@@ -18,6 +18,7 @@
 @dynamic authorImageURLString;
 @dynamic hasAttemptedDownload;
 @dynamic isJournalImage;
+@dynamic isProse;
 @dynamic authorImageData;
 @dynamic isFavorite;
 @dynamic journalTitle;
