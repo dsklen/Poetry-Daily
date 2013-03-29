@@ -102,6 +102,10 @@
     }
 }
 
+- (IBAction)showPayPalInSafari:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://mobile.paypal.com/us/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=EC-4HY487444V283911A"]];
+}
 
 - (IBAction)pay;
 {    

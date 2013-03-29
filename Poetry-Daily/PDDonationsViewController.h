@@ -31,4 +31,7 @@ typedef enum PaymentStatuses {
 @property (nonatomic, strong) IBOutlet UIButton *payButton;
 @property (nonatomic, strong) IBOutlet UIView *successView;
 
+- (IBAction)showPayPalInSafari:(id)sender;
+
+
 @end

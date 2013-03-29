@@ -43,8 +43,13 @@
     webViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     webViewController.navigationBar.tintColor =  [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
 
-    [self presentModalViewController:webViewController animated:YES];
     
+#if   __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
+    [self presentModalViewController:webViewController animated:YES];
+#else
+    [self presentModalViewController:webViewController animated:YES completion:NULL];
+#endif
+
     webViewController.navigationBar.tintColor =  [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
     webViewController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
 
@@ -57,7 +62,7 @@
     {
         self.title = NSLocalizedString(@"Sponsors", @"");
         
-        self.tabBarItem.image = [UIImage imageNamed:@"nav_icon_ios_more"];
+        self.tabBarItem.image = [UIImage imageNamed:@"96-book"];
         
         NSDictionary *titleTextAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                        [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,
@@ -82,7 +87,7 @@
     if ( self )
     {
         self.title = NSLocalizedString(@"Sponsors", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"nav_icon_ios_more"];
+        self.tabBarItem.image = [UIImage imageNamed:@"96-book"];
         
         NSDictionary *titleTextAttributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                        [UIFont boldSystemFontOfSize:10.0f], UITextAttributeFont,

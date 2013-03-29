@@ -206,6 +206,16 @@
 
 - (void)updatePoemArchiveWithExistingObjects:(NSArray *)existingPoems completionBlock:(PDCacheUpdateBlock)block;
 {
+    
+   NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastArchiveUpdate"];
+    
+    
+    NSLog(@"%f", [date timeIntervalSinceDate:[NSDate date]]);
+    if ( date )
+        if ( [date timeIntervalSinceDate:[NSDate date]] < -60 * 5)
+            return;
+    
+    
     PDMediaServer *server = [[PDMediaServer alloc] init];
     
     [server fetchPoemArchiveWithBlock:^(NSArray *items, NSError *error) {
@@ -269,7 +279,8 @@
 
         
 //        dispatch_async( dispatch_get_main_queue(), ^{ [SVProgressHUD dismiss]; });
-
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"LastArchiveUpdate"];
         
         dispatch_async( dispatch_get_main_queue(), ^{
             

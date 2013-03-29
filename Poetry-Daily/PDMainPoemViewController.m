@@ -125,8 +125,8 @@
     {
         if ( self.currentPoem.isProse )
         {
-            style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:normal; padding:5px; margin:12px; width:800px;}</style></head><body>";
-//            self.webView.scalesPageToFit = YES;
+            style = @"<html><head><style type=\"text/css\"> body {font-size: 38px; white-space:normal; padding:5px; margin:12px; width:800px; text-align:justify;}</style></head><body>";
+            self.webView.scalesPageToFit = YES;
         }
         else
         {
@@ -139,12 +139,25 @@
         
         NSString *path = [[NSBundle mainBundle] pathForResource:@"lvl2_logo" ofType:@"gif"];
         
-        [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>", path]];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
+        int year = [components year];
+        
+        [formattedHTML appendString:[NSString stringWithFormat:@"</body><a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"150\" width=\"182.5\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" style=\"font-size:28;\">Copyright © %i by %@.<br>All rights reserved. </div></html>", path, year,self.currentPoem.author]];
         
         [self.webView loadHTMLString:formattedHTML baseURL:nil];
         
-        NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
-        [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
+        
+        if ( self.currentPoem.isProse )
+        {
+//            NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
+//            [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
+        }
+        else
+        {
+            NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
+            [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
+        }
+
         
     }
     else
@@ -162,7 +175,11 @@
         [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( self.currentPoem.poemBody.length > 0 ) ? self.currentPoem.poemBody : @""]];
         NSString *path = [[NSBundle mainBundle] pathForResource:@"lvl2_logo" ofType:@"gif"];
         
-        [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>", path]];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
+        int year = [components year];
+        
+        [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © %i by %@.<br>All rights reserved. </div></body></html>", path, year,self.currentPoem.author]];
+
                 
         [self.webView loadHTMLString:formattedHTML baseURL:nil];
         
@@ -228,7 +245,13 @@
         [controller setMessageBody:[NSString stringWithFormat:@"http://poems.com/poem.php?date=%@ <br> <br> Have the app? Open here: poem://%@ <br> <br> Sent from Poetry Daily for iPhone and iPad", self.currentPoem.poemID, self.currentPoem.poemID, nil] isHTML:YES];
         
         if ( controller )
+        {
+#if   __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
             [self presentModalViewController:controller animated:YES];
+#else
+            [self presentModalViewController:controller animated:YES completion:NULL];
+#endif
+        }
     }
 }
 

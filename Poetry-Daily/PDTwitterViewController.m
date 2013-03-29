@@ -46,7 +46,11 @@
     {        
         TWTweetComposeViewController *tweetSheet = [[TWTweetComposeViewController alloc] init];
         [tweetSheet setInitialText:[NSString stringWithFormat:@"RT @Poetry_Daily %@", tweet.tweetTextString]];
+#if   __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
         [self presentModalViewController:tweetSheet animated:YES];
+#else
+        [self presentModalViewController:tweetSheet animated:YES completion:NULL];
+#endif
     }
 }
 
@@ -56,7 +60,12 @@
     {        
         TWTweetComposeViewController *tweetSheet = [[TWTweetComposeViewController alloc] init];
         [tweetSheet setInitialText:@"@Poetry_Daily"];
+        
+#if   __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
         [self presentModalViewController:tweetSheet animated:YES];
+#else
+        [self presentModalViewController:tweetSheet animated:YES completion:NULL];
+#endif
     }
 }
 
@@ -167,6 +176,17 @@
     atPDBarButtonItem.enabled = [TWTweetComposeViewController canSendTweet];
     
     UISegmentedControl *newsSegmentedControler = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"News", @"Twitter", nil]];
+    
+    newsSegmentedControler.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+    
+    [newsSegmentedControler setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [UIColor whiteColor], UITextAttributeTextColor,
+                                                    [UIColor darkGrayColor], UITextAttributeTextShadowColor,
+                                                    [NSValue valueWithUIOffset:UIOffsetMake(0, -1)], UITextAttributeTextShadowOffset,
+                                                    [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
+                                                    nil] forState:UIControlStateNormal];
+
+    
     newsSegmentedControler.segmentedControlStyle = UISegmentedControlStyleBar;
     newsSegmentedControler.selectedSegmentIndex = 1;
     [newsSegmentedControler addTarget:self

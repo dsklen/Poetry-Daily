@@ -14,6 +14,7 @@
 #import "PDMainPoemViewController.h"
 #import "PDMediaServer.h"
 #import "SVProgressHUD.h"
+#import "PDBrowseAllGridViewController.h"
 
 #import "OHAttributedLabel.h"
 #import "OHASBasicHTMLParser.h"
@@ -53,6 +54,17 @@
 {
     UISegmentedControl *seg = (UISegmentedControl *)sender;
     
+    PDBrowseAllGridViewController *grid = [[PDBrowseAllGridViewController alloc] initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
+    grid.title = @"Archive";
+    
+    grid.poemsArray = [NSMutableArray arrayWithArray:self.poemsArray];
+    grid.displayPoemsArray = [NSMutableArray arrayWithArray:self.displayPoemsArray];
+    grid.poemsMode = self.poemsMode;
+    [self.navigationController pushViewController:grid animated:NO];
+    
+    [grid.collectionView reloadData];
+    
+    return;
     if (seg.selectedSegmentIndex == 1)
     {
         NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
@@ -169,6 +181,9 @@
     
 //    [SVProgressHUD showWithStatus:@"Updating Archive..."];
 
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"calendar_alt_fill_16x16"] landscapeImagePhone:[UIImage imageNamed:@"calendar_alt_fill_16x16"] style:UIBarButtonItemStyleBordered target:self action:@selector(sortPoems:)];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Poem"];
     
@@ -189,6 +204,7 @@
             [self.poemsTableView reloadData];
             
             [SVProgressHUD dismiss];
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         }
         else
             [SVProgressHUD dismissWithError:@"Failed To Load"];
@@ -207,6 +223,8 @@
         [self.poemsTableView reloadData];
 
         [SVProgressHUD dismiss];
+        
+        self.navigationItem.rightBarButtonItem.enabled = YES;
     }
     
     
@@ -238,8 +256,7 @@
     segmentedControl.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
     
     UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
-    self.navigationItem.rightBarButtonItem = segmentBarItem;
-    
+//    self.navigationItem.rightBarButtonItem = segmentBarItem;
     // Add favorites toggle
     
     UIBarButtonItem *favoritesBarItem = [[UIBarButtonItem alloc] initWithTitle:@"★" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleFavorites:)];

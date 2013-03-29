@@ -34,6 +34,15 @@
     
     UISegmentedControl *newsSegmentedControler = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"News", @"Twitter", nil]];
     newsSegmentedControler.segmentedControlStyle = UISegmentedControlStyleBar;
+    newsSegmentedControler.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+    
+    [newsSegmentedControler setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                             [UIColor whiteColor], UITextAttributeTextColor,
+                                                             [UIColor darkGrayColor ], UITextAttributeTextShadowColor,
+                                                             [NSValue valueWithUIOffset:UIOffsetMake(0, -1)], UITextAttributeTextShadowOffset,
+                                                             [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
+                                                             nil] forState:UIControlStateNormal];
+
     newsSegmentedControler.selectedSegmentIndex = 0;
     [newsSegmentedControler addTarget:self
                          action:@selector(newsViewShouldChange:)
@@ -42,21 +51,22 @@
     self.newsSegmentedControl = newsSegmentedControler;
     
     
+    newsSegmentedControler.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+    
     [newsSegmentedControler setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                             [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
-                                                             [UIColor whiteColor ], UITextAttributeTextShadowColor,
-                                                             [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
-                                                             [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
-                                                             nil] forState:UIControlStateNormal];
-//    [newsSegmentedControler setTintColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
+                                                    [UIColor whiteColor], UITextAttributeTextColor,
+                                                    [UIColor darkGrayColor], UITextAttributeTextShadowColor,
+                                                    [NSValue valueWithUIOffset:UIOffsetMake(0, -1)], UITextAttributeTextShadowOffset,
+                                                    [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
+                                                    nil] forState:UIControlStateNormal];//    [newsSegmentedControler setTintColor:[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
 
     
 
-//    [newsSegmentedControler setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]]]; //[UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f]];
+//    [newsSegmentedControler setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]]]; //[UIColor colorWithRed:1.0f green:.9921f  blue:.9252f alpha:0.6f]];
     
     
     UIBarButtonItem *showSignUp = [[UIBarButtonItem alloc] initWithTitle:@"Sign-up" style:UIBarButtonItemStyleBordered target:self action:@selector(signUp:)];
-    web.navigationItem.rightBarButtonItem = showSignUp;
+//    web.navigationItem.rightBarButtonItem = showSignUp;
 
     
 //    web.hidesBottomBarWhenPushed = YES;

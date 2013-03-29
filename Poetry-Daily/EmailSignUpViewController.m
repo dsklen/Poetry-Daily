@@ -25,49 +25,56 @@ BOOL shown = NO;
 }
 */
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated;
+{
 	[super viewWillAppear:animated];
 	[emailAddressField becomeFirstResponder];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	
-	
-	
 	self.email = [NSString stringWithFormat:@"\"%@\"", textField.text];
-	//NSLog(self.email);
+
 	[textField resignFirstResponder];
-	return NO;
+	
+    return NO;
 }
 
-- (IBAction)submitEmail{
+- (IBAction)submitEmail;
+{
 	submitted = NO;
 	shown = NO;
 		NSString *html = [NSString stringWithFormat:@"<div class=\"subscribe_form\"> <form id=\"myform\" action=\"http://comet.sparklist.com/scripts/submany.pl\" method=post> <input type=text name=email size=20 value=%@> <input type=hidden name=\"list\" Value=\"join-poetrydaily@comet.sparklist.com\"> <br><input type=\"submit\" value=\"Subscribe\"> </form></div>", self.email];
-		[self.webView loadHTMLString:html baseURL:nil];
+    [self.webView loadHTMLString:html baseURL:nil];
 }
 
--(void)webView:(UIWebView *)web didFailLoadWithError:(NSError *)error{
-	
+- (void)webView:(UIWebView *)web didFailLoadWithError:(NSError *)error;
+{	
 	UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error: Failed to connect to server." message:@"Make sure you are connected to the internet in order to submit your e-mail" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];	
 	[av show];	
-	
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)web{
+- (void)webViewDidFinishLoad:(UIWebView *)web;
+{
 	NSString *newHtml = [web stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
+
 	BOOL sent = !([newHtml rangeOfString:@"Thank you"].location == NSNotFound);
-	if (submitted == NO) {
+	
+    if ( submitted == NO )
+    {
 		[web stringByEvaluatingJavaScriptFromString:@"document.forms[\"myform\"].submit();"];
 		submitted = YES;
 	}
-	else{
-		if (sent) {
+	else
+    {
+		if (sent)
+        {
 			UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Thanks" message:@"Please check your email in order to confirm your subscription." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];	
 			[av show];
 			[self.navigationController popViewControllerAnimated:YES];
 		}
-		else if (!sent && !shown) {
+		else if (!sent && !shown)
+        {
 			UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops!" message:@"You have not entered a valid email address. Please try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];	
 			[av show];
 			shown = YES;
@@ -75,11 +82,10 @@ BOOL shown = NO;
 	}
 }
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad;
+{
 	self.navigationController.navigationItem.title = @"Welcome!";
-    [super viewDidLoad];
+
 	self.success.hidden = YES;
 	self.failure.hidden = YES;
 	self.webView.hidden = YES;
@@ -89,8 +95,9 @@ BOOL shown = NO;
     self.navigationController.navigationItem.hidesBackButton = NO;
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self.navigationController action:@selector(popViewControllerAnimated:)];
-    
-//	self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.3189 green:.1378 blue:.1063 alpha:1.0];
+   
+    [super viewDidLoad];
+
 }
 
 
@@ -100,20 +107,5 @@ BOOL shown = NO;
     // Return YES for supported orientations
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
-
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
-
 
 @end

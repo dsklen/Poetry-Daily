@@ -392,12 +392,24 @@
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:self.publicationURL];
     
     webViewController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
-    
+    webViewController.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+
     NSLog(@"Visiting external site at %@", [self.publicationURL absoluteString]);
     
     webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
     webViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    
+#if   __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
     [self presentModalViewController:webViewController animated:YES];
+#else
+    [self presentModalViewController:webViewController animated:YES completion:^(BOOL completed){     webViewController.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+ }];
+#endif
+
+        
+    webViewController.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+
     
     webViewController.navigationBar.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
 
