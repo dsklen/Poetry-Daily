@@ -7,7 +7,6 @@
 //
 
 #import "PDFavoritesViewController.h"
-#import "PDFavoritesCoverFlowViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -94,25 +93,25 @@
 
 - (void)orientationChanged:(NSNotification *)notification
 {
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    if (UIDeviceOrientationIsLandscape(deviceOrientation) && !self.isShowingLandscapeView)
-    {
-        PDFavoritesCoverFlowViewController *favoriteFlow = [[PDFavoritesCoverFlowViewController alloc] initWithNibName:@"PDFavoritesCoverFlowViewController" bundle:nil];
-        favoriteFlow.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-
-        [self presentModalViewController:favoriteFlow animated:YES];
-        self.isShowingLandscapeView = YES;
-    }
-    else if (UIDeviceOrientationIsPortrait(deviceOrientation) && self.isShowingLandscapeView)
-    {
-        [UIView animateWithDuration:0.5f animations:^{
-                    
-        } completion:^(BOOL finished) {
-            [self dismissModalViewControllerAnimated:YES];
-            self.isShowingLandscapeView = NO;
-        }];
-    }
+//    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+//    if (UIDeviceOrientationIsLandscape(deviceOrientation) && !self.isShowingLandscapeView)
+//    {
+//        PDFavoritesCoverFlowViewController *favoriteFlow = [[PDFavoritesCoverFlowViewController alloc] initWithNibName:@"PDFavoritesCoverFlowViewController" bundle:nil];
+//        favoriteFlow.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//
+//        [self presentModalViewController:favoriteFlow animated:YES];
+//        self.isShowingLandscapeView = YES;
+//    }
+//    else if (UIDeviceOrientationIsPortrait(deviceOrientation) && self.isShowingLandscapeView)
+//    {
+//        [UIView animateWithDuration:0.5f animations:^{
+//                    
+//        } completion:^(BOOL finished) {
+//            [self dismissModalViewControllerAnimated:YES];
+//            self.isShowingLandscapeView = NO;
+//        }];
+//    }
 }
 
 - (void)viewDidUnload

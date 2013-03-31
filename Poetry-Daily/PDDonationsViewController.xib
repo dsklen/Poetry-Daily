@@ -80,7 +80,7 @@ dG8gb3VyIGNvbnRpbnVpbmcgaW4gc2VydmljZSB0byBwb2V0cnkgYW5kIHRvIHlvdSE</string>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{20, 199}, {280, 44}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSNextKeyView" ref="839066434"/>
+						<reference key="NSNextKeyView" ref="390374904"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -200,6 +200,7 @@ dG8gb3VyIGNvbnRpbnVpbmcgaW4gc2VydmljZSB0byBwb2V0cnkgYW5kIHRvIHlvdSE</string>
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
 								<string key="NSFrame">{{0, 20}, {280, 44}}</string>
 								<reference key="NSSuperview" ref="992701722"/>
+								<reference key="NSNextKeyView" ref="839066434"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
@@ -245,7 +246,6 @@ dG8gb3VyIGNvbnRpbnVpbmcgaW4gc2VydmljZSB0byBwb2V0cnkgYW5kIHRvIHlvdSE</string>
 						<int key="NSvFlags">269</int>
 						<string key="NSFrame">{{145, 260}, {30, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSNextKeyView" ref="390374904"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">2</int>

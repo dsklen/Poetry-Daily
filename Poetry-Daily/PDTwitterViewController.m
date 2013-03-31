@@ -177,12 +177,12 @@
     
     UISegmentedControl *newsSegmentedControler = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"News", @"Twitter", nil]];
     
-    newsSegmentedControler.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+    newsSegmentedControler.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
     
     [newsSegmentedControler setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    [UIColor whiteColor], UITextAttributeTextColor,
-                                                    [UIColor darkGrayColor], UITextAttributeTextShadowColor,
-                                                    [NSValue valueWithUIOffset:UIOffsetMake(0, -1)], UITextAttributeTextShadowOffset,
+                                                    [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
+                                                    [UIColor whiteColor ], UITextAttributeTextShadowColor,
+                                                    [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
                                                     [UIFont boldSystemFontOfSize:13.0f], UITextAttributeFont,
                                                     nil] forState:UIControlStateNormal];
 

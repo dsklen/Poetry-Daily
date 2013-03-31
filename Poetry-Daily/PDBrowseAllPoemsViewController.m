@@ -255,7 +255,7 @@
 	
     segmentedControl.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
     
-    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+//    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
 //    self.navigationItem.rightBarButtonItem = segmentBarItem;
     // Add favorites toggle
     

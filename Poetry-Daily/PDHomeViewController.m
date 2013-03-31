@@ -1046,7 +1046,11 @@
     [self showPoemForDay:newDate];
 }
 
-
+- (void)webViewDidFinishLoad:(UIWebView *)webView;
+{
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+}
 
 
 @end

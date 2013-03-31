@@ -11,7 +11,7 @@
 @class PDPoem;
 @class PullRefreshTableViewController;
 
-@interface PDHomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface PDHomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate>
 
 @property (strong, nonatomic) PDPoem *currentPoem;
 @property (strong, nonatomic) IBOutlet UILabel *poemPublishedDateLabel;

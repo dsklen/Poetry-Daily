@@ -41,7 +41,7 @@ NSString* UIPickerViewDidHideNotification = @"UIPickerViewDidHideNotification";
 
 @implementation NWPickerField
 
-@synthesize delegate;
+@synthesize nwdelegate;
 @synthesize formatString;
 
 - (BOOL)canBecomeFirstResponder {
@@ -69,7 +69,7 @@ NSString* UIPickerViewDidHideNotification = @"UIPickerViewDidHideNotification";
 
 
 -(void) dealloc {
-	delegate = nil;
+	nwdelegate = nil;
 	
     // clean up..
 	[pickerView release];
@@ -170,7 +170,7 @@ NSString* UIPickerViewDidHideNotification = @"UIPickerViewDidHideNotification";
 // returns the number of 'columns' to display.
 -(NSInteger) numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
 	// we always have 1..
-	NSInteger count = [delegate numberOfComponentsInPickerField:self];
+	NSInteger count = [nwdelegate numberOfComponentsInPickerField:self];
 	NSInteger item = 0;
 	
     // if we have component strings release them.
@@ -188,16 +188,16 @@ NSString* UIPickerViewDidHideNotification = @"UIPickerViewDidHideNotification";
 }
 
 -(NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {	
-	return [delegate pickerField:self numberOfRowsInComponent:component];
+	return [nwdelegate pickerField:self numberOfRowsInComponent:component];
 }
 
 -(NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-	return [delegate pickerField:self titleForRow:row forComponent:component];
+	return [nwdelegate pickerField:self titleForRow:row forComponent:component];
 }
 
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	NSString* string = [delegate pickerField:self titleForRow:row forComponent:component];
+	NSString* string = [nwdelegate pickerField:self titleForRow:row forComponent:component];
 	[componentStrings replaceObjectAtIndex:component withObject:string];
 	
     // format our text representing the change in the selection.
