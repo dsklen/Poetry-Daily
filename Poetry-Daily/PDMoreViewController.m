@@ -224,9 +224,13 @@
         if ( indexPath.row == 0)
             cell.textLabel.text = @"";
         if ( indexPath.row == 1)
+        {
             cell.textLabel.text = @"Donate today!";
+            cell.textLabel.textColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
+            cell.imageView.image = [UIImage imageNamed:@"93-thermometer"];
+
+        }
     }
-    
     if ( indexPath.section == 1)
     {
         if ( indexPath.row == 0)

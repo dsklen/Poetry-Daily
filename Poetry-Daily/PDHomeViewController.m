@@ -198,10 +198,15 @@
                             
                         }];
                     }   
+                    BOOL isToday = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
                     
-                    self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );         
-                    self.todaysPoemLabel.hidden = !( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
+                    self.showNextDayButton.hidden = isToday;         
+                    self.todaysPoemLabel.hidden = !isToday;
 
+                    self.textPull = isToday ? @"Pull down to refresh today's poem..." : @"Pull down to go to today's poem...";
+                    self.textRelease = isToday ? @"Release to refresh today' poem..." : @"Release to go to today's poem...";
+
+                    
                     [SVProgressHUD dismiss];
                 }
          }];
@@ -257,8 +262,13 @@
                 self.poemAuthorImageView.alpha = 0.0f;
             }];
         
-        self.showNextDayButton.hidden = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
-        self.todaysPoemLabel.hidden = !( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
+        BOOL isToday = ( [date timeIntervalSinceDate:[NSDate charlottesvilleDate]] > -1000.0f  );
+        
+        self.showNextDayButton.hidden = isToday;
+        self.todaysPoemLabel.hidden = !isToday;
+        
+        self.textPull = isToday ? @"Pull down to refresh today's poem..." : @"Pull down to go to today's poem...";
+        self.textRelease = isToday ? @"Release to refresh today' poem..." : @"Release to go to today's poem...";
         
         if ( poem.title.length > 0 && poem.author.length > 0  )
             [SVProgressHUD dismiss];
@@ -869,9 +879,9 @@
 }
 
 - (void)setupStrings{
-    self.textPull = @"Pull down to refresh poem...";
-    self.textRelease = @"Release to refresh poem...";
-    self.textLoading = [NSString stringWithFormat:@"Loading%@...",( [self.currentPoem.title length] > 0 ) ? self.currentPoem.title : @""];
+    self.textPull = @"Pull down to refresh today's poem...";
+    self.textRelease = @"Release to refresh today' poem...";
+    self.textLoading = [NSString stringWithFormat:@"Loading %@...",( [self.currentPoem.title length] > 0 ) ? self.currentPoem.title : @""];
 }
 
 - (void)addPullToRefreshHeader {
@@ -901,9 +911,7 @@
     self.refreshLogoActivityLabel.backgroundColor = [UIColor clearColor];
     [self.refreshLogoActivityLabel setTextColor:[UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0]];
     self.refreshLogoActivityLabel.alpha = 0.0f;
-    
-    
-    
+        
     [self.refreshHeaderView addSubview:self.refreshLabel];
     [self.refreshHeaderView addSubview:self.refreshArrow];
     [self.refreshHeaderView addSubview:self.refreshLogoActivityLabel];
@@ -1040,9 +1048,7 @@
 - (void)refresh {
     // This is just a demo. Override this method with your custom reload action.
     // Don't forget to call stopLoading at the end.    
-    NSDate *newDate = [self.currentPoem.publishedDate dateByAddingTimeInterval:0.0f];
-    
-    [self showPoemForDay:newDate];
+    [self showPoemForDay:[NSDate charlottesvilleDate]];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView;

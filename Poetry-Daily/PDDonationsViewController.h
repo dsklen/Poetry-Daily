@@ -17,7 +17,8 @@ typedef enum PaymentStatuses {
 	PAYMENTSTATUS_CANCELED,
 } PaymentStatus;
 
-@interface PDDonationsViewController : UIViewController <PayPalPaymentDelegate, UITextFieldDelegate> {
+@interface PDDonationsViewController : UIViewController <PayPalPaymentDelegate, UITextFieldDelegate, NSURLConnectionDataDelegate>
+{
 @private
 	IBOutlet UITextField *amount;
 	CGFloat y;

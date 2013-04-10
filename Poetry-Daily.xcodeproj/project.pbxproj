@@ -140,6 +140,8 @@
 		B697941F158A87DA0031162B /* NSDate+PDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B697941E158A87DA0031162B /* NSDate+PDAdditions.m */; };
 		B6979421158AA3930031162B /* 23-bird.png in Resources */ = {isa = PBXBuildFile; fileRef = B6979420158AA3930031162B /* 23-bird.png */; };
 		B6979458158AA8C00031162B /* PDLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = B6979457158AA8C00031162B /* PDLogo.png */; };
+		B69844161715963400413E3E /* 93-thermometer.png in Resources */ = {isa = PBXBuildFile; fileRef = B69844141715963400413E3E /* 93-thermometer.png */; };
+		B69844171715963400413E3E /* 93-thermometer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B69844151715963400413E3E /* 93-thermometer@2x.png */; };
 		B6AF256316E7F8EB009E18BB /* PDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B6AF256116E7F8EB009E18BB /* PDModel.xcdatamodeld */; };
 		B6AF257B16E7FAC0009E18BB /* SVWebViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = B6AF256816E7FAC0009E18BB /* SVWebViewController.strings */; };
 		B6AF257E16E7FAC0009E18BB /* SVModalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6AF257016E7FAC0009E18BB /* SVModalWebViewController.m */; };
@@ -361,6 +363,8 @@
 		B697941E158A87DA0031162B /* NSDate+PDAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+PDAdditions.m"; sourceTree = "<group>"; };
 		B6979420158AA3930031162B /* 23-bird.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "23-bird.png"; sourceTree = "<group>"; };
 		B6979457158AA8C00031162B /* PDLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PDLogo.png; sourceTree = "<group>"; };
+		B69844141715963400413E3E /* 93-thermometer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "93-thermometer.png"; sourceTree = "<group>"; };
+		B69844151715963400413E3E /* 93-thermometer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "93-thermometer@2x.png"; sourceTree = "<group>"; };
 		B6AF256216E7F8EB009E18BB /* PDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PDModel.xcdatamodel; sourceTree = "<group>"; };
 		B6AF256616E7FAC0009E18BB /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = SVWebViewController.strings; sourceTree = "<group>"; };
 		B6AF256916E7FAC0009E18BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = SVWebViewController.strings; sourceTree = "<group>"; };
@@ -733,6 +737,8 @@
 		B670F68A1534CD0D0045906A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B69844141715963400413E3E /* 93-thermometer.png */,
+				B69844151715963400413E3E /* 93-thermometer@2x.png */,
 				B68915021700EBCB00FB9147 /* 03-arrow-south.png */,
 				B68915031700EBCB00FB9147 /* 03-arrow-south@2x.png */,
 				B6979420158AA3930031162B /* 23-bird.png */,
@@ -1116,6 +1122,8 @@
 				B6860A7717064FD8008C8C38 /* Default-Portrait~ipad.png in Resources */,
 				B6571CBA170A62460032B4AC /* 96-book.png in Resources */,
 				B6571CBB170A62460032B4AC /* 96-book@2x.png in Resources */,
+				B69844161715963400413E3E /* 93-thermometer.png in Resources */,
+				B69844171715963400413E3E /* 93-thermometer@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

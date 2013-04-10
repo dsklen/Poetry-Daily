@@ -14,6 +14,7 @@
 
 @property (strong, nonatomic) NSArray *donationAmountsArray;
 - (IBAction)tappedView:(id)sender;
+- (NSData *)encodedDataFromDictionary:(NSDictionary *)dictionary;
 
 @end
 
@@ -94,8 +95,53 @@
 
 - (IBAction)showPayPalInSafari:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://mobile.paypal.com/us/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=EC-4HY487444V283911A"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=staff%40poems%2ecom&lc=US&item_name=The%20Daily%20Poetry%20Association%20%28Poetry%20Daily%29&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest"]];
+    
+    return;
+    
+    NSMutableString *URLString = [NSMutableString stringWithString:@"https://www.paypal.com/cgi-bin/webscr"];
+    
+    NSURL *URL = [NSURL URLWithString:URLString];
+    NSLog(@"%@", URLString);
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0f];
+    
+    
+    NSMutableDictionary *mutableParams = [[NSMutableDictionary alloc] init];
+    [mutableParams setObject:@"_donations" forKey:@"cmd"];
+    [mutableParams setObject:@"staff@poems.com" forKey:@"business"];
+    [mutableParams setObject:@"The Daily Poetry Association (Poetry Daily)" forKey:@"item_name"];
+    [mutableParams setObject:@"0" forKey:@"no_shipping"];
+    [mutableParams setObject:@"http://www.poems.com/" forKey:@"return"];
+    [mutableParams setObject:@"Premium Selection" forKey:@"cn"];
+    [mutableParams setObject:@"USD" forKey:@"currency_code"];
+    [mutableParams setObject:@"0" forKey:@"tax"];
+    [mutableParams setObject:@"US" forKey:@"lc"];
+    [mutableParams setObject:@"PP-DonationsBF" forKey:@"bn"];
+
+    [request setHTTPMethod:@"post"];
+    [request setHTTPBody:[self encodedDataFromDictionary:mutableParams]];
+    
+
+    NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 }
+
+- (NSData *)encodedDataFromDictionary:(NSDictionary *)dictionary;
+{
+    NSMutableArray *parts = [[NSMutableArray alloc] init];
+    
+    for ( NSString *key in [dictionary allKeys] )
+    {
+        NSString *encodedValue = [[dictionary objectForKey:key] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSString *encodedKey = [key stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSString *part = [NSString stringWithFormat:@"%@=%@", encodedKey, encodedValue];
+        [parts addObject:part];
+    }
+    
+    NSString *encodedDictionaryString = [parts componentsJoinedByString:@"&"];
+    
+    return [encodedDictionaryString dataUsingEncoding:NSUTF8StringEncoding];
+}
+
 
 - (IBAction)pay;
 {    
@@ -252,5 +298,22 @@
 {
     return UIInterfaceOrientationMaskPortrait;
 }
+
+#pragma mark - NSURLConnectionDataDelegate
+
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse;
+{
+    NSLog(@"Redirect %@", [request URL]);
+    NSLog(@"RedirectRespone %@", redirectResponse);
+
+//    [[UIApplication sharedApplication] openURL:[request URL]];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
+{
+    NSLog(@"%@",[connection currentRequest]);
+
+}
+
 
 @end

@@ -131,18 +131,16 @@
         else
         {
             style = @"<html><head><style type=\"text/css\"> body {font-size: 50px; white-space:nowrap; padding:5px; margin:8px;width:800px;}</style></head><body>";
-//            self.webView.scalesPageToFit = YES;
         }
         
         NSMutableString *formattedHTML = [[NSMutableString alloc]initWithCapacity:1000];
         [formattedHTML appendString:[NSMutableString stringWithFormat:@"%@%@", style, ( self.currentPoem.poemBody.length > 0 ) ? self.currentPoem.poemBody : @""]];
         
         NSString *path = [[NSBundle mainBundle] pathForResource:@"lvl2_logo" ofType:@"gif"];
-        
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
         int year = [components year];
-        
-        [formattedHTML appendString:[NSString stringWithFormat:@"</body><a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"150\" width=\"182.5\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" style=\"font-size:28;\">Copyright © %i by %@.<br>All rights reserved. </div></html>", path, year,self.currentPoem.author]];
+ 
+        [formattedHTML appendString:[NSString stringWithFormat:@"<div style=\"width:960px;\"><a href=\"/\"><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"160\" width=\"200\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div><div class=\"clear_both\"></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:30;\">Copyright © %i by %@.</div></div></body></html>", path, year,self.currentPoem.author]];
         
         [self.webView loadHTMLString:formattedHTML baseURL:nil];
         
@@ -157,8 +155,6 @@
             NSString *newHtml = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = auto';"]; //  '%d%%';", 3000];
             [self.webView stringByEvaluatingJavaScriptFromString:newHtml];
         }
-
-        
     }
     else
     {
