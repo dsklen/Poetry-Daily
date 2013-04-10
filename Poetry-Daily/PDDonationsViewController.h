@@ -24,7 +24,6 @@ typedef enum PaymentStatuses {
 	BOOL resetScrollView;
 }
 
-@property (nonatomic, strong) IBOutlet NWPickerField *amount;
 @property (nonatomic, strong) NSString *environment;
 @property (nonatomic, assign, readwrite) BOOL acceptCreditCards;
 @property (nonatomic, strong, readwrite) PayPalPayment *completedPayment;

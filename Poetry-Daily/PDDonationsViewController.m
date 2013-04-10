@@ -7,7 +7,6 @@
 //
 
 #import "PDDonationsViewController.h"
-#import "NWPickerField.h"
 
 #define SPACING 3.
 
@@ -19,8 +18,6 @@
 @end
 
 @implementation PDDonationsViewController
-
-@synthesize amount = _amount;
 
 
 #define kPayPalClientId @"AcXlqhDvy2jNcHDI7T5-Rug67gzPB1yqFR4wxmMFBLYS3qRrbKy-2qKMDSz9"
@@ -66,7 +63,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedView:)];
     [self.view addGestureRecognizer:tap];
     
-    [self.amount selectRow:3 inComponent:0 animated:NO];
+//    [self.amount selectRow:3 inComponent:0 animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated;
@@ -88,18 +85,11 @@
 
 - (void)viewWillDisappear:(BOOL)animated;
 {
-    [self.amount hide];
 }
 
 - (IBAction)tappedView:(id)sender;
 {
-    if ( [self.amount isFirstResponder] )
-        [self.amount resignFirstResponder];
-    else
-    {
-        [self.amount becomeFirstResponder];
-        [self.amount resignFirstResponder];
-    }
+    return;
 }
 
 - (IBAction)showPayPalInSafari:(id)sender
@@ -112,7 +102,7 @@
     // Remove our last completed payment, just for demo purposes.
     self.completedPayment = nil;
     
-    NSMutableString *amountString = [NSMutableString stringWithString:self.amount.text];
+    NSMutableString *amountString;// = [NSMutableString stringWithString:self.amount.text];
     
     if ( amountString.length == 0 )
         return;

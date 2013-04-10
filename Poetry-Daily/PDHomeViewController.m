@@ -16,7 +16,6 @@
 #import "PDConstants.h"
 #import "PDFeatureViewController.h"
 #import "NSDate+PDAdditions.h"
-#import "QBFlatButton.h"
 #import "SVWebViewController.h"
 
 #define REFRESH_HEADER_HEIGHT 52.0f
