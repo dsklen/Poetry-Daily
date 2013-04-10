@@ -139,7 +139,7 @@
         
         NSString *path = [[NSBundle mainBundle] pathForResource:@"lvl2_logo" ofType:@"gif"];
         
-        [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © 1997-2013.  All rights reserved. </div></body></html>", path]];
+        [formattedHTML appendString:[NSString stringWithFormat:@"<div style=\"width:960px;\"><a href=\"/\"><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"160\" width=\"200\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div><div class=\"clear_both\"></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:30;\">Copyright © 1997-2013.  All rights reserved. </div></div></body></html>", path]];
         
         [self.webView loadHTMLString:formattedHTML baseURL:nil];
         
