@@ -142,6 +142,8 @@
 		B6979458158AA8C00031162B /* PDLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = B6979457158AA8C00031162B /* PDLogo.png */; };
 		B69844161715963400413E3E /* 93-thermometer.png in Resources */ = {isa = PBXBuildFile; fileRef = B69844141715963400413E3E /* 93-thermometer.png */; };
 		B69844171715963400413E3E /* 93-thermometer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B69844151715963400413E3E /* 93-thermometer@2x.png */; };
+		B698441A1715BC4500413E3E /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = B69844181715BC4400413E3E /* iTunesArtwork@2x */; };
+		B698441B1715BC4500413E3E /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = B69844191715BC4400413E3E /* iTunesArtwork */; };
 		B6AF256316E7F8EB009E18BB /* PDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B6AF256116E7F8EB009E18BB /* PDModel.xcdatamodeld */; };
 		B6AF257B16E7FAC0009E18BB /* SVWebViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = B6AF256816E7FAC0009E18BB /* SVWebViewController.strings */; };
 		B6AF257E16E7FAC0009E18BB /* SVModalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6AF257016E7FAC0009E18BB /* SVModalWebViewController.m */; };
@@ -365,6 +367,8 @@
 		B6979457158AA8C00031162B /* PDLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PDLogo.png; sourceTree = "<group>"; };
 		B69844141715963400413E3E /* 93-thermometer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "93-thermometer.png"; sourceTree = "<group>"; };
 		B69844151715963400413E3E /* 93-thermometer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "93-thermometer@2x.png"; sourceTree = "<group>"; };
+		B69844181715BC4400413E3E /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
+		B69844191715BC4400413E3E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		B6AF256216E7F8EB009E18BB /* PDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PDModel.xcdatamodel; sourceTree = "<group>"; };
 		B6AF256616E7FAC0009E18BB /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = SVWebViewController.strings; sourceTree = "<group>"; };
 		B6AF256916E7FAC0009E18BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = SVWebViewController.strings; sourceTree = "<group>"; };
@@ -606,6 +610,8 @@
 		B670F6471534CCB20045906A = {
 			isa = PBXGroup;
 			children = (
+				B69844181715BC4400413E3E /* iTunesArtwork@2x */,
+				B69844191715BC4400413E3E /* iTunesArtwork */,
 				B6860A7617064FD8008C8C38 /* Default-Portrait~ipad.png */,
 				B6860A7417064D84008C8C38 /* Default-Landscape@2x~ipad.png */,
 				B6860A7217064656008C8C38 /* Icon@2x~iPad.png */,
@@ -1124,6 +1130,8 @@
 				B6571CBB170A62460032B4AC /* 96-book@2x.png in Resources */,
 				B69844161715963400413E3E /* 93-thermometer.png in Resources */,
 				B69844171715963400413E3E /* 93-thermometer@2x.png in Resources */,
+				B698441A1715BC4500413E3E /* iTunesArtwork@2x in Resources */,
+				B698441B1715BC4500413E3E /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1357,7 +1365,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7B2F34A9-D454-428C-82B1-7916ACB88FF8";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7B2F34A9-D454-428C-82B1-7916ACB88FF8";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1384,7 +1392,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

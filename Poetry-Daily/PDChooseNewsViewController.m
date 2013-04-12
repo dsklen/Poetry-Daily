@@ -43,8 +43,8 @@
     self.newsSegmentedControl = newsSegmentedControler;
     
     
-    newsSegmentedControler.tintColor = [UIColor colorWithRed:.8819 green:.84212 blue:.7480 alpha:1.0];
-    
+    newsSegmentedControler.tintColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:0.6f];
+
     [newsSegmentedControler setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0], UITextAttributeTextColor,
                                                     [UIColor whiteColor ], UITextAttributeTextShadowColor,

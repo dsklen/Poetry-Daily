@@ -3,7 +3,6 @@
 //  Poetry-Daily
 //
 //  Created by David Sklenar on 5/24/12.
-//  Copyright (c) 2012 ELC Technologies. All rights reserved.
 //
 
 #import "PDMainPoemViewController.h"
@@ -174,7 +173,7 @@
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
         int year = [components year];
         
-        [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © %i by %@.<br>All rights reserved. </div></body></html>", path, year,self.currentPoem.author]];
+        [formattedHTML appendString:[NSString stringWithFormat:@"<a href=\"/\"><br><img src=\"file://%@\" alt=\"Poetry Daily\" border=\"0\" height=\"100\" width=\"125\" align=\"middle\" style=\"display:block;margin-left: auto;margin-right:auto;\"/></a><div id=\"content_footer\"><div class=\"beige_divider\"></div><div id=\"lvl2_logo\"></div></div><div class=\"clear_both\"></div></div></div><div id=\"page_copyright\" align=\"middle\" hspace=\"480\" style=\"font-size:12;\">Copyright © %i by %@<br>All rights reserved. </div></body></html>", path, year,self.currentPoem.author]];
 
                 
         [self.webView loadHTMLString:formattedHTML baseURL:nil];

@@ -63,13 +63,15 @@ dG8gb3VyIGNvbnRpbnVpbmcgaW4gc2VydmljZSB0byBwb2V0cnkgYW5kIHRvIHlvdSE</string>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">0</int>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="198426862">
-							<int key="type">1</int>
-							<double key="pointSize">14</double>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="552775263">
+							<string key="name">TimesNewRomanPSMT</string>
+							<string key="family">Times New Roman</string>
+							<int key="traits">0</int>
+							<double key="pointSize">15</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="685671684">
-							<string key="NSName">Helvetica</string>
-							<double key="NSSize">14</double>
+						<object class="NSFont" key="IBUIFont" id="928368732">
+							<string key="NSName">TimesNewRomanPSMT</string>
+							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
 						</object>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -88,13 +90,13 @@ dG8gb3VyIGNvbnRpbnVpbmcgaW4gc2VydmljZSB0byBwb2V0cnkgYW5kIHRvIHlvdSE</string>
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Please choose an amount to donate and then tap the "Pay With PayPal" button:</string>
+						<string key="IBUIText">Please choose an amount to donate and then tap the "Donate With PayPal" button:</string>
 						<reference key="IBUITextColor" ref="798530364"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">2</int>
-						<reference key="IBUIFontDescription" ref="198426862"/>
-						<reference key="IBUIFont" ref="685671684"/>
+						<reference key="IBUIFontDescription" ref="552775263"/>
+						<reference key="IBUIFont" ref="928368732"/>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 						<double key="preferredMaxLayoutWidth">280</double>
 					</object>
@@ -104,7 +106,7 @@ dG8gb3VyIGNvbnRpbnVpbmcgaW4gc2VydmljZSB0byBwb2V0cnkgYW5kIHRvIHlvdSE</string>
 						<string key="NSFrame">{{66, 254}, {168, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="992701722"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -156,8 +158,15 @@ dG8gb3VyIGNvbnRpbnVpbmcgaW4gc2VydmljZSB0byBwb2V0cnkgYW5kIHRvIHlvdSE</string>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<int key="IBUITextAlignment">1</int>
-								<reference key="IBUIFontDescription" ref="198426862"/>
-								<reference key="IBUIFont" ref="685671684"/>
+								<object class="IBUIFontDescription" key="IBUIFontDescription">
+									<int key="type">1</int>
+									<double key="pointSize">14</double>
+								</object>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">Helvetica</string>
+									<double key="NSSize">14</double>
+									<int key="NSfFlags">16</int>
+								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 							<object class="IBUIButton" id="83311152">
@@ -173,7 +182,7 @@ dG8gb3VyIGNvbnRpbnVpbmcgaW4gc2VydmljZSB0byBwb2V0cnkgYW5kIHRvIHlvdSE</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<int key="IBUIButtonType">1</int>
-								<string key="IBUINormalTitle">Pay With PayPal</string>
+								<string key="IBUINormalTitle">Donate With PayPal</string>
 								<object class="NSColor" key="IBUIHighlightedTitleColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
@@ -215,6 +224,7 @@ dG8gb3VyIGNvbnRpbnVpbmcgaW4gc2VydmljZSB0byBwb2V0cnkgYW5kIHRvIHlvdSE</string>
 						<string key="NSFrame">{{145, 260}, {30, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">2</int>

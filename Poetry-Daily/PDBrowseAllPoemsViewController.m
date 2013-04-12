@@ -181,8 +181,8 @@
     
 //    [SVProgressHUD showWithStatus:@"Updating Archive..."];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"calendar_alt_fill_16x16"] landscapeImagePhone:[UIImage imageNamed:@"calendar_alt_fill_16x16"] style:UIBarButtonItemStyleBordered target:self action:@selector(sortPoems:)];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"calendar_alt_fill_16x16"] landscapeImagePhone:[UIImage imageNamed:@"calendar_alt_fill_16x16"] style:UIBarButtonItemStyleBordered target:self action:@selector(sortPoems:)];
+//    self.navigationItem.rightBarButtonItem.enabled = NO;
 
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Poem"];
@@ -204,7 +204,7 @@
             [self.poemsTableView reloadData];
             
             [SVProgressHUD dismiss];
-            self.navigationItem.rightBarButtonItem.enabled = YES;
+//            self.navigationItem.rightBarButtonItem.enabled = YES;
         }
         else
             [SVProgressHUD dismissWithError:@"Failed To Load"];
@@ -224,7 +224,7 @@
 
         [SVProgressHUD dismiss];
         
-        self.navigationItem.rightBarButtonItem.enabled = YES;
+//        self.navigationItem.rightBarButtonItem.enabled = YES;
     }
     
     

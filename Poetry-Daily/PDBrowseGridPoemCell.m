@@ -33,7 +33,7 @@
             [self.contentView addSubview:imageView];
             _imageView = imageView;
             
-            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.0, 125.0, 105.0f, 20.0f)];
+            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 140.0, 105.0f, 20.0f)];
             titleLabel.numberOfLines = 0;
     //        titleLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
             titleLabel.textAlignment = UITextAlignmentCenter;
@@ -74,7 +74,7 @@
             [self.contentView addSubview:titleLabel];
             _titleLabel = titleLabel;
             
-            UILabel *subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 245.0, frame.size.width, 20.0f)];
+            UILabel *subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 245.0, frame.size.width, 20.0f)];
             subtitleLabel.textAlignment = UITextAlignmentCenter;
             subtitleLabel.font = [UIFont systemFontOfSize:11.0];
             subtitleLabel.textColor = [UIColor darkGrayColor];
