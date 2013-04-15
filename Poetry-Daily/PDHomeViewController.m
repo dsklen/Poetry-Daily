@@ -204,7 +204,7 @@
                     self.todaysPoemLabel.hidden = !isToday;
 
                     self.textPull = isToday ? @"Pull down to refresh today's poem..." : @"Pull down to go to today's poem...";
-                    self.textRelease = isToday ? @"Release to refresh today' poem..." : @"Release to go to today's poem...";
+                    self.textRelease = isToday ? @"Release to refresh today's poem..." : @"Release to go to today's poem...";
 
                     
                     [SVProgressHUD dismiss];

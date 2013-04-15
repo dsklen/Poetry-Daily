@@ -53,8 +53,8 @@ NSString *const kAppiraterReminderRequestDate		= @"kAppiraterReminderRequestDate
 NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=APP_ID";
 
 static NSString *_appId;
-static double _daysUntilPrompt = 14;
-static NSInteger _usesUntilPrompt = 10;
+static double _daysUntilPrompt = 10;
+static NSInteger _usesUntilPrompt = 8;
 static NSInteger _significantEventsUntilPrompt = -1;
 static double _timeBeforeReminding = 1;
 static BOOL _debug = NO;

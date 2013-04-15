@@ -227,7 +227,8 @@
         {
             cell.textLabel.text = @"Donate today!";
             cell.textLabel.textColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
-            cell.imageView.image = [UIImage imageNamed:@"93-thermometer"];
+            cell.imageView.image = [UIImage imageNamed:@"93-thermometer"]
+            ;
 
         }
     }
@@ -349,8 +350,11 @@
     if ( view == nil )
     {
         view = [[UIView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, 150.0f, 257.0f )];
-        view.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+//        view.layer.borderColor = [[UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0] CGColor];
+        view.layer.borderColor = [[UIColor whiteColor] CGColor];
+
         view.layer.borderWidth = 4.0f;
+        view.layer.cornerRadius = 2.0f;
         view.backgroundColor = [UIColor lightGrayColor];
         view.tag = 100;
         view.contentMode = UIViewContentModeCenter;
@@ -378,7 +382,8 @@
         linkButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [linkButton setTitle:@"More ⇗" forState:UIControlStateNormal];
         [linkButton setTitleColor:[UIColor colorWithRed:50.0f/255.0f green:79.0f/255.0f blue:133.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
-        [linkButton.titleLabel setFont:[UIFont boldSystemFontOfSize:12.0f]];
+        [linkButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+        [linkButton.titleLabel setFont:[UIFont boldSystemFontOfSize:13.0f]];
         linkButton.frame = CGRectMake( 39.0f, 132.0f, 72.0f, 44.0f);
 //        [linkButton setImage:[UIImage imageNamed:@"fullscreen_alt_16x16"] forState:UIControlStateNormal];
         [linkButton addTarget:self action:@selector(showSponsorLink:) forControlEvents:UIControlEventTouchUpInside];
@@ -411,10 +416,13 @@
     
     NSString *loadedHTML = [description stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
 
-    
     if ( [loadedHTML rangeOfString:sponsor.text].location == NSNotFound  )
     {
         [description loadHTMLString:sponsor.text baseURL:nil];
+        
+        NSString *newHtml = [NSString stringWithFormat:@"document.style.webkitTextSizeAdjust = 'auto'"];
+        [description stringByEvaluatingJavaScriptFromString:newHtml];
+
     }
 
     return view;

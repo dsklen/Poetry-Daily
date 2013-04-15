@@ -66,7 +66,7 @@
 							<object class="IBUIView" id="939969195">
 								<reference key="NSNextResponder" ref="965934592"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{0, 43}, {320, 282}}</string>
+								<string key="NSFrame">{{0, 32}, {320, 285}}</string>
 								<reference key="NSSuperview" ref="965934592"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -82,7 +82,7 @@
 							<object class="IBUILabel" id="735639735">
 								<reference key="NSNextResponder" ref="965934592"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrameSize">{320, 44}</string>
+								<string key="NSFrameSize">{320, 32}</string>
 								<reference key="NSSuperview" ref="965934592"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="939969195"/>
@@ -120,7 +120,7 @@
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 						</array>
-						<string key="NSFrameSize">{320, 325}</string>
+						<string key="NSFrameSize">{320, 317}</string>
 						<reference key="NSSuperview" ref="27768241"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="735639735"/>
@@ -136,7 +136,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</array>
-				<string key="NSFrameSize">{320, 326}</string>
+				<string key="NSFrameSize">{320, 318}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="965934592"/>
@@ -148,7 +148,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUISelectionStyle">0</int>
 				<reference key="IBUIContentView" ref="965934592"/>
-				<real value="351" key="IBUIRowHeight"/>
+				<real value="343" key="IBUIRowHeight"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -238,8 +238,8 @@
 						<int key="objectID">8</int>
 						<reference key="object" ref="27768241"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="939969195"/>
 							<reference ref="735639735"/>
+							<reference ref="939969195"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -277,20 +277,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">PDMoreViewController</string>
 					<string key="superclassName">UITableViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="showAboutPage:">id</string>
-						<string key="showSponsorLink:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="showAboutPage:">
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">showAboutPage:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">showAboutPage:</string>
+						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">showAboutPage:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showSponsorLink:">
-							<string key="name">showSponsorLink:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="carousel">iCarousel</string>
 						<string key="sponsorsTableViewCell">UITableViewCell</string>
@@ -336,10 +333,6 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1552" key="NS.object.0"/>
-		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
