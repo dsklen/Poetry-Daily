@@ -17,6 +17,9 @@
 #import "PDFeatureViewController.h"
 #import "NSDate+PDAdditions.h"
 #import "SVWebViewController.h"
+#import "PDBrowseAllPoemsViewController.h"
+#import "iCarousel.h"
+#import "PDSponsor.h"
 
 #define REFRESH_HEADER_HEIGHT 52.0f
 
@@ -41,6 +44,8 @@
 @property (nonatomic, strong) NSString *textLoading;
 @property (nonatomic, readwrite) BOOL isDragging;
 @property (nonatomic, readwrite) BOOL isLoading;
+
+@property (strong, nonatomic) UIPopoverController *sharedPopoverController;
 
 - (void)setupStrings;
 - (void)addPullToRefreshHeader;
@@ -87,6 +92,16 @@
     [feature setPoemID:self.currentPoem.poemID];
     
     [self.navigationController pushViewController:feature animated:YES];
+}
+
+- (IBAction)showArchiveInPopover:(id)sender;
+{
+    PDBrowseAllPoemsViewController *browse = [[PDBrowseAllPoemsViewController alloc] initWithNibName:@"PDBrowseAllPoemsViewController" bundle:nil];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:browse];
+    
+    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:nav];
+    self.sharedPopoverController = popover;
+    [self.sharedPopoverController presentPopoverFromRect:[(UIButton *)sender frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void)showPoemForDay:(NSDate *)date;
@@ -280,7 +295,7 @@
         self.readPoemButton.enabled = NO;
     }
 
-    if ( YES)     //    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    if ( YES )
     {
         [server fetchFeatureWithID:poemID block:^(NSArray *items, NSError *error) {
            
@@ -305,7 +320,7 @@
                     NSMutableString *HTML = [[NSMutableString alloc] init];
                     
                     [HTML appendString:[NSString stringWithFormat:@"<html><head><style type=\"text/css\"> body {font-family:helvetica,sans-serif; font-size: 20px;  white-space:normal; padding:0px; margin:0px;}</style></head><body>"]];
-                    NSString *combinedInfo = [NSString stringWithFormat:@"%@<br><br>%@", poetInfo, journalInfo];
+                    NSString *combinedInfo = [NSString stringWithFormat:@"%@<br>%@", poetInfo, journalInfo];
                     
                     [HTML appendString:combinedInfo];
                     [HTML appendString:@"</body></html>"];
@@ -405,18 +420,16 @@
 
     NSLog(@"Visiting external site at %@", [self.publicationURL absoluteString]);
     
-    webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
-    webViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    
-    
-#if   __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    [self presentModalViewController:webViewController animated:YES];
-#else
-    [self presentModalViewController:webViewController animated:YES completion:^(BOOL completed){     webViewController.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
- }];
-#endif
+//    webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+//    webViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    
+//    if ( [self respondsToSelector:@selector(presentViewController:animated:completion:)] )
+//        [self presentModalViewController:webViewController animated:YES completion:^(BOOL completed){     webViewController.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];}];
+//    else
+//        [self presentModalViewController:webViewController animated:YES];
+//
 
-        
+    
     webViewController.navigationController.toolbar.tintColor = [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0];
 
     
@@ -545,6 +558,8 @@
         
         [self.tabBarItem setTitleTextAttributes:titleTextAttributesDictionary forState:UIControlStateNormal];
         [self.tabBarItem setTitleTextAttributes:titleTextHighlightedAttributesDictionary forState:UIControlStateSelected];
+        
+        self.sponsors = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -581,7 +596,7 @@
     
     
     
-    self.favoriteBarButtonItem = [[UIBarButtonItem alloc] initWithImage:nil style:UIBarButtonItemStyleBordered target:self action:@selector(favoriteOrUnfavorite:)];
+    self.favoriteBarButtonItem = [[UIBarButtonItem alloc] initWithImage:nil style:UIBarButtonItemStylePlain target:self action:@selector(favoriteOrUnfavorite:)];
     
     self.navigationItem.rightBarButtonItem = self.favoriteBarButtonItem;
 
@@ -670,6 +685,63 @@
     self.publicationInformationTableViewCell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
 
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper_new"]];
+
+    if ([self.navigationController.parentViewController respondsToSelector:@selector(revealGesture:)] && [self.navigationController.parentViewController respondsToSelector:@selector(revealToggle:)])
+	{
+		UIPanGestureRecognizer *navigationBarPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self.navigationController.parentViewController action:@selector(revealGesture:)];
+		[self.navigationController.navigationBar addGestureRecognizer:navigationBarPanGestureRecognizer];
+        
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-btn"] style:UIBarButtonItemStylePlain target:self.navigationController.parentViewController action:@selector(revealToggle:)];
+    }
+
+    if ( [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad )
+    {
+        self.carousel.type = iCarouselTypeLinear;
+        self.carousel.vertical = YES;
+        self.carousel.decelerationRate = 0.85;
+
+        self.carousel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"black-Linen"]];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Sponsor"];
+        request.fetchLimit = 10;
+        
+        NSMutableDictionary *serverInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
+        [serverInfo setObject:[NSNumber numberWithInteger:PDServerCommandSponsors] forKey:PDServerCommandKey];
+        
+        NSArray *items = [[PDCachedDataController sharedDataController] fetchObjects:request serverInfo:serverInfo cacheUpdateBlock:^(NSArray *newResults, NSError *error) {
+            
+            if ( newResults && !error )
+            {
+                NSLog(@"%@", newResults);
+                
+                self.sponsors = [newResults mutableCopy];
+                
+                NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
+                [self.sponsors sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+                
+                [self.carousel reloadData];
+                
+                [SVProgressHUD dismiss];
+            }
+            else
+            {
+                [SVProgressHUD dismissWithError:@"Failed To Load"];
+            }
+            
+        }];
+        
+        self.sponsors = [items mutableCopy];
+        
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
+        [self.sponsors sortUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+        
+        if ( [self.sponsors count] == 0 )
+            [SVProgressHUD showWithStatus:NSLocalizedString( @"Loading Sponsors...", @"" )];
+        
+        
+        [self.carousel reloadData];
+    }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated;
@@ -686,27 +758,34 @@
     [self setPoemAuthorLabel:nil];
     [self setPoemAuthorImageView:nil];
     [self setReadPoemButton:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:@"DeviceShaken"
-                                                  object:nil];
-
     [self setShowPreviousDayButton:nil];
     [self setShowNextDayButton:nil];
     [self setTodaysPoemLabel:nil];
     [self setPoemInformationWebView:nil];
     [self setIPadfeatureInformationWebView:nil];
-    [self setIPadVisitPublicationPageButton:nil];
-    
+    [self setIPadVisitPublicationPageButton:nil];    
     [self setPoetInfoWebView:nil];
     [self setPublicationInfoWebView:nil];
     [self setPoemAuthorImageActivityView:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DeviceShaken" object:nil];
+
     [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
+}
+
+- (BOOL)shouldAutorotate;
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations;
+{
+    return UIInterfaceOrientationMaskAll;
 }
 
 
@@ -1008,7 +1087,8 @@
     [self refresh];
 }
 
-- (void)stopLoading {
+- (void)stopLoading;
+{
     self.isLoading = NO;
     
     // Hide the header
@@ -1021,8 +1101,8 @@
                      }];
 }
 
-- (void)stopLoadingComplete {
-    // Reset the header
+- (void)stopLoadingComplete;
+{
     self.refreshLabel.text = self.textPull;
     self.refreshArrow.hidden = NO;
     [self.refreshSpinner stopAnimating];
@@ -1031,23 +1111,10 @@
        
         self.refreshLogoActivityLabel.alpha = 0.0f;
     }];
-    
-    
-//    [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionRepeat animations:^{
-//        
-////        [self.refreshLogoActivityLabel layer].transform = CATransform3DMakeRotation(0, 0, 0, 1);
-//        
-////        self.refreshLogoActivityLabel.transform = CGAffineTransformRotate(self.refreshLogoActivityLabel.transform, 2 * M_PI);
-//
-//        
-//    } completion:^(BOOL finished) {
-//        
-//    }];
 }
 
-- (void)refresh {
-    // This is just a demo. Override this method with your custom reload action.
-    // Don't forget to call stopLoading at the end.    
+- (void)refresh;
+{
     [self showPoemForDay:[NSDate charlottesvilleDate]];
 }
 
@@ -1055,6 +1122,140 @@
 {
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
+}
+
+
+#pragma mark - Rotation
+
+- (void)viewWillLayoutSubviews;
+{
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    
+    if ( [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad )
+    {
+        if ( UIInterfaceOrientationIsPortrait(interfaceOrientation) )
+        {
+            [(UIButton *)[self.view viewWithTag:1000] setFrame:CGRectMake( 252.0f, 395.0f, 265.0f, 54.0f )];
+            [(UIWebView *)[self.view viewWithTag:1001] setFrame:CGRectMake( 127.0f, 594.0f, 515.0f, 291.0f )];
+            [(UILabel *)[self.view viewWithTag:1002] setFrame:CGRectMake( 270.0f, 570.0f, 229.0f, 28.0f )];
+        }
+        else
+        {
+            [(UIButton *)[self.view viewWithTag:1000] setFrame:CGRectMake( 108.0f, 410.0f, 257.0f, 54.0f )];
+            [(UIWebView *)[self.view viewWithTag:1001] setFrame:CGRectMake( 550.0f, 182.0f, 248.0f, 375.0f )];
+            [(UILabel *)[self.view viewWithTag:1002] setFrame:CGRectMake( 550.0f, 137.0f, 227.0f, 28.0f )];
+        }
+    }
+}
+
+
+#pragma mark - iCarousel methods
+
+- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+{
+    NSLog(@"%i", [self.sponsors count]);
+    
+    return [self.sponsors count];
+}
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
+{
+    UILabel *name = nil;
+    UIWebView *description = nil;
+    UIImageView *logo = nil;
+    UIButton *linkButton = nil;
+    
+    //create new view if no view is available for recycling
+    if ( view == nil )
+    {
+        view = [[UIView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, 150.0f, 150.0f )];
+        //        view.layer.borderColor = [[UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0] CGColor];
+        view.layer.borderColor = [[UIColor whiteColor] CGColor];
+        
+        view.layer.borderWidth = 4.0f;
+        view.layer.cornerRadius = 2.0f;
+        view.backgroundColor = [UIColor lightGrayColor];
+        view.tag = 100;
+        view.contentMode = UIViewContentModeCenter;
+        
+        logo = [[UIImageView alloc] initWithFrame:CGRectMake(28.0f, 48.0f, 92.0f, 92.0f)];
+        [view addSubview:logo];
+        logo.tag = 2;
+        
+        name = [[UILabel alloc] initWithFrame:CGRectMake(4.0f, 0.0f, 142.0f, 54.0f)];
+        name.backgroundColor = [UIColor clearColor];
+        name.textColor = [UIColor darkGrayColor];
+        name.textAlignment = UITextAlignmentCenter;
+        name.font = [UIFont boldSystemFontOfSize:12.0f];
+        name.numberOfLines = 0;
+        name.tag = 1;
+        [view addSubview:name];
+                
+        linkButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [linkButton setTitle:@"More ⇗" forState:UIControlStateNormal];
+        [linkButton setTitleColor:[UIColor colorWithRed:50.0f/255.0f green:79.0f/255.0f blue:133.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
+        [linkButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+        [linkButton.titleLabel setFont:[UIFont boldSystemFontOfSize:13.0f]];
+        linkButton.frame = CGRectMake( 39.0f, 132.0f, 72.0f, 44.0f);
+        //        [linkButton setImage:[UIImage imageNamed:@"fullscreen_alt_16x16"] forState:UIControlStateNormal];
+        [linkButton addTarget:self action:@selector(showSponsorLink:) forControlEvents:UIControlEventTouchUpInside];
+//        [view addSubview:linkButton];
+    }
+    else
+    {
+        //get a reference to the label in the recycled view
+        name = (UILabel *)[view viewWithTag:1];
+        description = (UIWebView *)[view viewWithTag:3];
+        logo = (UIImageView *)[view viewWithTag:2];
+    }
+    
+    PDSponsor *sponsor = [self.sponsors objectAtIndex:index];
+    
+    if (index % 2 == 0 )
+    {
+        view.backgroundColor = [UIColor colorWithRed:1.0f green:.9921f blue:.9252f alpha:1.0f];
+	}
+    else
+	{
+        view.backgroundColor = [UIColor colorWithRed:.8819f green:.84212f blue:.7480f alpha:1.0f];
+    }
+    
+    name.text = sponsor.name;
+    [logo setImage:sponsor.image];
+    
+    NSMutableString *HTMLString = [[NSMutableString alloc] init];
+    [HTMLString appendString:@""];
+    
+    NSString *loadedHTML = [description stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
+    
+    if ( [loadedHTML rangeOfString:sponsor.text].location == NSNotFound  )
+    {
+        [description loadHTMLString:sponsor.text baseURL:nil];
+        
+        NSString *newHtml = [NSString stringWithFormat:@"document.style.webkitTextSizeAdjust = 'auto'"];
+        [description stringByEvaluatingJavaScriptFromString:newHtml];
+        
+    }
+    
+    return view;
+}
+
+- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
+{
+    if (option == iCarouselOptionSpacing)
+    {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            return value * 1.05f;
+        else
+            return value * 1.15f;
+    }
+    if (option == iCarouselOptionWrap)
+    {
+        return YES;
+    }
+    
+    return value;
 }
 
 

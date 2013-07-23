@@ -61,6 +61,13 @@
 		B65D269B16E6DD4700F93C19 /* lvl2_logo.gif in Resources */ = {isa = PBXBuildFile; fileRef = B65D269A16E6DD4700F93C19 /* lvl2_logo.gif */; };
 		B65D269E16E6DF6000F93C19 /* light_honeycomb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B65D269C16E6DF6000F93C19 /* light_honeycomb@2x.png */; };
 		B65D269F16E6DF6000F93C19 /* light_honeycomb.png in Resources */ = {isa = PBXBuildFile; fileRef = B65D269D16E6DF6000F93C19 /* light_honeycomb.png */; };
+		B66C72BE1798E1D700CF810F /* Default-Landscape@2x~ipad copy.png in Resources */ = {isa = PBXBuildFile; fileRef = B66C72BD1798E1D700CF810F /* Default-Landscape@2x~ipad copy.png */; };
+		B66C72C01798E36600CF810F /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B66C72BF1798E36600CF810F /* Default-Landscape~ipad.png */; };
+		B66C72C7179C970B00CF810F /* ISRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66C72C6179C970A00CF810F /* ISRevealController.m */; };
+		B66C72CB179C971B00CF810F /* ZUUIRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66C72CA179C971B00CF810F /* ZUUIRevealController.m */; };
+		B66C72CE179C9A7100CF810F /* reveal-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = B66C72CC179C9A7000CF810F /* reveal-btn.png */; };
+		B66C72CF179C9A7100CF810F /* reveal-btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B66C72CD179C9A7100CF810F /* reveal-btn@2x.png */; };
+		B66C72D1179CA8B400CF810F /* selected-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = B66C72D0179CA8B400CF810F /* selected-bg.png */; };
 		B66D4BE9157D6BB6005830A4 /* PDFavoriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4BE8157D6BB6005830A4 /* PDFavoriteView.m */; };
 		B66D4BF5157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B66D4BF3157D8A9A005830A4 /* PDBrowseAllPoemsViewController.m */; };
 		B66D4BF6157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66D4BF4157D8A9A005830A4 /* PDBrowseAllPoemsViewController.xib */; };
@@ -268,6 +275,18 @@
 		B65D269A16E6DD4700F93C19 /* lvl2_logo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = lvl2_logo.gif; sourceTree = "<group>"; };
 		B65D269C16E6DF6000F93C19 /* light_honeycomb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light_honeycomb@2x.png"; sourceTree = "<group>"; };
 		B65D269D16E6DF6000F93C19 /* light_honeycomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_honeycomb.png; sourceTree = "<group>"; };
+		B66C72BD1798E1D700CF810F /* Default-Landscape@2x~ipad copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad copy.png"; sourceTree = "<group>"; };
+		B66C72BF1798E36600CF810F /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		B66C72C1179C94B600CF810F /* archive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = archive.png; path = ../../Desktop/archive.png; sourceTree = "<group>"; };
+		B66C72C2179C94B600CF810F /* archive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "archive@2x.png"; path = "../../Desktop/archive@2x.png"; sourceTree = "<group>"; };
+		B66C72C5179C970A00CF810F /* ISRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISRevealController.h; sourceTree = "<group>"; };
+		B66C72C6179C970A00CF810F /* ISRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISRevealController.m; sourceTree = "<group>"; };
+		B66C72C8179C971A00CF810F /* ZUUIRevealController-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZUUIRevealController-Prefix.pch"; sourceTree = "<group>"; };
+		B66C72C9179C971A00CF810F /* ZUUIRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZUUIRevealController.h; sourceTree = "<group>"; };
+		B66C72CA179C971B00CF810F /* ZUUIRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZUUIRevealController.m; sourceTree = "<group>"; };
+		B66C72CC179C9A7000CF810F /* reveal-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-btn.png"; sourceTree = "<group>"; };
+		B66C72CD179C9A7100CF810F /* reveal-btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-btn@2x.png"; sourceTree = "<group>"; };
+		B66C72D0179CA8B400CF810F /* selected-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected-bg.png"; sourceTree = "<group>"; };
 		B66D4BE7157D6BB6005830A4 /* PDFavoriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFavoriteView.h; sourceTree = "<group>"; };
 		B66D4BE8157D6BB6005830A4 /* PDFavoriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFavoriteView.m; sourceTree = "<group>"; };
 		B66D4BF2157D8A9A005830A4 /* PDBrowseAllPoemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDBrowseAllPoemsViewController.h; sourceTree = "<group>"; };
@@ -610,8 +629,10 @@
 		B670F6471534CCB20045906A = {
 			isa = PBXGroup;
 			children = (
+				B66C72BF1798E36600CF810F /* Default-Landscape~ipad.png */,
 				B69844181715BC4400413E3E /* iTunesArtwork@2x */,
 				B69844191715BC4400413E3E /* iTunesArtwork */,
+				B66C72BD1798E1D700CF810F /* Default-Landscape@2x~ipad copy.png */,
 				B6860A7617064FD8008C8C38 /* Default-Portrait~ipad.png */,
 				B6860A7417064D84008C8C38 /* Default-Landscape@2x~ipad.png */,
 				B6860A7217064656008C8C38 /* Icon@2x~iPad.png */,
@@ -743,6 +764,8 @@
 		B670F68A1534CD0D0045906A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B66C72C1179C94B600CF810F /* archive.png */,
+				B66C72C2179C94B600CF810F /* archive@2x.png */,
 				B69844141715963400413E3E /* 93-thermometer.png */,
 				B69844151715963400413E3E /* 93-thermometer@2x.png */,
 				B68915021700EBCB00FB9147 /* 03-arrow-south.png */,
@@ -821,6 +844,14 @@
 		B670F68B1534CD560045906A /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B66C72D0179CA8B400CF810F /* selected-bg.png */,
+				B66C72CC179C9A7000CF810F /* reveal-btn.png */,
+				B66C72CD179C9A7100CF810F /* reveal-btn@2x.png */,
+				B66C72C5179C970A00CF810F /* ISRevealController.h */,
+				B66C72C6179C970A00CF810F /* ISRevealController.m */,
+				B66C72C8179C971A00CF810F /* ZUUIRevealController-Prefix.pch */,
+				B66C72C9179C971A00CF810F /* ZUUIRevealController.h */,
+				B66C72CA179C971B00CF810F /* ZUUIRevealController.m */,
 				B6919A6C156F01B600DA70C2 /* PDHomeViewController.h */,
 				B6919A6D156F01B600DA70C2 /* PDHomeViewController.m */,
 				B6919A71156F028100DA70C2 /* PDMainPoemViewController.h */,
@@ -1132,6 +1163,11 @@
 				B69844171715963400413E3E /* 93-thermometer@2x.png in Resources */,
 				B698441A1715BC4500413E3E /* iTunesArtwork@2x in Resources */,
 				B698441B1715BC4500413E3E /* iTunesArtwork in Resources */,
+				B66C72BE1798E1D700CF810F /* Default-Landscape@2x~ipad copy.png in Resources */,
+				B66C72C01798E36600CF810F /* Default-Landscape~ipad.png in Resources */,
+				B66C72CE179C9A7100CF810F /* reveal-btn.png in Resources */,
+				B66C72CF179C9A7100CF810F /* reveal-btn@2x.png in Resources */,
+				B66C72D1179CA8B400CF810F /* selected-bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1198,6 +1234,8 @@
 				B6DE0C49170236EC0054EDC5 /* PDBrowseAllGridViewController.m in Sources */,
 				B6DE0C4C170237230054EDC5 /* PDBrowseGridPoemCell.m in Sources */,
 				B6571CBE170A64D50032B4AC /* NSURL+DTUnshorten.m in Sources */,
+				B66C72C7179C970B00CF810F /* ISRevealController.m in Sources */,
+				B66C72CB179C971B00CF810F /* ZUUIRevealController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1365,7 +1403,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7B2F34A9-D454-428C-82B1-7916ACB88FF8";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7B2F34A9-D454-428C-82B1-7916ACB88FF8";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1392,7 +1430,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1427,8 +1465,9 @@
 				B6AF256216E7F8EB009E18BB /* PDModel.xcdatamodel */,
 			);
 			currentVersion = B6AF256216E7F8EB009E18BB /* PDModel.xcdatamodel */;
-			path = PDModel.xcdatamodeld;
-			sourceTree = "<group>";
+			name = PDModel.xcdatamodeld;
+			path = "/Users/dsklen/Poetry-Daily/Poetry-Daily/PDModel.xcdatamodeld";
+			sourceTree = "<absolute>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */

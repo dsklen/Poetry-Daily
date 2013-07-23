@@ -30,7 +30,6 @@
 {
     PDAboutPDViewController *about = [[PDAboutPDViewController alloc] initWithNibName:@"PDAboutPDViewController" bundle:nil];
     [self.navigationController pushViewController:about animated:YES];
-
 }
 
 - (IBAction)showSponsorLink:(id)sender;

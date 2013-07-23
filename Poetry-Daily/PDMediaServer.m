@@ -347,7 +347,7 @@
     int difference = (intPoemID - 14698 ) * 60 * 60 * 24 ;
     NSDate *referenceDate = [NSDate dateWithTimeIntervalSince1970:1269881100.0f];
 
-    return [referenceDate dateByAddingTimeInterval: difference];
+    return [referenceDate dateByAddingTimeInterval:difference];
 }
 
 - (NSString *)poemIDForToday;

@@ -21,6 +21,8 @@
 #import "NSTextCheckingResult+ExtendedURL.h"
 #import <CoreText/CoreText.h>
 #import "NSAttributedString+Attributes.h"
+#import "ISRevealController.h"
+#import "PDHomeViewController.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -286,6 +288,7 @@
                                                object:nil];
 
 
+    self.title = NSLocalizedString( @"Archive", @"" );
 }
 
 - (void)viewDidAppear:(BOOL)animated;
@@ -314,10 +317,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+//}
 
 - (void)orientationChanged:(NSNotification *)notification
 {
@@ -369,21 +372,49 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+{    
     PDPoem *selectedPoem;
     
     if ( tableView == self.searchDisplayController.searchResultsTableView )
         selectedPoem = [self.filteredPoemsArray objectAtIndex:indexPath.row];
     else
         selectedPoem = [self.displayPoemsArray objectAtIndex:indexPath.row];
+    
+
+    if ( [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone )
+    {        
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+        PDMainPoemViewController *mainViewController = [[PDMainPoemViewController alloc] initWithNibName:@"PDMainPoemViewController" bundle:nil];
+        [self.navigationController pushViewController:mainViewController animated:YES];
+        
+        [mainViewController setCurrentPoem:selectedPoem];
+    }
+    else
+    {
+        ISRevealController *revealController = [self.parentViewController.parentViewController isKindOfClass:[ISRevealController class]] ? (ISRevealController *)self.parentViewController.parentViewController : nil;
+
+        
+        if ([revealController.frontViewController isKindOfClass:[UINavigationController class]] && ![((UINavigationController *)revealController.frontViewController).topViewController isKindOfClass:[PDHomeViewController class]])
+        {
+            PDHomeViewController *frontViewController = [[PDHomeViewController alloc] initWithNibName:@"PDHomeViewController-iPad" bundle:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
+            [revealController setFrontViewController:navigationController animated:YES];
+            
+            [(PDHomeViewController *)((UINavigationController *)revealController.frontViewController).topViewController showPoemForDay:selectedPoem.publishedDate];
+        }
+        else
+        {
+            [revealController revealToggle:self];
+        
+            [(PDHomeViewController *)((UINavigationController *)revealController.frontViewController).topViewController showPoemForDay:selectedPoem.publishedDate];
+        
+        }
+    }
+    
 
     
-    PDMainPoemViewController *mainViewController = [[PDMainPoemViewController alloc] initWithNibName:@"PDMainPoemViewController" bundle:nil];
-    [self.navigationController pushViewController:mainViewController animated:YES];
     
-    [mainViewController setCurrentPoem:selectedPoem];
 }
 
 
@@ -468,9 +499,13 @@
         favoriteUnfavoriteButton.tag = 104;
         favoriteUnfavoriteButton.frame = CGRectMake(70.0f, 60.0f, 40.0f, 40.0f);
         favoriteUnfavoriteButton.imageView.contentMode = UIViewContentModeCenter;
-        [favoriteUnfavoriteButton setTitleColor: [UIColor colorWithRed:90.0f/255.0 green:33.0f/255.0 blue:40.0f/255.0 alpha:1.0] forState:UIControlStateNormal];
+        [favoriteUnfavoriteButton setTitleColor: [UIColor colorWithRed: 90.0f / 255.0 green: 33.0f / 255.0 blue:40.0f / 255.0 alpha:1.0] forState:UIControlStateNormal];
         [favoriteUnfavoriteButton addTarget:self action:@selector(favoriteOrUnfavoritePoem:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:favoriteUnfavoriteButton];
+        
+                
+        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"selected-bg"]];
+
     }
     
     PDPoem *poem;
