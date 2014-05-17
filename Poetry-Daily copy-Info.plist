@@ -14,10 +14,7 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>Icon.png</string>
-				<string>Icon@2x.png</string>
-				<string>Icon~iPad.png</string>
-				<string>Icon@2x~iPad.png</string>
+				<string>logo_iPad.png</string>
 			</array>
 		</dict>
 	</dict>
@@ -33,17 +30,6 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>com.poetrydaily.poem</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>poem</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -63,6 +49,9 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

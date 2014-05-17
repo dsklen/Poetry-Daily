@@ -10,9 +10,8 @@
 
 @class PDPoem;
 @class PullRefreshTableViewController;
-#import "iCarousel.h"
 
-@interface PDHomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate>
+@interface PDHomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate>
 
 @property (strong, nonatomic) PDPoem *currentPoem;
 @property (strong, nonatomic) IBOutlet UILabel *poemPublishedDateLabel;
@@ -47,15 +46,8 @@
 - (IBAction)showNextDay:(id)sender;
 - (IBAction)showPublicationSite:(id)sender;
 - (IBAction)showFeatureInformation:(id)sender;
-- (IBAction)showArchiveInPopover:(id)sender;
 
 - (void)showPoemForDay:(NSDate *)date;
-
-
-// Sponsors carousel
-
-@property (nonatomic, strong) NSMutableArray *sponsors;
-@property (nonatomic, strong) IBOutlet iCarousel *carousel;
 
 
 @end
